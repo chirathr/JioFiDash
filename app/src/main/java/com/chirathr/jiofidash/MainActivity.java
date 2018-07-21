@@ -10,9 +10,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    private TextView batteryPercentageView;
+    private TextView batteryStatusView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +34,13 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        batteryPercentageView = (TextView) findViewById(R.id.tv_battery_percentage);
+        batteryStatusView = (TextView) findViewById(R.id.tv_battery_status);
+
+        batteryPercentageView.setText("100 %");
+        batteryStatusView.setText("Charging");
+
     }
 
     @Override
