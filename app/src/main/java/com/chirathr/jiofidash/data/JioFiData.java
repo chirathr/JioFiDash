@@ -3,7 +3,6 @@ package com.chirathr.jiofidash.data;
 import android.content.Context;
 import android.util.Log;
 
-import com.chirathr.jiofidash.MainActivity;
 import com.chirathr.jiofidash.utils.NetworkUtils;
 
 import org.json.JSONException;
@@ -21,6 +20,17 @@ public class JioFiData {
     public int lteBand;
     public String lteBandwidth;
     public int lteCellId;
+
+    // Performance
+    private static final String UPLOAD_RATE = "txRate";
+    private static final String UPLOAD_RATE_MAX = "txmax";
+    private static final String DOWNLOAD_RATE = "rxRate";
+    private static final String DOWNLOAD_RATE_MAX = "rxmax";
+
+    public String uploadRateString;
+    public String uploadRateMaxString;
+    public String downloadRateString;
+    public String downloadRateMaxString;
 
     // Device Info
     private static final String BATTERY_LEVEL = "batterylevel";
@@ -68,6 +78,28 @@ public class JioFiData {
         String jsonLteDataString = NetworkUtils.getJsonData(
                 context, NetworkUtils.LTE_INFO_ID, NetworkUtils.DEVICE_6_ID);
         setLteInfo(jsonLteDataString);
+    }
+
+    public void setPerformanceInfo(String performanceInfoString) {
+        JSONObject performanceInfoJson;
+
+        try {
+            performanceInfoJson = new JSONObject(performanceInfoString);
+
+            uploadRateString = performanceInfoJson.getString(UPLOAD_RATE);
+            uploadRateMaxString = performanceInfoJson.getString(UPLOAD_RATE_MAX);
+            downloadRateString = performanceInfoJson.getString(DOWNLOAD_RATE);
+            downloadRateMaxString = performanceInfoJson.getString(DOWNLOAD_RATE_MAX);
+
+        } catch (JSONException e) {
+            Log.v(TAG, "Performance data Json parsing error: " + e.getMessage());
+        }
+    }
+
+    public void loadPerformanceInfo(Context context) {
+        String jsonPerformanceDataString = NetworkUtils.getJsonData(
+                context, NetworkUtils.PERFORMANCE_INFO_ID, NetworkUtils.DEVICE_6_ID);
+        setPerformanceInfo(jsonPerformanceDataString);
     }
 
 }
