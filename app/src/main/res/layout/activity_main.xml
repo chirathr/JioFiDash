@@ -6,16 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <Button
-        android:id="@+id/refresh_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="@string/refresh_button"
-        app:layout_constraintStart_toStartOf="@+id/tv_battery_level"
-        app:layout_constraintTop_toBottomOf="@+id/tv_battery_level"
-        />
-
     <TextView
         android:id="@+id/tv_battery_level"
         android:layout_width="wrap_content"
@@ -37,4 +27,50 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="charging" />
+
+    <TextView
+        android:id="@+id/tv_lte_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Attached" />
+
+    <TextView
+        android:id="@+id/tv_lte_band"
+        style="@style/TextAppearance.AppCompat.Display2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:textColor="@color/colorPrimary"
+        app:layout_constraintBottom_toTopOf="@+id/tv_lte_bandwidth"
+        app:layout_constraintEnd_toStartOf="@+id/tv_lte_bandwidth"
+        app:layout_constraintTop_toBottomOf="@+id/tv_lte_bandwidth"
+        tools:text="40" />
+
+    <TextView
+        android:id="@+id/tv_lte_bandwidth"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
+        app:layout_constraintEnd_toEndOf="@+id/tv_lte_status"
+        app:layout_constraintTop_toBottomOf="@+id/tv_lte_status"
+        tools:text="20 MHz" />
+
+    <TextView
+        android:id="@+id/tv_lte_cell_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        app:layout_constraintEnd_toEndOf="@+id/tv_lte_bandwidth"
+        app:layout_constraintTop_toBottomOf="@+id/tv_lte_bandwidth"
+        tools:text="452" />
+
+
+
 </android.support.constraint.ConstraintLayout>

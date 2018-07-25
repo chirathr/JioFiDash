@@ -11,6 +11,18 @@ import org.json.JSONObject;
 
 public class JioFiData {
 
+    // Lte info
+    private static final String LTE_STATUS = "status";
+    private static final String LTE_BAND = "opband";
+    private static final String LTE_BANDWIDTH = "bandwidth";
+    private static final String LTE_PHYSICAL_CELL_ID = "pcellID";
+
+    public String lteStatus;
+    public int lteBand;
+    public String lteBandwidth;
+    public int lteCellId;
+
+    // Device Info
     private static final String BATTERY_LEVEL = "batterylevel";
     private static final String BATTERY_STATUS = "batterystatus";
 
@@ -20,8 +32,6 @@ public class JioFiData {
     private final String TAG = JioFiData.class.getSimpleName();
 
     public void setDeviceInfo(String deviceInfoJsonString) {
-
-        // deviceInfoJsonString = "{ batterylevel:'0 %', batterystatus:'No Battery', curr_time:'Wed 25 Jul 2018 18:53:27'}";
         JSONObject deviceInfoJson;
         try {
             deviceInfoJson = new JSONObject(deviceInfoJsonString);
@@ -30,7 +40,6 @@ public class JioFiData {
 
         } catch (JSONException e) {
             Log.v(TAG, "Device data Json parsing error: " + e.getMessage());
-            return;
         }
     }
 
@@ -39,4 +48,26 @@ public class JioFiData {
                 context, NetworkUtils.DEVICE_INFO_ID, NetworkUtils.DEVICE_6_ID);
         setDeviceInfo(jsonDeviceDataString);
     }
+
+    public void setLteInfo(String lteInfoJsonString) {
+        JSONObject lteInfoJson;
+
+        try {
+            lteInfoJson = new JSONObject(lteInfoJsonString);
+
+            lteBand = Integer.parseInt(lteInfoJson.getString(LTE_BAND));
+            lteStatus = lteInfoJson.getString(LTE_STATUS);
+            lteBandwidth = lteInfoJson.getString(LTE_BANDWIDTH);
+            lteCellId = Integer.parseInt(lteInfoJson.getString(LTE_PHYSICAL_CELL_ID));
+        } catch (JSONException e) {
+            Log.v(TAG, "Lte data Json parsing error: " + e.getMessage());
+        }
+    }
+
+    public void loadLteInfo(Context context) {
+        String jsonLteDataString = NetworkUtils.getJsonData(
+                context, NetworkUtils.LTE_INFO_ID, NetworkUtils.DEVICE_6_ID);
+        setLteInfo(jsonLteDataString);
+    }
+
 }
