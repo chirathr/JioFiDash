@@ -3,8 +3,12 @@ package com.chirathr.jiofidash.utils;
 import android.content.Context;
 import android.util.Log;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Scanner;
 
 public class NetworkUtils {
 
@@ -36,7 +40,7 @@ public class NetworkUtils {
         return null;
     }
 
-    public static URL getURL(Context context, int urlType, int deviceType) {
+    public static URL getURL(int urlType, int deviceType) {
         URL url = null;
         String urlString;
 
@@ -52,5 +56,30 @@ public class NetworkUtils {
         }
 
         return url;
+    }
+
+    public static String getJsonData(Context context, int urlType, int deviceType) {
+        String response = null;
+        HttpURLConnection urlConnection = null;
+        URL url = getURL(urlType, deviceType);
+
+        try {
+            urlConnection = (HttpURLConnection) url.openConnection();
+            InputStream in = urlConnection.getInputStream();
+
+            Scanner scanner = new Scanner(in);
+            scanner.useDelimiter("\\A");
+            boolean hasInput = scanner.hasNext();
+
+            if (hasInput)
+                response = scanner.next();
+            scanner.close();
+        } catch (IOException e) {
+            Log.v(TAG, ": Connection error: " + e.getMessage());
+        } finally {
+            if (urlConnection != null)
+                urlConnection.disconnect();
+        }
+        return response;
     }
 }
