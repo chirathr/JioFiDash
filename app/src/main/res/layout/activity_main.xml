@@ -71,6 +71,99 @@
         app:layout_constraintTop_toBottomOf="@+id/tv_lte_bandwidth"
         tools:text="452" />
 
+    <TextView
+        android:id="@+id/tv_data_speed_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/data_speed_label"
+        app:layout_constraintStart_toStartOf="@+id/tv_battery_level"
+        app:layout_constraintTop_toBottomOf="@+id/tv_battery_level" />
+
+    <TextView
+        android:id="@+id/tv_upload_speed_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/upload_label"
+        app:layout_constraintStart_toStartOf="@+id/tv_data_speed_label"
+        app:layout_constraintTop_toBottomOf="@+id/tv_data_speed_label" />
+
+    <TextView
+        android:id="@+id/tv_upload_speed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        tools:text="100 Kbps"
+        app:layout_constraintBottom_toTopOf="@+id/tv_upload_speed_label"
+        app:layout_constraintStart_toEndOf="@+id/tv_upload_speed_label"
+        app:layout_constraintTop_toBottomOf="@+id/tv_upload_speed_label" />
+
+    <TextView
+        android:id="@+id/tv_upload_speed_max_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="24dp"
+        android:layout_marginStart="24dp"
+        android:text="@string/max_speed_label"
+        app:layout_constraintBottom_toTopOf="@+id/tv_upload_speed"
+        app:layout_constraintStart_toEndOf="@+id/tv_upload_speed"
+        app:layout_constraintTop_toBottomOf="@+id/tv_upload_speed" />
+
+    <TextView
+        android:id="@+id/tv_upload_speed_max"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        tools:text="200 Kbps"
+        app:layout_constraintBottom_toTopOf="@+id/tv_upload_speed_max_label"
+        app:layout_constraintStart_toEndOf="@+id/tv_upload_speed_max_label"
+        app:layout_constraintTop_toBottomOf="@+id/tv_upload_speed_max_label" />
+
+    <TextView
+        android:id="@+id/tv_download_speed_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/download_speed_label"
+        app:layout_constraintStart_toStartOf="@+id/tv_upload_speed_label"
+        app:layout_constraintTop_toBottomOf="@+id/tv_upload_speed_label" />
+
+    <TextView
+        android:id="@+id/tv_download_speed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/tv_download_speed_label"
+        app:layout_constraintStart_toEndOf="@+id/tv_download_speed_label"
+        app:layout_constraintTop_toBottomOf="@+id/tv_download_speed_label"
+        tools:text="600 Kbps" />
+
+    <TextView
+        android:id="@+id/tv_download_speed_max_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="24dp"
+        android:layout_marginStart="24dp"
+        android:text="@string/max_speed_label"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_download_speed"
+        app:layout_constraintStart_toEndOf="@+id/tv_download_speed"
+        app:layout_constraintTop_toTopOf="@+id/tv_download_speed"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/tv_download_speed_max"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/tv_download_speed_max_label"
+        app:layout_constraintStart_toEndOf="@+id/tv_download_speed_max_label"
+        app:layout_constraintTop_toBottomOf="@+id/tv_download_speed_max_label"
+        tools:text="800 Kbps" />
 
 
 </android.support.constraint.ConstraintLayout>
