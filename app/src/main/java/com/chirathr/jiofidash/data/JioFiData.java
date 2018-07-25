@@ -10,8 +10,8 @@ public class JioFiData {
     private static final String BATTERY_LEVEL = "batterylevel";
     private static final String BATTERY_STATUS = "batterystatus";
 
-    public static double batteryLevel;
-    public static String batteryStatus;
+    public double batteryLevel;
+    public String batteryStatus;
 
     private final String TAG = JioFiData.class.getSimpleName();
 
