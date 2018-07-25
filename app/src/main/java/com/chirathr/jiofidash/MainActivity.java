@@ -4,20 +4,31 @@ import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.chirathr.jiofidash.data.JioFiData;
 import com.chirathr.jiofidash.utils.NetworkUtils;
 
 import java.net.URL;
 
+import static java.lang.Thread.sleep;
+
 public class MainActivity extends AppCompatActivity {
+
+    Toast mwifiEnableToast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        new UpdateDataTask().execute();
+        if (NetworkUtils.wifiEnabled(this)) {
+            new UpdateDataTask().execute();
+
+        } else {
+            mwifiEnableToast = Toast.makeText(this, "This app requires a WiFi connection", Toast.LENGTH_LONG);
+            mwifiEnableToast.show();
+        }
     }
 
 
@@ -25,34 +36,35 @@ public class MainActivity extends AppCompatActivity {
 
         private JioFiData jioFiData;
 
+        TextView batteryLevelTextView = (TextView) findViewById(R.id.tv_battery_level);
+        TextView batteryStatusTextView = (TextView) findViewById(R.id.tv_battery_status);
+
         @Override
         protected Void doInBackground(Void... voids) {
 
-            // Get the data from the network
-            String jsonDataString = NetworkUtils.getJsonData(
-                    MainActivity.this, NetworkUtils.DEVICE_INFO_ID, NetworkUtils.DEVICE_6_ID);
-
-//            String jsonDataString = "{ batterylevel:'0 %', batterystatus:'No Battery', curr_time:'Wed 25 Jul 2018 20:39:53'}";
-
             jioFiData = new JioFiData();
 
-            // Parse the data
-            jioFiData.setDeviceInfo(jsonDataString);
+            try {
+                jioFiData.loadDeviceInfo(MainActivity.this);
+
+                publishProgress();
+                sleep(1000);
+
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
 
             return null;
         }
 
         @Override
-        protected void onPostExecute(Void aVoid) {
-            TextView batteryLevelTextView = (TextView) findViewById(R.id.tv_battery_level);
-            TextView batteryStatusTextView = (TextView) findViewById(R.id.tv_battery_status);
+        protected void onProgressUpdate(Void... values) {
 
             if (jioFiData != null) {
                 String batteryLevelString = jioFiData.batteryLevel + " %";
                 batteryLevelTextView.setText(batteryLevelString);
                 batteryStatusTextView.setText(jioFiData.batteryStatus);
             }
-
         }
     }
 

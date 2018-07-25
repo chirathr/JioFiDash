@@ -1,6 +1,10 @@
 package com.chirathr.jiofidash.data;
 
+import android.content.Context;
 import android.util.Log;
+
+import com.chirathr.jiofidash.MainActivity;
+import com.chirathr.jiofidash.utils.NetworkUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -28,5 +32,11 @@ public class JioFiData {
             Log.v(TAG, "Device data Json parsing error: " + e.getMessage());
             return;
         }
+    }
+
+    public void loadDeviceInfo(Context context) {
+        String jsonDeviceDataString = NetworkUtils.getJsonData(
+                context, NetworkUtils.DEVICE_INFO_ID, NetworkUtils.DEVICE_6_ID);
+        setDeviceInfo(jsonDeviceDataString);
     }
 }

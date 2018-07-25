@@ -1,6 +1,7 @@
 package com.chirathr.jiofidash.utils;
 
 import android.content.Context;
+import android.net.wifi.WifiManager;
 import android.util.Log;
 
 import java.io.IOException;
@@ -83,5 +84,10 @@ public class NetworkUtils {
                 urlConnection.disconnect();
         }
         return response;
+    }
+
+    public static boolean wifiEnabled(Context context) {
+        WifiManager wifi = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        return wifi != null && wifi.isWifiEnabled();
     }
 }
