@@ -1,5 +1,6 @@
 package com.chirathr.jiofidash;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -61,17 +62,24 @@ public class MainActivity extends AppCompatActivity {
         TextView lteBandwidthTextView = (TextView) findViewById(R.id.tv_lte_bandwidth);
         TextView lteCellIdTextView = (TextView) findViewById(R.id.tv_lte_cell_id);
 
+        TextView uploadSpeedTextView = (TextView) findViewById(R.id.tv_upload_speed);
+        TextView uploadSpeedMaxTextView = (TextView) findViewById(R.id.tv_upload_speed_max);
+        TextView downloadSpeedTextView = (TextView) findViewById(R.id.tv_download_speed);
+        TextView downloadSpeedMaxTextView = (TextView) findViewById(R.id.tv_download_speed_max);
 
         @Override
         protected Void doInBackground(Void... voids) {
-
+            Context context = MainActivity.this;
             jioFiData = new JioFiData();
 
             try {
 
                 while (!isCancelled()) {
-                    jioFiData.loadDeviceInfo(MainActivity.this);
-                    jioFiData.loadLteInfo(MainActivity.this);
+
+                    jioFiData.loadDeviceInfo(context);
+                    jioFiData.loadLteInfo(context);
+                    jioFiData.loadPerformanceInfo(context);
+
                     publishProgress();
                     sleep(1000);
                 }
@@ -95,6 +103,11 @@ public class MainActivity extends AppCompatActivity {
                 lteBandTextView.setText(String.valueOf(jioFiData.lteBand));
                 lteBandwidthTextView.setText(jioFiData.lteBandwidth);
                 lteCellIdTextView.setText(String.valueOf(jioFiData.lteCellId));
+
+                uploadSpeedTextView.setText(jioFiData.uploadRateString);
+                uploadSpeedMaxTextView.setText(jioFiData.uploadRateMaxString);
+                downloadSpeedTextView.setText(jioFiData.downloadRateString);
+                downloadSpeedMaxTextView.setText(jioFiData.downloadRateMaxString);
 
                 Log.v("Update", String.valueOf(jioFiData.lteBand));
             }
