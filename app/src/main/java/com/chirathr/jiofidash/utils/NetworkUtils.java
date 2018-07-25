@@ -25,22 +25,22 @@ public class NetworkUtils {
     };
 
     // Id to represent types of data from device urls
-    private static final int LTE_INFO_ID = 0;
-    private static final int LAN_INFO_ID = 1;
-    private static final int WAN_INFO_ID = 2;
-    private static final int DEVICE_INFO_ID = 3;
-    private static final int PERFORMANCE_INFO_ID = 4;
+    public static final int LTE_INFO_ID = 0;
+    public static final int LAN_INFO_ID = 1;
+    public static final int WAN_INFO_ID = 2;
+    public static final int DEVICE_INFO_ID = 3;
+    public static final int PERFORMANCE_INFO_ID = 4;
 
 
     // Get device url based on type
-    public static String[] getDeviceUrls(int deviceType) {
+    private static String[] getDeviceUrls(int deviceType) {
         if (deviceType == 6)    // JioFi 6
             return DEVICE_6_URLS;
 
         return null;
     }
 
-    public static URL getURL(int urlType, int deviceType) {
+    private static URL getURL(int urlType, int deviceType) {
         URL url = null;
         String urlString;
 
@@ -62,6 +62,8 @@ public class NetworkUtils {
         String response = null;
         HttpURLConnection urlConnection = null;
         URL url = getURL(urlType, deviceType);
+
+        if (url == null) return null;
 
         try {
             urlConnection = (HttpURLConnection) url.openConnection();
