@@ -6,4 +6,35 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <Button
+        android:id="@+id/refresh_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="@string/refresh_button"
+        app:layout_constraintStart_toStartOf="@+id/tv_battery_level"
+        app:layout_constraintTop_toBottomOf="@+id/tv_battery_level"
+        />
+
+    <TextView
+        android:id="@+id/tv_battery_level"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="@+id/tv_battery_status"
+        app:layout_constraintTop_toBottomOf="@+id/tv_battery_status"
+        tools:text="100%"
+        style="@style/TextAppearance.AppCompat.Display2"
+        android:textColor="@color/colorPrimary"/>
+
+    <TextView
+        android:id="@+id/tv_battery_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="charging" />
 </android.support.constraint.ConstraintLayout>
