@@ -32,14 +32,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        if (NetworkUtils.wifiEnabled(this)) {
-            mUpdateDataTask = new UpdateDataTask();
-            mUpdateDataTask.execute();
-
-        } else {
-            mwifiEnableToast = Toast.makeText(this, "This app requires a WiFi connection", Toast.LENGTH_LONG);
+        if (!NetworkUtils.wifiEnabled(this)) {
+            mwifiEnableToast = Toast.makeText(this, "This app requires a WiFi connection.", Toast.LENGTH_LONG);
             mwifiEnableToast.show();
         }
+
+        mUpdateDataTask = new UpdateDataTask();
+        mUpdateDataTask.execute();
     }
 
     @Override
@@ -47,10 +46,12 @@ public class MainActivity extends AppCompatActivity {
         super.onPause();
 
         if (mUpdateDataTask != null)
-            mUpdateDataTask.cancel(true);
+            mUpdateDataTask.cancel(false);
     }
 
     private class UpdateDataTask extends AsyncTask<Void, Void, Void> {
+
+        private boolean jiofiAvailable = true;
 
         private JioFiData jioFiData;
 
@@ -76,13 +77,24 @@ public class MainActivity extends AppCompatActivity {
 
                 while (!isCancelled()) {
 
-                    jioFiData.loadDeviceInfo(context);
-                    jioFiData.loadLteInfo(context);
-                    jioFiData.loadPerformanceInfo(context);
+                    if (NetworkUtils.wifiEnabled(context)) {
+                        if (NetworkUtils.jiofiAvailableCheck()) {
+                            jioFiData.loadDeviceInfo(context);
+                            jioFiData.loadLteInfo(context);
+                            jioFiData.loadPerformanceInfo(context);
+                        } else {
+                            jiofiAvailable = false;
+                            sleep(1000);
+                        }
+                    }
 
                     publishProgress();
                     sleep(1000);
+
+                    if (isCancelled())
+                        break;
                 }
+                return null;
 
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -94,7 +106,13 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onProgressUpdate(Void... values) {
 
-            if (jioFiData != null) {
+            if (!jiofiAvailable) {
+
+                if (mwifiEnableToast != null) mwifiEnableToast.cancel();
+                mwifiEnableToast = Toast.makeText(MainActivity.this, "JioFi not found.", Toast.LENGTH_LONG);
+                mwifiEnableToast.show();
+
+            } else if (jioFiData != null) {
                 String batteryLevelString = jioFiData.batteryLevel + " %";
                 batteryLevelTextView.setText(batteryLevelString);
                 batteryStatusTextView.setText(jioFiData.batteryStatus);
@@ -111,8 +129,6 @@ public class MainActivity extends AppCompatActivity {
 
                 Log.v("Update", String.valueOf(jioFiData.lteBand));
             }
-
-
         }
     }
 

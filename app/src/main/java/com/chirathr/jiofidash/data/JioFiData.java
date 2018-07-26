@@ -56,7 +56,8 @@ public class JioFiData {
     public void loadDeviceInfo(Context context) {
         String jsonDeviceDataString = NetworkUtils.getJsonData(
                 context, NetworkUtils.DEVICE_INFO_ID, NetworkUtils.DEVICE_6_ID);
-        setDeviceInfo(jsonDeviceDataString);
+        if (jsonDeviceDataString != null)
+            setDeviceInfo(jsonDeviceDataString);
     }
 
     public void setLteInfo(String lteInfoJsonString) {
@@ -77,7 +78,8 @@ public class JioFiData {
     public void loadLteInfo(Context context) {
         String jsonLteDataString = NetworkUtils.getJsonData(
                 context, NetworkUtils.LTE_INFO_ID, NetworkUtils.DEVICE_6_ID);
-        setLteInfo(jsonLteDataString);
+        if (jsonLteDataString != null)
+            setLteInfo(jsonLteDataString);
     }
 
     public void setPerformanceInfo(String performanceInfoString) {
@@ -99,7 +101,8 @@ public class JioFiData {
     public void loadPerformanceInfo(Context context) {
         String jsonPerformanceDataString = NetworkUtils.getJsonData(
                 context, NetworkUtils.PERFORMANCE_INFO_ID, NetworkUtils.DEVICE_6_ID);
-        setPerformanceInfo(jsonPerformanceDataString);
+        if (jsonPerformanceDataString != null)
+            setPerformanceInfo(jsonPerformanceDataString);
     }
 
 }
