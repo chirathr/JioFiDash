@@ -84,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
                             jioFiData.loadDeviceInfo(context);
                             jioFiData.loadLteInfo(context);
                             jioFiData.loadPerformanceInfo(context);
+                            jioFiData.loadWanInfo(context);
                         } else {
                             jiofiAvailable = false;
                             sleep(1000);
@@ -129,6 +130,8 @@ public class MainActivity extends AppCompatActivity {
                 uploadSpeedMaxTextView.setText(jioFiData.uploadRateMaxString);
                 downloadSpeedTextView.setText(jioFiData.downloadRateString);
                 downloadSpeedMaxTextView.setText(jioFiData.downloadRateMaxString);
+
+
 
                 Log.v("Update", String.valueOf(jioFiData.lteBand));
             }

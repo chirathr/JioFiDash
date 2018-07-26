@@ -39,6 +39,11 @@ public class JioFiData {
 
 
     // Wan information (total data used)
+    private static final String TOTAL_UPLOAD = "duration_ul";
+    private static final String TOTAL_DOWNLOAD = "duration_dl";
+
+    public String totalUploadString;
+    public String totalDownloadString;
 
     // Device Info
     private static final String BATTERY_LEVEL = "batterylevel";
@@ -112,6 +117,27 @@ public class JioFiData {
                 context, NetworkUtils.PERFORMANCE_INFO_ID, NetworkUtils.DEVICE_6_ID);
         if (jsonPerformanceDataString != null)
             setPerformanceInfo(jsonPerformanceDataString);
+    }
+
+    public void setWanInfo(String wanInfoJsonString) {
+        JSONObject wanInfoJson;
+
+        try {
+            wanInfoJson = new JSONObject(wanInfoJsonString);
+
+            totalUploadString = wanInfoJson.getString(TOTAL_UPLOAD);
+            totalDownloadString = wanInfoJson.getString(TOTAL_DOWNLOAD);
+
+        } catch (JSONException e) {
+            Log.v(TAG, "Wan data Json parsing error: " + e.getMessage());
+        }
+    }
+
+    public void loadWanInfo(Context context) {
+        String jsonWanDataString = NetworkUtils.getJsonData(
+                context, NetworkUtils.WAN_INFO_ID, NetworkUtils.DEVICE_6_ID);
+        if (jsonWanDataString != null)
+            setWanInfo(jsonWanDataString);
     }
 
 }
