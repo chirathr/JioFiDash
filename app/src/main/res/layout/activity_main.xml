@@ -13,7 +13,7 @@
         android:layout_marginTop="16dp"
         app:layout_constraintStart_toStartOf="@+id/tv_battery_status"
         app:layout_constraintTop_toBottomOf="@+id/tv_battery_status"
-        tools:text="100%"
+        android:text="@string/default_battery_level_text"
         style="@style/TextAppearance.AppCompat.Display2"
         android:textColor="@color/colorPrimary"/>
 
@@ -26,7 +26,7 @@
         android:layout_marginTop="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="charging" />
+        android:text="@string/default_battery_status_text" />
 
     <TextView
         android:id="@+id/tv_lte_status"
@@ -37,7 +37,7 @@
         android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="Attached" />
+        android:text="@string/default_lte_status_text" />
 
     <TextView
         android:id="@+id/tv_lte_band"
@@ -51,7 +51,7 @@
         app:layout_constraintBottom_toTopOf="@+id/tv_lte_bandwidth"
         app:layout_constraintEnd_toStartOf="@+id/tv_lte_bandwidth"
         app:layout_constraintTop_toBottomOf="@+id/tv_lte_bandwidth"
-        tools:text="40" />
+        android:text="@string/default_lte_band_text" />
 
     <TextView
         android:id="@+id/tv_lte_bandwidth"
@@ -60,7 +60,7 @@
         android:layout_marginTop="48dp"
         app:layout_constraintEnd_toEndOf="@+id/tv_lte_status"
         app:layout_constraintTop_toBottomOf="@+id/tv_lte_status"
-        tools:text="20 MHz" />
+        android:text="@string/default_lte_bandwidth_text" />
 
     <TextView
         android:id="@+id/tv_lte_cell_id"
@@ -69,7 +69,7 @@
         android:layout_marginTop="24dp"
         app:layout_constraintEnd_toEndOf="@+id/tv_lte_bandwidth"
         app:layout_constraintTop_toBottomOf="@+id/tv_lte_bandwidth"
-        tools:text="452" />
+        tools:text="@string/default_lte_cell_id_text" />
 
     <TextView
         android:id="@+id/tv_data_speed_label"
@@ -78,7 +78,8 @@
         android:layout_marginTop="16dp"
         android:text="@string/data_speed_label"
         app:layout_constraintStart_toStartOf="@+id/tv_battery_level"
-        app:layout_constraintTop_toBottomOf="@+id/tv_battery_level" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_battery_level"
+        android:textColor="@color/colorPrimary"/>
 
     <TextView
         android:id="@+id/tv_upload_speed_label"
@@ -95,7 +96,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
         android:layout_marginStart="8dp"
-        tools:text="100 Kbps"
+        android:text="@string/default_speed_text"
         app:layout_constraintBottom_toTopOf="@+id/tv_upload_speed_label"
         app:layout_constraintStart_toEndOf="@+id/tv_upload_speed_label"
         app:layout_constraintTop_toBottomOf="@+id/tv_upload_speed_label" />
@@ -117,7 +118,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
         android:layout_marginStart="8dp"
-        tools:text="200 Kbps"
+        tools:text="@string/default_speed_text"
         app:layout_constraintBottom_toTopOf="@+id/tv_upload_speed_max_label"
         app:layout_constraintStart_toEndOf="@+id/tv_upload_speed_max_label"
         app:layout_constraintTop_toBottomOf="@+id/tv_upload_speed_max_label" />
@@ -140,7 +141,7 @@
         app:layout_constraintBottom_toTopOf="@+id/tv_download_speed_label"
         app:layout_constraintStart_toEndOf="@+id/tv_download_speed_label"
         app:layout_constraintTop_toBottomOf="@+id/tv_download_speed_label"
-        tools:text="600 Kbps" />
+        tools:text="@string/default_speed_text" />
 
     <TextView
         android:id="@+id/tv_download_speed_max_label"
@@ -163,7 +164,100 @@
         app:layout_constraintBottom_toTopOf="@+id/tv_download_speed_max_label"
         app:layout_constraintStart_toEndOf="@+id/tv_download_speed_max_label"
         app:layout_constraintTop_toBottomOf="@+id/tv_download_speed_max_label"
-        tools:text="800 Kbps" />
+        tools:text="@string/default_speed_text" />
+
+    <TextView
+        android:id="@+id/tv_total_data_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/total_data_used_label"
+        app:layout_constraintStart_toStartOf="@+id/tv_download_speed_label"
+        app:layout_constraintTop_toBottomOf="@+id/tv_download_speed_label"
+        android:textColor="@color/colorPrimary"/>
+
+    <TextView
+        android:id="@+id/tv_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="64dp"
+        android:layout_marginRight="64dp"
+        android:text="@string/default_time_text"
+        app:layout_constraintBottom_toTopOf="@+id/tv_total_data_label"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_total_data_label" />
+
+    <TextView
+        android:id="@+id/tv_download_total_data_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/download_speed_label"
+        app:layout_constraintStart_toStartOf="@+id/tv_total_data_label"
+        app:layout_constraintTop_toBottomOf="@+id/tv_total_data_label" />
+
+    <TextView
+        android:id="@+id/tv_total_download_data"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:text="@string/default_data_text"
+        app:layout_constraintBottom_toTopOf="@+id/tv_download_total_data_label"
+        app:layout_constraintStart_toEndOf="@+id/tv_download_total_data_label"
+        app:layout_constraintTop_toBottomOf="@+id/tv_download_total_data_label" />
+
+    <TextView
+        android:id="@+id/tv_total_upload_data_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="24dp"
+        android:layout_marginStart="24dp"
+        android:text="@string/upload_label"
+        app:layout_constraintBottom_toTopOf="@+id/tv_total_download_data"
+        app:layout_constraintStart_toEndOf="@+id/tv_total_download_data"
+        app:layout_constraintTop_toBottomOf="@+id/tv_total_download_data" />
+
+    <TextView
+        android:id="@+id/tv_total_upload_data"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:text="@string/default_data_text"
+        app:layout_constraintBottom_toTopOf="@+id/tv_total_upload_data_label"
+        app:layout_constraintStart_toEndOf="@+id/tv_total_upload_data_label"
+        app:layout_constraintTop_toBottomOf="@+id/tv_total_upload_data_label" />
+
+    <TextView
+        android:id="@+id/tv_users_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/users_text_label"
+        app:layout_constraintStart_toStartOf="@+id/tv_download_total_data_label"
+        app:layout_constraintTop_toBottomOf="@+id/tv_download_total_data_label"
+        android:textColor="@color/colorPrimary"/>
+
+    <TextView
+        android:id="@+id/tv_users_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="32dp"
+        android:layout_marginStart="32dp"
+        android:text="@string/users_default_text"
+        app:layout_constraintBottom_toTopOf="@+id/tv_users_label"
+        app:layout_constraintStart_toEndOf="@+id/tv_users_label"
+        app:layout_constraintTop_toBottomOf="@+id/tv_users_label" />
+
+    <TextView
+        android:id="@+id/tv_user_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        tools:text="chirath-HP-Pavilion-Notebook"
+        app:layout_constraintStart_toStartOf="@+id/tv_users_label"
+        app:layout_constraintTop_toBottomOf="@+id/tv_users_label" />
 
 
 </android.support.constraint.ConstraintLayout>

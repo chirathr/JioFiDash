@@ -79,6 +79,7 @@ public class MainActivity extends AppCompatActivity {
 
                     if (NetworkUtils.wifiEnabled(context)) {
                         if (NetworkUtils.jiofiAvailableCheck()) {
+                            jiofiAvailable = true;
                             jioFiData.loadDeviceInfo(context);
                             jioFiData.loadLteInfo(context);
                             jioFiData.loadPerformanceInfo(context);

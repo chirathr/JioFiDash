@@ -11,4 +11,16 @@
     <string name="upload_label">U:</string>
     <string name="max_speed_label">Max:</string>
     <string name="download_speed_label">D:</string>
+    <string name="total_data_used_label">Total data used</string>
+    <string name="default_time_text">00:00:00</string>
+    <string name="default_data_text">0 MB</string>
+    <string name="default_battery_level_text">100%</string>
+    <string name="default_battery_status_text">Charging</string>
+    <string name="default_lte_status_text">Connected</string>
+    <string name="default_lte_band_text">40</string>
+    <string name="default_lte_bandwidth_text">20 MHz</string>
+    <string name="default_lte_cell_id_text">452</string>
+    <string name="default_speed_text">0 Kbps</string>
+    <string name="users_text_label">Users</string>
+    <string name="users_default_text">0</string>
 </resources>
