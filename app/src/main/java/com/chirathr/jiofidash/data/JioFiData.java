@@ -35,8 +35,12 @@ public class JioFiData {
     public String downloadRateMaxString;
 
     // Lan information (connected users)
+    private static final String USER_COUNT = "act_cnt";
+    private static final String USER_LIST = "userlistinfo";
 
-
+    public int userCount;
+    public String[] userNameList;
+    public boolean[] userConnectedList;
 
     // Wan information (total data used)
     private static final String TOTAL_UPLOAD = "duration_ul";
@@ -79,6 +83,7 @@ public class JioFiData {
         try {
             lteInfoJson = new JSONObject(lteInfoJsonString);
 
+            // TODO (1) Caused by: java.lang.NumberFormatException: Invalid int: "n/a"
             lteTimeString = lteInfoJson.getString(LTE_TIME_STRING);
             lteBand = Integer.parseInt(lteInfoJson.getString(LTE_BAND));
             lteStatus = lteInfoJson.getString(LTE_STATUS);
@@ -138,6 +143,39 @@ public class JioFiData {
                 context, NetworkUtils.WAN_INFO_ID, NetworkUtils.DEVICE_6_ID);
         if (jsonWanDataString != null)
             setWanInfo(jsonWanDataString);
+    }
+
+    public void setLanInfo(String lanInfoJsonString) {
+        JSONObject lanInfoJson;
+        try {
+            lanInfoJson = new JSONObject(lanInfoJsonString);
+
+            userCount = lanInfoJson.getInt(USER_COUNT);
+
+            userNameList = new String[userCount];
+            userConnectedList = new boolean[userCount];
+            String userInfoListString = lanInfoJson.getString(USER_LIST);
+
+            String[] userInfoList = userInfoListString.split(";");
+
+            int i = 0;
+            for (String userInfoString: userInfoList) {
+                String[] userInfo = userInfoString.split(",");
+                userNameList[i] = userInfo[0];
+                userConnectedList[i] = userInfo[4].equals("Connected");
+                i++;
+            }
+
+        } catch (JSONException e) {
+            Log.v(TAG, "Wan data Json parsing error: " + e.getMessage());
+        }
+    }
+
+    public void loadLanInfo(Context context) {
+        String lanInfoJsonString = NetworkUtils.getJsonData(
+                context, NetworkUtils.LAN_INFO_ID, NetworkUtils.DEVICE_6_ID);
+        if (lanInfoJsonString != null)
+            setLteInfo(lanInfoJsonString);
     }
 
 }
