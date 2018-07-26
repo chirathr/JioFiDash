@@ -55,19 +55,28 @@ public class MainActivity extends AppCompatActivity {
 
         private JioFiData jioFiData;
 
+        // Device Info
         TextView batteryLevelTextView = (TextView) findViewById(R.id.tv_battery_level);
         TextView batteryStatusTextView = (TextView) findViewById(R.id.tv_battery_status);
 
+        // LTE info
         TextView lteConnectedTimeString = (TextView) findViewById(R.id.tv_time);
         TextView lteStatusTextView = (TextView) findViewById(R.id.tv_lte_status);
         TextView lteBandTextView = (TextView) findViewById(R.id.tv_lte_band);
         TextView lteBandwidthTextView = (TextView) findViewById(R.id.tv_lte_bandwidth);
         TextView lteCellIdTextView = (TextView) findViewById(R.id.tv_lte_cell_id);
 
+        // Performance Info
         TextView uploadSpeedTextView = (TextView) findViewById(R.id.tv_upload_speed);
         TextView uploadSpeedMaxTextView = (TextView) findViewById(R.id.tv_upload_speed_max);
         TextView downloadSpeedTextView = (TextView) findViewById(R.id.tv_download_speed);
         TextView downloadSpeedMaxTextView = (TextView) findViewById(R.id.tv_download_speed_max);
+
+        // Wan Info
+        TextView totalUploadTextView = (TextView) findViewById(R.id.tv_total_upload_data);
+        TextView totalDownloadTextView = (TextView) findViewById(R.id.tv_total_download_data);
+
+        // Lan Info
 
         @Override
         protected Void doInBackground(Void... voids) {
@@ -116,22 +125,28 @@ public class MainActivity extends AppCompatActivity {
                 mwifiEnableToast.show();
 
             } else if (jioFiData != null) {
+
+                // Device Info
                 String batteryLevelString = jioFiData.batteryLevel + " %";
                 batteryLevelTextView.setText(batteryLevelString);
                 batteryStatusTextView.setText(jioFiData.batteryStatus);
 
+                // LTE info
                 lteConnectedTimeString.setText(jioFiData.lteTimeString);
                 lteStatusTextView.setText(jioFiData.lteStatus);
                 lteBandTextView.setText(String.valueOf(jioFiData.lteBand));
                 lteBandwidthTextView.setText(jioFiData.lteBandwidth);
                 lteCellIdTextView.setText(String.valueOf(jioFiData.lteCellId));
 
+                // Performance Info
                 uploadSpeedTextView.setText(jioFiData.uploadRateString);
                 uploadSpeedMaxTextView.setText(jioFiData.uploadRateMaxString);
                 downloadSpeedTextView.setText(jioFiData.downloadRateString);
                 downloadSpeedMaxTextView.setText(jioFiData.downloadRateMaxString);
 
-
+                // Wan info
+                totalUploadTextView.setText(jioFiData.totalUploadString);
+                totalDownloadTextView.setText(jioFiData.totalDownloadString);
 
                 Log.v("Update", String.valueOf(jioFiData.lteBand));
             }
