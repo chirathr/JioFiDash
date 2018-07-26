@@ -158,12 +158,11 @@ public class JioFiData {
 
             String[] userInfoList = userInfoListString.split(";");
 
-            int i = 0;
-            for (String userInfoString: userInfoList) {
-                String[] userInfo = userInfoString.split(",");
+
+            for (int i = 0; i < userCount; ++i) {
+                String[] userInfo = userInfoList[i].split(",");
                 userNameList[i] = userInfo[0];
                 userConnectedList[i] = userInfo[4].equals("Connected");
-                i++;
             }
 
         } catch (JSONException e) {
@@ -175,7 +174,7 @@ public class JioFiData {
         String lanInfoJsonString = NetworkUtils.getJsonData(
                 context, NetworkUtils.LAN_INFO_ID, NetworkUtils.DEVICE_6_ID);
         if (lanInfoJsonString != null)
-            setLteInfo(lanInfoJsonString);
+            setLanInfo(lanInfoJsonString);
     }
 
 }

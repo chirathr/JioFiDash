@@ -259,5 +259,16 @@
         app:layout_constraintStart_toStartOf="@+id/tv_users_label"
         app:layout_constraintTop_toBottomOf="@+id/tv_users_label" />
 
+    <TextView
+        android:id="@+id/tv_user_connected"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="32dp"
+        android:layout_marginStart="32dp"
+        tools:text="Connected"
+        app:layout_constraintBottom_toTopOf="@+id/tv_user_name"
+        app:layout_constraintStart_toEndOf="@+id/tv_user_name"
+        app:layout_constraintTop_toBottomOf="@+id/tv_user_name" />
+
 
 </android.support.constraint.ConstraintLayout>

@@ -77,6 +77,9 @@ public class MainActivity extends AppCompatActivity {
         TextView totalDownloadTextView = (TextView) findViewById(R.id.tv_total_download_data);
 
         // Lan Info
+        TextView userCountTextView = (TextView) findViewById(R.id.tv_users_count);
+        TextView userNameTextView = (TextView) findViewById(R.id.tv_user_name);
+        TextView userConnectedTextView = (TextView) findViewById(R.id.tv_user_connected);
 
         @Override
         protected Void doInBackground(Void... voids) {
@@ -94,6 +97,7 @@ public class MainActivity extends AppCompatActivity {
                             jioFiData.loadLteInfo(context);
                             jioFiData.loadPerformanceInfo(context);
                             jioFiData.loadWanInfo(context);
+                            jioFiData.loadLanInfo(context);
                         } else {
                             jiofiAvailable = false;
                             sleep(1000);
@@ -147,6 +151,23 @@ public class MainActivity extends AppCompatActivity {
                 // Wan info
                 totalUploadTextView.setText(jioFiData.totalUploadString);
                 totalDownloadTextView.setText(jioFiData.totalDownloadString);
+
+                // Lan info
+                userCountTextView.setText(String.valueOf(jioFiData.userCount));
+
+                StringBuilder usersName = new StringBuilder();
+                StringBuilder userConnected = new StringBuilder();
+
+                for (int i = 0; i < jioFiData.userCount; ++i) {
+                    usersName.append(jioFiData.userNameList[i]).append("\n\n");
+                    if (jioFiData.userConnectedList[i])
+                        userConnected.append("Connected" + "\n\n");
+                    else
+                        userConnected.append("Disconnected" + "\n\n");
+                }
+
+                userNameTextView.setText(usersName.toString());
+                userConnectedTextView.setText(userConnected.toString());
 
                 Log.v("Update", String.valueOf(jioFiData.lteBand));
             }
