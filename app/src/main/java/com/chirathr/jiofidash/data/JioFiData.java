@@ -11,11 +11,13 @@ import org.json.JSONObject;
 public class JioFiData {
 
     // Lte info
+    private static final String LTE_TIME_STRING = "time_str";
     private static final String LTE_STATUS = "status";
     private static final String LTE_BAND = "opband";
     private static final String LTE_BANDWIDTH = "bandwidth";
     private static final String LTE_PHYSICAL_CELL_ID = "pcellID";
 
+    public String lteTimeString;
     public String lteStatus;
     public int lteBand;
     public String lteBandwidth;
@@ -31,6 +33,12 @@ public class JioFiData {
     public String uploadRateMaxString;
     public String downloadRateString;
     public String downloadRateMaxString;
+
+    // Lan information (connected users)
+
+
+
+    // Wan information (total data used)
 
     // Device Info
     private static final String BATTERY_LEVEL = "batterylevel";
@@ -66,6 +74,7 @@ public class JioFiData {
         try {
             lteInfoJson = new JSONObject(lteInfoJsonString);
 
+            lteTimeString = lteInfoJson.getString(LTE_TIME_STRING);
             lteBand = Integer.parseInt(lteInfoJson.getString(LTE_BAND));
             lteStatus = lteInfoJson.getString(LTE_STATUS);
             lteBandwidth = lteInfoJson.getString(LTE_BANDWIDTH);

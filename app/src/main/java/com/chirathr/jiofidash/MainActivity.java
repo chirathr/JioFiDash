@@ -58,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
         TextView batteryLevelTextView = (TextView) findViewById(R.id.tv_battery_level);
         TextView batteryStatusTextView = (TextView) findViewById(R.id.tv_battery_status);
 
+        TextView lteConnectedTimeString = (TextView) findViewById(R.id.tv_time);
         TextView lteStatusTextView = (TextView) findViewById(R.id.tv_lte_status);
         TextView lteBandTextView = (TextView) findViewById(R.id.tv_lte_band);
         TextView lteBandwidthTextView = (TextView) findViewById(R.id.tv_lte_bandwidth);
@@ -118,6 +119,7 @@ public class MainActivity extends AppCompatActivity {
                 batteryLevelTextView.setText(batteryLevelString);
                 batteryStatusTextView.setText(jioFiData.batteryStatus);
 
+                lteConnectedTimeString.setText(jioFiData.lteTimeString);
                 lteStatusTextView.setText(jioFiData.lteStatus);
                 lteBandTextView.setText(String.valueOf(jioFiData.lteBand));
                 lteBandwidthTextView.setText(jioFiData.lteBandwidth);
