@@ -102,8 +102,6 @@ public class JioFiData {
 
         try {
             lteInfoJson = new JSONObject(lteInfoJsonString);
-
-            // TODO (1) Caused by: java.lang.NumberFormatException: Invalid int: "n/a"
             lteTimeString = lteInfoJson.getString(LTE_TIME_STRING);
             lteBand = toInt(lteInfoJson.getString(LTE_BAND));
             lteStatus = lteInfoJson.getString(LTE_STATUS);

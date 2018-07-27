@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
+        NetworkUtils.login(this);
 
     }
 
@@ -74,9 +74,7 @@ public class MainActivity extends AppCompatActivity {
         int selectedItemId = item.getItemId();
 
         if (selectedItemId == R.id.action_restart) {
-
-
-
+            NetworkUtils.changePowerSavingTimeOut(this, 10);
             return true;
         }
 
@@ -133,8 +131,6 @@ public class MainActivity extends AppCompatActivity {
                             jioFiData.loadPerformanceInfo(context);
                             jioFiData.loadWanInfo(context);
                             jioFiData.loadLanInfo(context);
-
-                            NetworkUtils.getLoginToken(context);
                         } else {
                             jiofiAvailable = false;
                             sleep(1000);
