@@ -4,12 +4,14 @@ import android.content.Context;
 import android.net.wifi.WifiManager;
 import android.util.Log;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.chirathr.jiofidash.data.JioFiPreferences;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -19,6 +21,8 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 public class NetworkUtils {
@@ -26,6 +30,9 @@ public class NetworkUtils {
     private static final String TAG = NetworkUtils.class.getSimpleName();
 
     private static final String DEFAULT_HOST = "http://jiofi.local.html";
+
+    // Instantiate the RequestQueue.
+    private static RequestQueue requestQueue;
 
     // JioFI 6
     public static final int DEVICE_6_ID = 6;
@@ -58,14 +65,17 @@ public class NetworkUtils {
         return DEFAULT_HOST;
     }
 
-
-
     // Login
 
     private static final String TOKEN_INPUT_CSS_SELECTOR = "input[name='token']";
     private static final String VALUE_ATTRIBUTE_KEY = "value";
 
-    private static String loginToken = null;
+    private static String LOGIN_USERNAME_STRING_ID = "identify";
+    private static String LOGIN_PASSWORD_STRING_ID = "password";
+    private static String LOGIN_TOKEN_STRING_ID = "token";
+    public static String loginToken = null;
+
+    private static String cookieString = null;
 
     private static URL getURL(int urlType, int deviceType) {
         URL url = null;
@@ -84,6 +94,8 @@ public class NetworkUtils {
 
         return url;
     }
+
+    // TODO(1) Use volley to make the requests
 
     public static String getJsonData(Context context, int urlType, int deviceType) {
         String response = null;
@@ -146,27 +158,30 @@ public class NetworkUtils {
 
     // Authenticated URLS
 
-    public static void getLoginToken(Context context) {
+    public static void initRequestQueue(Context context) {
+        if (requestQueue == null)
+            requestQueue = Volley.newRequestQueue(context);
+    }
 
-        // Instantiate the RequestQueue.
-        RequestQueue queue = Volley.newRequestQueue(context);
+    public static void login(final Context context) {
 
-        String loginUrlPath = getDeviceUrls(DEVICE_6_ID)[LOGIN_URL_ID];
-        String loginUrl = getHostAddress() + loginUrlPath;
+        initRequestQueue(context);
+
+        String loginUrl = getHostAddress() + getDeviceUrls(DEVICE_6_ID)[LOGIN_URL_ID];
 
         // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.GET, loginUrl,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        // Display the first 500 characters of the response string.
+                        // Get the login token
                         Document loginDocument = Jsoup.parse(response);
                         loginToken = loginDocument.select(TOKEN_INPUT_CSS_SELECTOR)
                                 .attr(VALUE_ATTRIBUTE_KEY);
 
                         Log.v(TAG, "Login token: " + loginToken);
 
-
+                        loginAndSetCookie(context);
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -177,9 +192,64 @@ public class NetworkUtils {
         });
 
         // Add the request to the RequestQueue.
-        queue.add(stringRequest);
+        requestQueue.add(stringRequest);
     }
 
+    public static void loginAndSetCookie(final Context context) {
 
+        initRequestQueue(context);
+
+        // Login token is not set
+        if (loginToken == null)
+            return;
+
+        String loginUrl = getHostAddress() + getDeviceUrls(DEVICE_6_ID)[LOGIN_URL_ID];
+
+        Response.Listener<String> loginListener = new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                // Display the first 500 characters of the response string.
+
+                if (!response.contains("User already logged in !")) {
+                    int startIndex = response.lastIndexOf("ksession") + 12;
+                    cookieString = response.substring(startIndex, startIndex + 32);
+                    Log.v(TAG, "cookie " + cookieString);
+                } else {
+                    Log.v(TAG, "User already logged in !");
+                }
+            }
+        };
+        Response.ErrorListener LoginErrorListener = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.v(TAG, "Failed to Login: " + error.getMessage());
+            }
+        };
+
+        // Request a string response from the provided URL.
+        StringRequest stringRequest =
+                new StringRequest(Request.Method.POST, loginUrl, loginListener, LoginErrorListener) {
+                    @Override
+                    protected Map<String, String> getParams() {
+                        Map<String,String> userLoginData = JioFiPreferences.getUserLoginData(context);
+
+                        Map<String, String> params = new HashMap<>();
+                        params.put(LOGIN_USERNAME_STRING_ID, userLoginData.get(JioFiPreferences.USERNAME_STRING_ID));
+                        params.put(LOGIN_PASSWORD_STRING_ID, userLoginData.get(JioFiPreferences.PASSWORD_STRING_ID));
+
+                        params.put(LOGIN_TOKEN_STRING_ID, loginToken);
+                        return params;
+                    }
+
+                    @Override
+                    public Map<String, String> getHeaders() throws AuthFailureError {
+                        Map<String,String> params = new HashMap<String, String>();
+                        params.put("Content-Type","application/x-www-form-urlencoded");
+                        return params;
+                    }
+                };
+
+        requestQueue.add(stringRequest);
+    }
 
 }
