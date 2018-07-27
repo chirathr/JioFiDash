@@ -158,9 +158,9 @@ public class MainActivity extends AppCompatActivity {
                 StringBuilder usersName = new StringBuilder();
                 StringBuilder userConnected = new StringBuilder();
 
-                for (int i = 0; i < jioFiData.userCount; ++i) {
-                    usersName.append(jioFiData.userNameList[i]).append("\n\n");
-                    if (jioFiData.userConnectedList[i])
+                for (int i = 0; i < jioFiData.userNameList.size(); ++i) {
+                    usersName.append(jioFiData.userNameList.get(i)).append("\n\n");
+                    if (jioFiData.userConnectedList.get(i))
                         userConnected.append("Connected" + "\n\n");
                     else
                         userConnected.append("Disconnected" + "\n\n");

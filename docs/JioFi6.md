@@ -8,6 +8,7 @@
 * http://jiofi.local.html/lan_ajax.cgi
 * http://jiofi.local.html/wan_info_ajax.cgi
 * http://jiofi.local.html/Device_info_ajax.cgi
-* http://jiofi.local.html/performance_ajax.cgi
+* 
+
 
 ### Authenticated Apis

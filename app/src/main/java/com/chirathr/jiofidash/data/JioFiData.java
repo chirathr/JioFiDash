@@ -8,6 +8,9 @@ import com.chirathr.jiofidash.utils.NetworkUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class JioFiData {
 
     // Lte info
@@ -39,8 +42,8 @@ public class JioFiData {
     private static final String USER_LIST = "userlistinfo";
 
     public int userCount;
-    public String[] userNameList;
-    public boolean[] userConnectedList;
+    public List<String> userNameList;
+    public List<Boolean> userConnectedList;
 
     // Wan information (total data used)
     private static final String TOTAL_UPLOAD = "duration_ul";
@@ -152,17 +155,21 @@ public class JioFiData {
 
             userCount = lanInfoJson.getInt(USER_COUNT);
 
-            userNameList = new String[userCount];
-            userConnectedList = new boolean[userCount];
+
             String userInfoListString = lanInfoJson.getString(USER_LIST);
 
             String[] userInfoList = userInfoListString.split(";");
 
+            userNameList = new ArrayList<>();
+            userConnectedList = new ArrayList<>();
 
-            for (int i = 0; i < userCount; ++i) {
+
+            for (int i = 0; i < userInfoList.length; ++i) {
                 String[] userInfo = userInfoList[i].split(",");
-                userNameList[i] = userInfo[0];
-                userConnectedList[i] = userInfo[4].equals("Connected");
+                if (!userInfo[0].equals("Static")) {
+                    userNameList.add(userInfo[0]);
+                    userConnectedList.add(userInfo[4].equals("Connected"));
+                }
             }
 
         } catch (JSONException e) {
