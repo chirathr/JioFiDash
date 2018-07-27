@@ -4,6 +4,16 @@ import android.content.Context;
 import android.net.wifi.WifiManager;
 import android.util.Log;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -24,7 +34,8 @@ public class NetworkUtils {
             "/lan_ajax.cgi",
             "/wan_info_ajax.cgi",
             "/Device_info_ajax.cgi",
-            "/performance_ajax.cgi"
+            "/performance_ajax.cgi",
+            "/login.cgi"
     };
 
     // Id to represent types of data from device urls
@@ -33,10 +44,10 @@ public class NetworkUtils {
     public static final int WAN_INFO_ID = 2;
     public static final int DEVICE_INFO_ID = 3;
     public static final int PERFORMANCE_INFO_ID = 4;
-
+    public static final int LOGIN_URL_ID = 5;
 
     // Get device url based on type
-    private static String[] getDeviceUrls(int deviceType) {
+    public static String[] getDeviceUrls(int deviceType) {
         if (deviceType == 6)    // JioFi 6
             return DEVICE_6_URLS;
 
@@ -46,6 +57,15 @@ public class NetworkUtils {
     public static String getHostAddress() {
         return DEFAULT_HOST;
     }
+
+
+
+    // Login
+
+    private static final String TOKEN_INPUT_CSS_SELECTOR = "input[name='token']";
+    private static final String VALUE_ATTRIBUTE_KEY = "value";
+
+    private static String loginToken = null;
 
     private static URL getURL(int urlType, int deviceType) {
         URL url = null;
@@ -123,4 +143,43 @@ public class NetworkUtils {
         }
         return false;
     }
+
+    // Authenticated URLS
+
+    public static void getLoginToken(Context context) {
+
+        // Instantiate the RequestQueue.
+        RequestQueue queue = Volley.newRequestQueue(context);
+
+        String loginUrlPath = getDeviceUrls(DEVICE_6_ID)[LOGIN_URL_ID];
+        String loginUrl = getHostAddress() + loginUrlPath;
+
+        // Request a string response from the provided URL.
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, loginUrl,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        // Display the first 500 characters of the response string.
+                        Document loginDocument = Jsoup.parse(response);
+                        loginToken = loginDocument.select(TOKEN_INPUT_CSS_SELECTOR)
+                                .attr(VALUE_ATTRIBUTE_KEY);
+
+                        Log.v(TAG, "Login token: " + loginToken);
+
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.v(TAG, "Failed to get login Token: " + error.getMessage());
+                loginToken  = null;
+            }
+        });
+
+        // Add the request to the RequestQueue.
+        queue.add(stringRequest);
+    }
+
+
+
 }
