@@ -5,10 +5,20 @@ import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.chirathr.jiofidash.data.JioFiData;
+import com.chirathr.jiofidash.utils.ActionUtils;
 import com.chirathr.jiofidash.utils.NetworkUtils;
 
 import java.net.URL;
@@ -25,6 +35,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
 
     }
 
@@ -47,6 +59,29 @@ public class MainActivity extends AppCompatActivity {
 
         if (mUpdateDataTask != null)
             mUpdateDataTask.cancel(false);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        int selectedItemId = item.getItemId();
+
+        if (selectedItemId == R.id.action_restart) {
+
+
+
+            return true;
+        }
+
+
+        return super.onOptionsItemSelected(item);
     }
 
     private class UpdateDataTask extends AsyncTask<Void, Void, Void> {
@@ -98,6 +133,8 @@ public class MainActivity extends AppCompatActivity {
                             jioFiData.loadPerformanceInfo(context);
                             jioFiData.loadWanInfo(context);
                             jioFiData.loadLanInfo(context);
+
+                            NetworkUtils.getLoginToken(context);
                         } else {
                             jiofiAvailable = false;
                             sleep(1000);

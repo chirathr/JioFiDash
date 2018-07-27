@@ -3,14 +3,14 @@
 Show details about your JioFi
 
 * Battery
-    * Percentage
+    * Percentage - done
     * Time remaining
-* Range
-* LTE band (Band, bandwidth)
-* WiFi users
+* Range 
+* LTE band (Band, bandwidth) - done
+* WiFi users - done
 
-* Download/ Upload speeds
-* Total data used(D/U)
+* Download/ Upload speeds - done
+* Total data used(D/U) - done
 
 * Notification(Battery reminder)
 

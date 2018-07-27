@@ -23,4 +23,5 @@
     <string name="default_speed_text">0 Kbps</string>
     <string name="users_text_label">Users</string>
     <string name="users_default_text">0</string>
+    <string name="action_restart_jiofi">Restart JioFi</string>
 </resources>

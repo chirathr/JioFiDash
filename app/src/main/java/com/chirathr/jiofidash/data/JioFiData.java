@@ -44,6 +44,7 @@ public class JioFiData {
     public int userCount;
     public List<String> userNameList;
     public List<Boolean> userConnectedList;
+    public List<String> userMacList;
 
     // Wan information (total data used)
     private static final String TOTAL_UPLOAD = "duration_ul";
@@ -176,11 +177,13 @@ public class JioFiData {
 
             userNameList = new ArrayList<>();
             userConnectedList = new ArrayList<>();
+            userMacList = new ArrayList<>();
 
             for (int i = 0; i < userInfoList.length; ++i) {
                 String[] userInfo = userInfoList[i].split(",");
                 if (!userInfo[0].equals("Static")) {
                     userNameList.add(userInfo[0]);
+                    userMacList.add(userInfo[1]);
                     userConnectedList.add(userInfo[4].equals("Connected"));
                 }
             }
