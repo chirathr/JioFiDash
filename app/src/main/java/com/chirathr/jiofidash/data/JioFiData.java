@@ -24,7 +24,7 @@ public class JioFiData {
     public String lteStatus;
     public int lteBand;
     public String lteBandwidth;
-    public int lteCellId;
+    public String lteCellId;
 
     // Performance
     private static final String UPLOAD_RATE = "txRate";
@@ -56,16 +56,32 @@ public class JioFiData {
     private static final String BATTERY_LEVEL = "batterylevel";
     private static final String BATTERY_STATUS = "batterystatus";
 
-    public double batteryLevel;
+    public int batteryLevel;
     public String batteryStatus;
 
     private final String TAG = JioFiData.class.getSimpleName();
+
+    private static int toInt(String value) {
+        try {
+            return Integer.parseInt(value);
+        } catch (Exception e) {
+            return 0;
+        }
+    }
+
+    private static double toDouble(String value) {
+        try {
+            return Double.parseDouble(value);
+        } catch (Exception e) {
+            return 0;
+        }
+    }
 
     public void setDeviceInfo(String deviceInfoJsonString) {
         JSONObject deviceInfoJson;
         try {
             deviceInfoJson = new JSONObject(deviceInfoJsonString);
-            batteryLevel = Double.parseDouble(deviceInfoJson.getString(BATTERY_LEVEL).split(" ")[0]);
+            batteryLevel = toInt(deviceInfoJson.getString(BATTERY_LEVEL).split(" ")[0]);
             batteryStatus = deviceInfoJson.getString(BATTERY_STATUS);
 
         } catch (JSONException e) {
@@ -88,10 +104,10 @@ public class JioFiData {
 
             // TODO (1) Caused by: java.lang.NumberFormatException: Invalid int: "n/a"
             lteTimeString = lteInfoJson.getString(LTE_TIME_STRING);
-            lteBand = Integer.parseInt(lteInfoJson.getString(LTE_BAND));
+            lteBand = toInt(lteInfoJson.getString(LTE_BAND));
             lteStatus = lteInfoJson.getString(LTE_STATUS);
             lteBandwidth = lteInfoJson.getString(LTE_BANDWIDTH);
-            lteCellId = Integer.parseInt(lteInfoJson.getString(LTE_PHYSICAL_CELL_ID));
+            lteCellId = lteInfoJson.getString(LTE_PHYSICAL_CELL_ID);
         } catch (JSONException e) {
             Log.v(TAG, "Lte data Json parsing error: " + e.getMessage());
         }
@@ -153,16 +169,13 @@ public class JioFiData {
         try {
             lanInfoJson = new JSONObject(lanInfoJsonString);
 
-            userCount = lanInfoJson.getInt(USER_COUNT);
-
+            userCount = toInt(lanInfoJson.getString(USER_COUNT));
 
             String userInfoListString = lanInfoJson.getString(USER_LIST);
-
             String[] userInfoList = userInfoListString.split(";");
 
             userNameList = new ArrayList<>();
             userConnectedList = new ArrayList<>();
-
 
             for (int i = 0; i < userInfoList.length; ++i) {
                 String[] userInfo = userInfoList[i].split(",");
