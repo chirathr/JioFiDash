@@ -15,6 +15,7 @@ import com.chirathr.jiofidash.data.JioFiPreferences;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -43,7 +44,8 @@ public class NetworkUtils {
             "/Device_info_ajax.cgi",
             "/performance_ajax.cgi",
             "/login.cgi",
-            "/Device_setting.cgi"
+            "/Device_setting.cgi",
+            "/Device_setting_sv.cgi"
     };
 
     // Id to represent types of data from device urls
@@ -53,7 +55,8 @@ public class NetworkUtils {
     public static final int DEVICE_INFO_ID = 3;
     public static final int PERFORMANCE_INFO_ID = 4;
     public static final int LOGIN_URL_ID = 5;
-    public static final int DEVICE_SETTINGS_ID = 6;
+    public static final int URL_DEVICE_SETTINGS_ID = 6;
+    public static final int URL_DEVICE_SETTINGS_POST_ID = 7;
 
     // Get device url based on type
     public static String[] getDeviceUrls(int deviceType) {
@@ -67,6 +70,9 @@ public class NetworkUtils {
         return DEFAULT_HOST;
     }
 
+    private static String CSRF_TOKEN_STRING_ID = "token";
+    private static String FORM_TYPE_STRING_ID = "form_type";
+
     // Login
 
     private static final String TOKEN_INPUT_CSS_SELECTOR = "input[name='token']";
@@ -74,10 +80,14 @@ public class NetworkUtils {
 
     private static String LOGIN_USERNAME_STRING_ID = "identify";
     private static String LOGIN_PASSWORD_STRING_ID = "password";
-    private static String LOGIN_TOKEN_STRING_ID = "token";
     public static String csrfToken = null;
 
     private static String cookieString = null;
+
+    // Power saving settings
+    private static String SAVING_TIME_STRING_ID = "Saving_Time";
+    private static String SAVING_TIME_FORM_TYPE = "sleep_time";
+
 
     private static String getUrlString(int urlType, int deviceType) {
         String[] deviceUrls = getDeviceUrls(deviceType);
@@ -170,6 +180,15 @@ public class NetworkUtils {
             requestQueue = Volley.newRequestQueue(context);
     }
 
+    public static String getCookieString() {
+        if (cookieString != null)
+            return "ksession=" + cookieString;
+        else {
+            Log.v(TAG, "Cookie not set");
+            return null;
+        }
+    }
+
     public static void login(final Context context) {
 
         initRequestQueue(context);
@@ -241,12 +260,13 @@ public class NetworkUtils {
                     @Override
                     protected Map<String, String> getParams() {
                         Map<String,String> userLoginData = JioFiPreferences.getUserLoginData(context);
-
                         Map<String, String> params = new HashMap<>();
-                        params.put(LOGIN_USERNAME_STRING_ID, userLoginData.get(JioFiPreferences.USERNAME_STRING_ID));
-                        params.put(LOGIN_PASSWORD_STRING_ID, userLoginData.get(JioFiPreferences.PASSWORD_STRING_ID));
 
-                        params.put(LOGIN_TOKEN_STRING_ID, csrfToken);
+                        params.put(LOGIN_USERNAME_STRING_ID,
+                                userLoginData.get(JioFiPreferences.USERNAME_STRING_ID));
+                        params.put(LOGIN_PASSWORD_STRING_ID,
+                                userLoginData.get(JioFiPreferences.PASSWORD_STRING_ID));
+                        params.put(CSRF_TOKEN_STRING_ID, csrfToken);
                         return params;
                     }
 
@@ -262,15 +282,12 @@ public class NetworkUtils {
     }
 
     public static void changePowerSavingTimeOut(final Context context, final int powerSavingTimeOut) {
-        // Post data and cookie
-        // form_type: sleep_time
-        // token: 932658574
-        // Saving_Time: 20
+
 
         initRequestQueue(context);
 
         if (cookieString == null) {
-            login(context);
+            Log.v(TAG, "Cookie not set, login required!");
             return;
         }
 
@@ -281,27 +298,32 @@ public class NetworkUtils {
 
                 Document deviceSettingDocument = Jsoup.parse(response);
 
-                csrfToken = deviceSettingDocument.select(TOKEN_INPUT_CSS_SELECTOR).first()
-                        .attr(VALUE_ATTRIBUTE_KEY);
+//                Log.v(TAG, response);
 
-                // TODO change convert to Variable
-                Log.v(TAG, "changePowerSavingTimeOut csrf: " + csrfToken);
+                Elements tokenTags = deviceSettingDocument.select(TOKEN_INPUT_CSS_SELECTOR);
 
-
-                postPowerSavingTimeOut(context, powerSavingTimeOut);
-
+                if (tokenTags.size() > 1) {
+                    csrfToken = tokenTags.first().attr(VALUE_ATTRIBUTE_KEY);
+                    // TODO change convert to Variable
+                    Log.v(TAG, "changePowerSavingTimeOut csrf: " + csrfToken);
+                    postPowerSavingTimeOut(context, powerSavingTimeOut);
+                }
+                else {
+                    Log.v(TAG, "Cookie error or login not successful");
+                    login(context);
+                }
             }
         };
 
         Response.ErrorListener deviceSettingErrorLister = new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.v(TAG, "Failed to change power saving settings: " + error.getMessage());
+                Log.v(TAG, "Failed to get power save change csrf token: " + error.getMessage());
             }
         };
 
 
-        String deviceSettingUrl = getUrlString(DEVICE_SETTINGS_ID, DEVICE_6_ID);
+        String deviceSettingUrl = getUrlString(URL_DEVICE_SETTINGS_ID, DEVICE_6_ID);
 
         StringRequest stringRequest = new StringRequest(
                 Request.Method.GET, deviceSettingUrl, deviceSettingLister, deviceSettingErrorLister) {
@@ -309,7 +331,7 @@ public class NetworkUtils {
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
 
-                params.put("Cookie", "ksession=" + cookieString);
+                params.put("Cookie", getCookieString());
 
                 return params;
             }
@@ -319,8 +341,61 @@ public class NetworkUtils {
     }
 
 
-    public static void postPowerSavingTimeOut(Context context, int powerSavingTimeOut) {
+    private static void postPowerSavingTimeOut(Context context, final int powerSavingTimeOut) {
 
+        // Post data and cookie
+        // form_type: sleep_time
+        // token: 932658574
+        // Saving_Time: 20
+
+        initRequestQueue(context);
+
+        Response.Listener<String> powerSavingListener = new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.v(TAG, "Power save timeout changed to: " + powerSavingTimeOut);
+//                Log.v(TAG, response);
+            }
+        };
+
+        final Response.ErrorListener powerSavingErrorListner = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.v(TAG, "Failed to Power save timeout settings: " + error.getMessage());
+            }
+        };
+
+        String deviceSettingUrl = getUrlString(URL_DEVICE_SETTINGS_POST_ID, DEVICE_6_ID);
+
+        StringRequest powerSaveChangeRequest = new StringRequest(
+                Request.Method.POST,
+                deviceSettingUrl,
+                powerSavingListener,
+                powerSavingErrorListner
+        ) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+
+                params.put(CSRF_TOKEN_STRING_ID, csrfToken);
+                params.put(FORM_TYPE_STRING_ID, SAVING_TIME_FORM_TYPE);
+                params.put(SAVING_TIME_STRING_ID, String.valueOf(powerSavingTimeOut));
+
+                Log.v(TAG, csrfToken);
+
+                return params;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String,String> params = new HashMap<String, String>();
+                params.put("Content-Type","application/x-www-form-urlencoded");
+                params.put("Cookie", getCookieString());
+                return params;
+            }
+        };
+
+        requestQueue.add(powerSaveChangeRequest);
     }
 
 }
