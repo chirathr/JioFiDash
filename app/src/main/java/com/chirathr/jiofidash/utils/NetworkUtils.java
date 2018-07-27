@@ -42,7 +42,8 @@ public class NetworkUtils {
             "/wan_info_ajax.cgi",
             "/Device_info_ajax.cgi",
             "/performance_ajax.cgi",
-            "/login.cgi"
+            "/login.cgi",
+            "/Device_setting.cgi"
     };
 
     // Id to represent types of data from device urls
@@ -52,6 +53,7 @@ public class NetworkUtils {
     public static final int DEVICE_INFO_ID = 3;
     public static final int PERFORMANCE_INFO_ID = 4;
     public static final int LOGIN_URL_ID = 5;
+    public static final int DEVICE_SETTINGS_ID = 6;
 
     // Get device url based on type
     public static String[] getDeviceUrls(int deviceType) {
@@ -73,9 +75,14 @@ public class NetworkUtils {
     private static String LOGIN_USERNAME_STRING_ID = "identify";
     private static String LOGIN_PASSWORD_STRING_ID = "password";
     private static String LOGIN_TOKEN_STRING_ID = "token";
-    public static String loginToken = null;
+    public static String csrfToken = null;
 
     private static String cookieString = null;
+
+    private static String getUrlString(int urlType, int deviceType) {
+        String[] deviceUrls = getDeviceUrls(deviceType);
+        return getHostAddress() + deviceUrls[urlType];
+    }
 
     private static URL getURL(int urlType, int deviceType) {
         URL url = null;
@@ -167,7 +174,7 @@ public class NetworkUtils {
 
         initRequestQueue(context);
 
-        String loginUrl = getHostAddress() + getDeviceUrls(DEVICE_6_ID)[LOGIN_URL_ID];
+        String loginUrl = getUrlString(LOGIN_URL_ID, DEVICE_6_ID);
 
         // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.GET, loginUrl,
@@ -176,10 +183,10 @@ public class NetworkUtils {
                     public void onResponse(String response) {
                         // Get the login token
                         Document loginDocument = Jsoup.parse(response);
-                        loginToken = loginDocument.select(TOKEN_INPUT_CSS_SELECTOR)
+                        csrfToken = loginDocument.select(TOKEN_INPUT_CSS_SELECTOR)
                                 .attr(VALUE_ATTRIBUTE_KEY);
 
-                        Log.v(TAG, "Login token: " + loginToken);
+                        Log.v(TAG, "Login token: " + csrfToken);
 
                         loginAndSetCookie(context);
                     }
@@ -187,7 +194,7 @@ public class NetworkUtils {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.v(TAG, "Failed to get login Token: " + error.getMessage());
-                loginToken  = null;
+                csrfToken = null;
             }
         });
 
@@ -195,15 +202,15 @@ public class NetworkUtils {
         requestQueue.add(stringRequest);
     }
 
-    public static void loginAndSetCookie(final Context context) {
+    private static void loginAndSetCookie(final Context context) {
 
         initRequestQueue(context);
 
         // Login token is not set
-        if (loginToken == null)
+        if (csrfToken == null)
             return;
 
-        String loginUrl = getHostAddress() + getDeviceUrls(DEVICE_6_ID)[LOGIN_URL_ID];
+        String loginUrl = getUrlString(LOGIN_URL_ID, DEVICE_6_ID);
 
         Response.Listener<String> loginListener = new Response.Listener<String>() {
             @Override
@@ -213,12 +220,14 @@ public class NetworkUtils {
                 if (!response.contains("User already logged in !")) {
                     int startIndex = response.lastIndexOf("ksession") + 12;
                     cookieString = response.substring(startIndex, startIndex + 32);
+
                     Log.v(TAG, "cookie " + cookieString);
                 } else {
                     Log.v(TAG, "User already logged in !");
                 }
             }
         };
+
         Response.ErrorListener LoginErrorListener = new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
@@ -237,7 +246,7 @@ public class NetworkUtils {
                         params.put(LOGIN_USERNAME_STRING_ID, userLoginData.get(JioFiPreferences.USERNAME_STRING_ID));
                         params.put(LOGIN_PASSWORD_STRING_ID, userLoginData.get(JioFiPreferences.PASSWORD_STRING_ID));
 
-                        params.put(LOGIN_TOKEN_STRING_ID, loginToken);
+                        params.put(LOGIN_TOKEN_STRING_ID, csrfToken);
                         return params;
                     }
 
@@ -250,6 +259,68 @@ public class NetworkUtils {
                 };
 
         requestQueue.add(stringRequest);
+    }
+
+    public static void changePowerSavingTimeOut(final Context context, final int powerSavingTimeOut) {
+        // Post data and cookie
+        // form_type: sleep_time
+        // token: 932658574
+        // Saving_Time: 20
+
+        initRequestQueue(context);
+
+        if (cookieString == null) {
+            login(context);
+            return;
+        }
+
+        Response.Listener<String> deviceSettingLister = new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                // Display the first 500 characters of the response string.
+
+                Document deviceSettingDocument = Jsoup.parse(response);
+
+                csrfToken = deviceSettingDocument.select(TOKEN_INPUT_CSS_SELECTOR).first()
+                        .attr(VALUE_ATTRIBUTE_KEY);
+
+                // TODO change convert to Variable
+                Log.v(TAG, "changePowerSavingTimeOut csrf: " + csrfToken);
+
+
+                postPowerSavingTimeOut(context, powerSavingTimeOut);
+
+            }
+        };
+
+        Response.ErrorListener deviceSettingErrorLister = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.v(TAG, "Failed to change power saving settings: " + error.getMessage());
+            }
+        };
+
+
+        String deviceSettingUrl = getUrlString(DEVICE_SETTINGS_ID, DEVICE_6_ID);
+
+        StringRequest stringRequest = new StringRequest(
+                Request.Method.GET, deviceSettingUrl, deviceSettingLister, deviceSettingErrorLister) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+
+                params.put("Cookie", "ksession=" + cookieString);
+
+                return params;
+            }
+        };
+
+        requestQueue.add(stringRequest);
+    }
+
+
+    public static void postPowerSavingTimeOut(Context context, int powerSavingTimeOut) {
+
     }
 
 }
