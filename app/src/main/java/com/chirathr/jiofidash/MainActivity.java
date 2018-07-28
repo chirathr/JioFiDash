@@ -84,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
 
     private class UpdateDataTask extends AsyncTask<Void, Void, Void> {
 
+        private boolean wifiAvailable = true;
         private boolean jiofiAvailable = true;
 
         private JioFiData jioFiData;
@@ -124,6 +125,7 @@ public class MainActivity extends AppCompatActivity {
                 while (!isCancelled()) {
 
                     if (NetworkUtils.wifiEnabled(context)) {
+                        wifiAvailable = true;
                         if (NetworkUtils.jiofiAvailableCheck()) {
                             jiofiAvailable = true;
                             jioFiData.loadDeviceInfo(context);
@@ -135,6 +137,8 @@ public class MainActivity extends AppCompatActivity {
                             jiofiAvailable = false;
                             sleep(1000);
                         }
+                    } else {
+                        wifiAvailable = false;
                     }
 
                     publishProgress();
@@ -155,13 +159,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onProgressUpdate(Void... values) {
 
-            if (!jiofiAvailable) {
-
-                if (mwifiEnableToast != null) mwifiEnableToast.cancel();
-                mwifiEnableToast = Toast.makeText(MainActivity.this, "JioFi not found.", Toast.LENGTH_LONG);
-                mwifiEnableToast.show();
-
-            } else if (jioFiData != null) {
+            if (wifiAvailable && jiofiAvailable) {
 
                 // Device Info
                 String batteryLevelString = jioFiData.batteryLevel + " %";
@@ -199,10 +197,20 @@ public class MainActivity extends AppCompatActivity {
                         userConnected.append("Disconnected" + "\n\n");
                 }
 
+
                 userNameTextView.setText(usersName.toString());
                 userConnectedTextView.setText(userConnected.toString());
 
                 Log.v("Update", String.valueOf(jioFiData.lteBand));
+
+            } else if (jioFiData != null) {
+
+
+                if (mwifiEnableToast != null) mwifiEnableToast.cancel();
+                mwifiEnableToast = Toast.makeText(MainActivity.this, "JioFi not found.", Toast.LENGTH_LONG);
+                mwifiEnableToast.show();
+
+
             }
         }
     }
