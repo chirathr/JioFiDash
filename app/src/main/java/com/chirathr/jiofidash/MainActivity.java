@@ -11,25 +11,19 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.chirathr.jiofidash.data.JioFiData;
-import com.chirathr.jiofidash.utils.ActionUtils;
+import com.chirathr.jiofidash.progressBar.ColorArcProgressBar;
 import com.chirathr.jiofidash.utils.NetworkUtils;
-
-import java.net.URL;
 
 import static java.lang.Thread.sleep;
 
 public class MainActivity extends AppCompatActivity {
 
-    Toast mwifiEnableToast;
+    Toast mWifiEnableToast;
 
     UpdateDataTask mUpdateDataTask;
+
+    ColorArcProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +32,8 @@ public class MainActivity extends AppCompatActivity {
 
         NetworkUtils.login(this);
 
+        progressBar = (ColorArcProgressBar) findViewById(R.id.bar1);
+        progressBar.setCurrentValues(80);
     }
 
     @Override
@@ -45,8 +41,8 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
 
         if (!NetworkUtils.wifiEnabled(this)) {
-            mwifiEnableToast = Toast.makeText(this, "This app requires a WiFi connection.", Toast.LENGTH_LONG);
-            mwifiEnableToast.show();
+            mWifiEnableToast = Toast.makeText(this, "This app requires a WiFi connection.", Toast.LENGTH_LONG);
+            mWifiEnableToast.show();
         }
 
         mUpdateDataTask = new UpdateDataTask();
@@ -197,20 +193,15 @@ public class MainActivity extends AppCompatActivity {
                         userConnected.append("Disconnected" + "\n\n");
                 }
 
-
                 userNameTextView.setText(usersName.toString());
                 userConnectedTextView.setText(userConnected.toString());
 
                 Log.v("Update", String.valueOf(jioFiData.lteBand));
 
             } else if (jioFiData != null) {
-
-
-                if (mwifiEnableToast != null) mwifiEnableToast.cancel();
-                mwifiEnableToast = Toast.makeText(MainActivity.this, "JioFi not found.", Toast.LENGTH_LONG);
-                mwifiEnableToast.show();
-
-
+                if (mWifiEnableToast != null) mWifiEnableToast.cancel();
+                mWifiEnableToast = Toast.makeText(MainActivity.this, "JioFi not found.", Toast.LENGTH_LONG);
+                mWifiEnableToast.show();
             }
         }
     }
