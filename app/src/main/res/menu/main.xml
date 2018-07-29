@@ -5,11 +5,13 @@
     <item android:id="@+id/action_restart"
         android:orderInCategory="1"
         android:title="@string/action_restart_jiofi"
-        app:showAsAction="never" />
+        app:showAsAction="always"
+        android:icon="@drawable/ic_round_refresh_24px" />
 
     <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"
         android:title="@string/action_settings"
-        app:showAsAction="never" />
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/ic_round_settings_24px" />
 </menu>

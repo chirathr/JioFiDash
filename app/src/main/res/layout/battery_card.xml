@@ -7,12 +7,8 @@
     android:layout_margin="8dp"
     app:cardCornerRadius="2dp"
     app:cardElevation="2dp"
-    android:background="@color/colorBackgroundCard">
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorBackgroundCard">
+    android:background="@color/colorBackgroundCard"
+    app:cardBackgroundColor="@color/colorBackgroundCard">
 
         <com.chirathr.jiofidash.progressBar.ColorArcProgressBar
             android:id="@+id/bar1"
@@ -32,14 +28,9 @@
             app:string_title="1Hr 5min"
             app:is_need_title="true"
             app:is_need_unit="true"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             app:max_value="100"
             app:string_unit="Charging"
             app:total_engle="270"
             android:background="@color/colorBackgroundCard"/>
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 </com.google.android.material.card.MaterialCardView>
