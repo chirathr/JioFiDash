@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="8dp"
+    android:background="@color/colorBackgroundCard"
+    app:cardBackgroundColor="@color/colorBackgroundCard"
+    app:cardCornerRadius="3dp"
+    app:cardElevation="0dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/range_icon"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_round_signal_cellular_3_bar_24px" />
+
+        <TextView
+            android:id="@+id/tv_lte_card_title"
+            style="@style/TextAppearance.MaterialComponents.Headline6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="@string/network_label"
+            android:textColor="@color/colorWhite"
+            app:layout_constraintStart_toEndOf="@+id/range_icon"
+            app:layout_constraintTop_toTopOf="@+id/range_icon" />
+
+        <TextView
+            android:id="@+id/tv_lte_text"
+            style="@style/TextAppearance.MaterialComponents.Caption"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/lte_label"
+            android:textColor="@color/colorGreyDark"
+            app:layout_constraintStart_toStartOf="@+id/tv_lte_card_title"
+            app:layout_constraintTop_toBottomOf="@+id/tv_lte_card_title" />
+
+        <TextView
+            android:id="@+id/tv_lte_speed_text"
+            style="@style/TextAppearance.MaterialComponents.Caption"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="@string/lte_high_speed_text"
+            android:textColor="@color/colorGreyDark"
+            app:layout_constraintBottom_toTopOf="@+id/tv_lte_text"
+            app:layout_constraintStart_toEndOf="@+id/tv_lte_text"
+            app:layout_constraintTop_toBottomOf="@+id/tv_lte_text" />
+
+
+        <TextView
+            android:id="@+id/tv_lte_band"
+            style="@style/TextAppearance.MaterialComponents.Headline6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/default_lte_band_text"
+            android:textColor="@color/colorWhite"
+            app:layout_constraintBottom_toTopOf="@+id/tv_lte_band_label"
+            app:layout_constraintStart_toStartOf="@+id/tv_lte_text"
+            app:layout_constraintTop_toBottomOf="@+id/tv_lte_band_label" />
+
+        <TextView
+            android:id="@+id/tv_lte_band_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="@string/lte_band_label"
+            android:textColor="@color/colorGreyDark"
+            app:layout_constraintStart_toStartOf="@+id/range_icon"
+            app:layout_constraintTop_toBottomOf="@+id/range_icon" />
+
+        <TextView
+            android:id="@+id/tv_lte_bandwidth"
+            style="@style/TextAppearance.MaterialComponents.Caption"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="@string/default_lte_bandwidth_text"
+            android:textColor="@color/colorGreyDark"
+            app:layout_constraintBottom_toTopOf="@+id/tv_lte_band"
+            app:layout_constraintStart_toEndOf="@+id/tv_lte_band"
+            app:layout_constraintTop_toBottomOf="@+id/tv_lte_band" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

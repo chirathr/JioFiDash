@@ -24,4 +24,8 @@
     <string name="users_text_label">Users</string>
     <string name="users_default_text">0</string>
     <string name="action_restart_jiofi">Restart JioFi</string>
+    <string name="network_label">Network</string>
+    <string name="lte_label">LTE:</string>
+    <string name="lte_high_speed_text">High speed</string>
+    <string name="lte_band_label">Band:</string>
 </resources>
