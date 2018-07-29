@@ -8,4 +8,5 @@
     <dimen name="card_header_icon">50dp</dimen>
     <dimen name="data_speed_icon_size">30dp</dimen>
     <dimen name="card_padding">8dp</dimen>
+    <dimen name="card_elevation">2dp</dimen>
 </resources>

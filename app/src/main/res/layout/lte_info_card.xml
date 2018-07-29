@@ -11,7 +11,7 @@
     android:background="@color/colorBackgroundCard"
     app:cardBackgroundColor="@color/colorBackgroundCard"
     app:cardCornerRadius="3dp"
-    app:cardElevation="2dp">
+    app:cardElevation="@dimen/card_elevation">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -40,27 +40,15 @@
             app:layout_constraintTop_toTopOf="@+id/data_usage_icon" />
 
         <TextView
-            android:id="@+id/tv_lte_text"
-            style="@style/TextAppearance.MaterialComponents.Caption"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="@string/lte_label"
-            android:textColor="@color/colorGreyDark"
-            app:layout_constraintStart_toStartOf="@+id/tv_data_usage_label"
-            app:layout_constraintTop_toBottomOf="@+id/tv_data_usage_label" />
-
-        <TextView
             android:id="@+id/tv_lte_speed_text"
             style="@style/TextAppearance.MaterialComponents.Caption"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
             android:text="@string/lte_high_speed_text"
             android:textColor="@color/colorGreyDark"
-            app:layout_constraintBottom_toTopOf="@+id/tv_lte_text"
-            app:layout_constraintStart_toEndOf="@+id/tv_lte_text"
-            app:layout_constraintTop_toBottomOf="@+id/tv_lte_text" />
+            app:layout_constraintStart_toStartOf="@+id/tv_data_usage_label"
+            app:layout_constraintTop_toBottomOf="@+id/tv_data_usage_label" />
 
 
         <TextView
@@ -68,10 +56,11 @@
             style="@style/TextAppearance.MaterialComponents.Headline5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
             android:text="@string/default_lte_band_text"
             android:textColor="@color/colorWhite"
             app:layout_constraintBottom_toTopOf="@+id/tv_lte_band_label"
-            app:layout_constraintStart_toStartOf="@+id/tv_lte_text"
+            app:layout_constraintStart_toEndOf="@+id/tv_lte_band_label"
             app:layout_constraintTop_toBottomOf="@+id/tv_lte_band_label" />
 
         <TextView

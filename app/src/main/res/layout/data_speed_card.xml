@@ -9,7 +9,7 @@
     android:background="@color/colorBackgroundCard"
     app:cardBackgroundColor="@color/colorBackgroundCard"
     app:cardCornerRadius="3dp"
-    app:cardElevation="0dp">
+    app:cardElevation="@dimen/card_elevation">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -137,6 +137,18 @@
             app:layout_constraintStart_toEndOf="@+id/tv_download_speed_max_label"
             app:layout_constraintTop_toBottomOf="@+id/tv_download_speed_max_label"
             tools:text="@string/default_speed_text"
+            android:textColor="@color/colorGreyDark"/>
+
+        <TextView
+            android:id="@+id/tv_lte_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:text="@string/default_lte_status_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            style="@style/TextAppearance.MaterialComponents.Caption"
             android:textColor="@color/colorGreyDark"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
