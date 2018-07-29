@@ -85,13 +85,13 @@ public class MainActivity extends AppCompatActivity {
 
         private JioFiData jioFiData;
 
-        // Device Info
-        TextView batteryLevelTextView = (TextView) findViewById(R.id.tv_battery_level);
-        TextView batteryStatusTextView = (TextView) findViewById(R.id.tv_battery_status);
+//        // Device Info
+//        TextView batteryLevelTextView = (TextView) findViewById(R.id.tv_battery_level);
+//        TextView batteryStatusTextView = (TextView) findViewById(R.id.tv_battery_status);
 
         // LTE info
         TextView lteConnectedTimeString = (TextView) findViewById(R.id.tv_time);
-        TextView lteStatusTextView = (TextView) findViewById(R.id.tv_lte_status);
+//        TextView lteStatusTextView = (TextView) findViewById(R.id.tv_lte_status);
         TextView lteBandTextView = (TextView) findViewById(R.id.tv_lte_band);
         TextView lteBandwidthTextView = (TextView) findViewById(R.id.tv_lte_bandwidth);
         TextView lteCellIdTextView = (TextView) findViewById(R.id.tv_lte_cell_id);
@@ -159,12 +159,12 @@ public class MainActivity extends AppCompatActivity {
 
                 // Device Info
                 String batteryLevelString = jioFiData.batteryLevel + " %";
-                batteryLevelTextView.setText(batteryLevelString);
-                batteryStatusTextView.setText(jioFiData.batteryStatus);
+//                batteryLevelTextView.setText(batteryLevelString);
+//                batteryStatusTextView.setText(jioFiData.batteryStatus);
 
                 // LTE info
                 lteConnectedTimeString.setText(jioFiData.lteTimeString);
-                lteStatusTextView.setText(jioFiData.lteStatus);
+//                lteStatusTextView.setText(jioFiData.lteStatus);
                 lteBandTextView.setText(String.valueOf(jioFiData.lteBand));
                 lteBandwidthTextView.setText(jioFiData.lteBandwidth);
                 lteCellIdTextView.setText(String.valueOf(jioFiData.lteCellId));

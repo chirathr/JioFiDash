@@ -6,189 +6,20 @@
     android:layout_width="match_parent">
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     tools:context=".MainActivity"
     android:background="@color/colorBackground">
 
-    <TextView
-        android:id="@+id/tv_battery_level"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        app:layout_constraintStart_toStartOf="@+id/tv_battery_status"
-        app:layout_constraintTop_toBottomOf="@+id/tv_battery_status"
-        android:text="@string/default_battery_level_text"
-        style="@style/TextAppearance.AppCompat.Display2"
-        android:textColor="@color/colorGrey"/>
 
-    <TextView
-        android:id="@+id/tv_battery_status"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:text="@string/default_battery_status_text"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
-    <TextView
-        android:id="@+id/tv_lte_status"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:text="@string/default_lte_status_text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tv_battery_status" />
 
-    <TextView
-        android:id="@+id/tv_lte_band"
-        style="@style/TextAppearance.AppCompat.Display2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
-        android:layout_marginEnd="8dp"
-        android:textColor="@color/colorGrey"
-        app:layout_constraintBottom_toTopOf="@+id/tv_lte_bandwidth"
-        app:layout_constraintEnd_toStartOf="@+id/tv_lte_bandwidth"
-        app:layout_constraintTop_toBottomOf="@+id/tv_lte_bandwidth"
-        android:text="@string/default_lte_band_text" />
-
-    <TextView
-        android:id="@+id/tv_lte_bandwidth"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
-        app:layout_constraintEnd_toEndOf="@+id/tv_lte_status"
-        app:layout_constraintTop_toBottomOf="@+id/tv_lte_status"
-        android:text="@string/default_lte_bandwidth_text" />
-
-    <TextView
-        android:id="@+id/tv_lte_cell_id"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        app:layout_constraintEnd_toEndOf="@+id/tv_lte_bandwidth"
-        app:layout_constraintTop_toBottomOf="@+id/tv_lte_bandwidth"
-        tools:text="@string/default_lte_cell_id_text" />
-
-    <TextView
-        android:id="@+id/tv_data_speed_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/data_speed_label"
-        app:layout_constraintStart_toStartOf="@+id/tv_battery_level"
-        app:layout_constraintTop_toBottomOf="@+id/tv_battery_level"
-        android:textColor="@color/colorGrey"/>
-
-    <TextView
-        android:id="@+id/tv_upload_speed_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/upload_label"
-        app:layout_constraintStart_toStartOf="@+id/tv_data_speed_label"
-        app:layout_constraintTop_toBottomOf="@+id/tv_data_speed_label" />
-
-    <TextView
-        android:id="@+id/tv_upload_speed"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:text="@string/default_speed_text"
-        app:layout_constraintBottom_toTopOf="@+id/tv_upload_speed_label"
-        app:layout_constraintStart_toEndOf="@+id/tv_upload_speed_label"
-        app:layout_constraintTop_toBottomOf="@+id/tv_upload_speed_label" />
-
-    <TextView
-        android:id="@+id/tv_upload_speed_max_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:text="@string/max_speed_label"
-        app:layout_constraintBottom_toTopOf="@+id/tv_upload_speed"
-        app:layout_constraintStart_toEndOf="@+id/tv_upload_speed"
-        app:layout_constraintTop_toBottomOf="@+id/tv_upload_speed" />
-
-    <TextView
-        android:id="@+id/tv_upload_speed_max"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        tools:text="@string/default_speed_text"
-        app:layout_constraintBottom_toTopOf="@+id/tv_upload_speed_max_label"
-        app:layout_constraintStart_toEndOf="@+id/tv_upload_speed_max_label"
-        app:layout_constraintTop_toBottomOf="@+id/tv_upload_speed_max_label" />
-
-    <TextView
-        android:id="@+id/tv_download_speed_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/download_speed_label"
-        app:layout_constraintStart_toStartOf="@+id/tv_upload_speed_label"
-        app:layout_constraintTop_toBottomOf="@+id/tv_upload_speed_label" />
-
-    <TextView
-        android:id="@+id/tv_download_speed"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/tv_download_speed_label"
-        app:layout_constraintStart_toEndOf="@+id/tv_download_speed_label"
-        app:layout_constraintTop_toBottomOf="@+id/tv_download_speed_label"
-        tools:text="@string/default_speed_text" />
-
-    <TextView
-        android:id="@+id/tv_download_speed_max_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:text="@string/max_speed_label"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_download_speed"
-        app:layout_constraintStart_toEndOf="@+id/tv_download_speed"
-        app:layout_constraintTop_toTopOf="@+id/tv_download_speed"
-        app:layout_constraintVertical_bias="1.0" />
-
-    <TextView
-        android:id="@+id/tv_download_speed_max"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/tv_download_speed_max_label"
-        app:layout_constraintStart_toEndOf="@+id/tv_download_speed_max_label"
-        app:layout_constraintTop_toBottomOf="@+id/tv_download_speed_max_label"
-        tools:text="@string/default_speed_text" />
-
-    <TextView
-        android:id="@+id/tv_total_data_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/total_data_used_label"
-        app:layout_constraintStart_toStartOf="@+id/tv_download_speed_label"
-        app:layout_constraintTop_toBottomOf="@+id/tv_download_speed_label"
-        android:textColor="@color/colorGrey"/>
-
-    <TextView
-        android:id="@+id/tv_time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="64dp"
-        android:text="@string/default_time_text"
-        app:layout_constraintBottom_toTopOf="@+id/tv_total_data_label"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_total_data_label" />
 
     <TextView
         android:id="@+id/tv_download_total_data_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="@string/download_speed_label"
-        app:layout_constraintStart_toStartOf="@+id/tv_total_data_label"
-        app:layout_constraintTop_toBottomOf="@+id/tv_total_data_label" />
+        android:text="@string/download_speed_label" />
 
     <TextView
         android:id="@+id/tv_total_download_data"
@@ -283,12 +114,11 @@
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="0dp"
+        android:layout_marginTop="200dp"
         android:orientation="horizontal"
+        android:weightSum="2"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/include"
-        android:weightSum="2">
-
+        app:layout_constraintTop_toBottomOf="@+id/include">
 
         <include
             layout="@layout/lte_info_card"
@@ -303,6 +133,14 @@
             android:layout_weight="1" />
     </LinearLayout>
 
+    <include
+        layout="@layout/data_speed_card"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/include"
+        android:layout_margin="8dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
