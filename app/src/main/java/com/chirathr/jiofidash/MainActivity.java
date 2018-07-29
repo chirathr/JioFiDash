@@ -106,10 +106,10 @@ public class MainActivity extends AppCompatActivity {
         TextView totalUploadTextView = (TextView) findViewById(R.id.tv_total_upload_data);
         TextView totalDownloadTextView = (TextView) findViewById(R.id.tv_total_download_data);
 
-        // Lan Info
-        TextView userCountTextView = (TextView) findViewById(R.id.tv_users_count);
-        TextView userNameTextView = (TextView) findViewById(R.id.tv_user_name);
-        TextView userConnectedTextView = (TextView) findViewById(R.id.tv_user_connected);
+//        // Lan Info
+//        TextView userCountTextView = (TextView) findViewById(R.id.tv_users_count);
+//        TextView userNameTextView = (TextView) findViewById(R.id.tv_user_name);
+//        TextView userConnectedTextView = (TextView) findViewById(R.id.tv_user_connected);
 
         @Override
         protected Void doInBackground(Void... voids) {
@@ -180,7 +180,7 @@ public class MainActivity extends AppCompatActivity {
                 totalDownloadTextView.setText(jioFiData.totalDownloadString);
 
                 // Lan info
-                userCountTextView.setText(String.valueOf(jioFiData.userCount));
+//                userCountTextView.setText(String.valueOf(jioFiData.userCount));
 
                 StringBuilder usersName = new StringBuilder();
                 StringBuilder userConnected = new StringBuilder();
@@ -192,9 +192,9 @@ public class MainActivity extends AppCompatActivity {
                     else
                         userConnected.append("Disconnected" + "\n\n");
                 }
-
-                userNameTextView.setText(usersName.toString());
-                userConnectedTextView.setText(userConnected.toString());
+//
+//                userNameTextView.setText(usersName.toString());
+//                userConnectedTextView.setText(userConnected.toString());
 
                 Log.v("Update", String.valueOf(jioFiData.lteBand));
 

@@ -10,56 +10,6 @@
     tools:context=".MainActivity"
     android:background="@color/colorBackground">
 
-    <TextView
-        android:id="@+id/tv_users_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/users_text_label"
-        app:layout_constraintStart_toStartOf="@+id/tv_download_total_data_label"
-        app:layout_constraintTop_toBottomOf="@+id/tv_download_total_data_label"
-        android:textColor="@color/colorGrey"/>
-
-    <TextView
-        android:id="@+id/tv_users_count"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:text="@string/users_default_text"
-        app:layout_constraintBottom_toTopOf="@+id/tv_users_label"
-        app:layout_constraintStart_toEndOf="@+id/tv_users_label"
-        app:layout_constraintTop_toBottomOf="@+id/tv_users_label" />
-
-    <TextView
-        android:id="@+id/tv_user_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        tools:text="chirath-HP-Pavilion-Notebook"
-        app:layout_constraintStart_toStartOf="@+id/tv_users_label"
-        app:layout_constraintTop_toBottomOf="@+id/tv_users_label" />
-
-    <TextView
-        android:id="@+id/tv_user_connected"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        tools:text="Connected"
-        app:layout_constraintBottom_toTopOf="@+id/tv_user_name"
-        app:layout_constraintStart_toEndOf="@+id/tv_user_name"
-        app:layout_constraintTop_toBottomOf="@+id/tv_user_name" />
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayout"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        app:layout_constraintEnd_toEndOf="@+id/tv_user_connected"
-        app:layout_constraintStart_toStartOf="@+id/tv_user_name"
-        app:layout_constraintTop_toBottomOf="@+id/tv_user_name">
-
-    </com.google.android.material.textfield.TextInputLayout>
-
     <include
         android:id="@+id/include"
         layout="@layout/battery_card"
@@ -73,33 +23,26 @@
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="200dp"
         android:orientation="horizontal"
         android:weightSum="2"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/include">
+        app:layout_constraintTop_toBottomOf="@+id/include3">
 
-        <include
-            layout="@layout/lte_info_card"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
+        <include layout="@layout/lte_info_card"/>
 
-        <include
-            layout="@layout/lte_info_card"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
+        <include layout="@layout/data_usage_card"/>
+
     </LinearLayout>
 
     <include
+        android:id="@+id/include3"
         layout="@layout/data_speed_card"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_margin="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/include"
-        android:layout_margin="8dp" />
+        app:layout_constraintTop_toBottomOf="@+id/include" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

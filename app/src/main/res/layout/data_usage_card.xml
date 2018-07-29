@@ -2,9 +2,13 @@
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+    android:layout_width="0dp"
+    android:layout_weight="1"
     android:layout_height="match_parent"
-    android:layout_margin="16dp"
+    android:layout_marginStart="@dimen/card_padding"
+    android:layout_marginTop="@dimen/card_padding"
+    android:layout_marginBottom="@dimen/card_padding"
+    android:layout_marginEnd="@dimen/card_padding"
     android:background="@color/colorBackgroundCard"
     app:cardBackgroundColor="@color/colorBackgroundCard"
     app:cardCornerRadius="3dp"
@@ -18,7 +22,7 @@
         <ImageView
             android:id="@+id/data_usage_icon"
             android:layout_width="@dimen/card_header_icon"
-            android:layout_height="@dimen/card_header_icon"
+            android:layout_height="50dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             app:layout_constraintStart_toStartOf="parent"
@@ -52,7 +56,7 @@
             android:id="@+id/download_icon"
             android:layout_width="@dimen/data_speed_icon_size"
             android:layout_height="@dimen/data_speed_icon_size"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:rotation="90"
             app:layout_constraintStart_toStartOf="@+id/data_usage_icon"
             app:layout_constraintTop_toBottomOf="@+id/data_usage_icon"
@@ -60,15 +64,15 @@
 
         <TextView
             android:id="@+id/tv_total_download_data"
+            style="@style/TextAppearance.MaterialComponents.Headline6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="8dp"
             android:text="@string/default_data_text"
+            android:textColor="@color/colorWhite"
             app:layout_constraintBottom_toTopOf="@+id/download_icon"
             app:layout_constraintStart_toEndOf="@+id/download_icon"
-            app:layout_constraintTop_toBottomOf="@+id/download_icon"
-            style="@style/TextAppearance.MaterialComponents.Headline6"
-            android:textColor="@color/colorWhite"/>
+            app:layout_constraintTop_toBottomOf="@+id/download_icon" />
 
         <ImageView
             android:id="@+id/upload_icon"
@@ -82,15 +86,15 @@
 
         <TextView
             android:id="@+id/tv_total_upload_data"
+            style="@style/TextAppearance.MaterialComponents.Headline6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="8dp"
             android:text="@string/default_data_text"
+            android:textColor="@color/colorWhite"
             app:layout_constraintBottom_toTopOf="@+id/upload_icon"
             app:layout_constraintStart_toEndOf="@+id/upload_icon"
-            app:layout_constraintTop_toBottomOf="@+id/upload_icon"
-            style="@style/TextAppearance.MaterialComponents.Headline6"
-            android:textColor="@color/colorWhite"/>
+            app:layout_constraintTop_toBottomOf="@+id/upload_icon" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
