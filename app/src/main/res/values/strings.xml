@@ -11,7 +11,7 @@
     <string name="upload_label">U:</string>
     <string name="max_speed_label">Max:</string>
     <string name="download_speed_label">D:</string>
-    <string name="total_data_used_label">Total data used</string>
+    <string name="total_data_used_label">Data Usage</string>
     <string name="default_time_text">00:00:00</string>
     <string name="default_data_text">0 MB</string>
     <string name="default_battery_level_text">100%</string>
@@ -30,4 +30,5 @@
     <string name="lte_band_label">Band:</string>
     <string name="download_and_upload_speeds_label">Download and upload speeds</string>
     <string name="cell_id_label">Cell id:</string>
+    <string name="data_usage_caption_text">Download and upload data usage</string>
 </resources>

@@ -16,7 +16,7 @@
         android:paddingBottom="16dp">
 
         <ImageView
-            android:id="@+id/data_speed_icon"
+            android:id="@+id/data_usage_icon"
             android:layout_width="@dimen/card_header_icon"
             android:layout_height="@dimen/card_header_icon"
             android:layout_marginStart="16dp"
@@ -26,15 +26,15 @@
             app:srcCompat="@drawable/ic_round_signal_cellular_3_bar_24px" />
 
         <TextView
-            android:id="@+id/tv_lte_card_title"
+            android:id="@+id/tv_data_usage_label"
             style="@style/TextAppearance.MaterialComponents.Headline6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:text="@string/network_label"
             android:textColor="@color/colorWhite"
-            app:layout_constraintStart_toEndOf="@+id/data_speed_icon"
-            app:layout_constraintTop_toTopOf="@+id/data_speed_icon" />
+            app:layout_constraintStart_toEndOf="@+id/data_usage_icon"
+            app:layout_constraintTop_toTopOf="@+id/data_usage_icon" />
 
         <TextView
             android:id="@+id/tv_lte_text"
@@ -44,8 +44,8 @@
             android:layout_marginTop="8dp"
             android:text="@string/lte_label"
             android:textColor="@color/colorGreyDark"
-            app:layout_constraintStart_toStartOf="@+id/tv_lte_card_title"
-            app:layout_constraintTop_toBottomOf="@+id/tv_lte_card_title" />
+            app:layout_constraintStart_toStartOf="@+id/tv_data_usage_label"
+            app:layout_constraintTop_toBottomOf="@+id/tv_data_usage_label" />
 
         <TextView
             android:id="@+id/tv_lte_speed_text"
@@ -78,8 +78,8 @@
             android:layout_marginTop="24dp"
             android:text="@string/lte_band_label"
             android:textColor="@color/colorGreyDark"
-            app:layout_constraintStart_toStartOf="@+id/data_speed_icon"
-            app:layout_constraintTop_toBottomOf="@+id/data_speed_icon" />
+            app:layout_constraintStart_toStartOf="@+id/data_usage_icon"
+            app:layout_constraintTop_toBottomOf="@+id/data_usage_icon" />
 
         <TextView
             android:id="@+id/tv_lte_bandwidth"

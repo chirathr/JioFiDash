@@ -10,47 +10,6 @@
     tools:context=".MainActivity"
     android:background="@color/colorBackground">
 
-
-
-
-
-    <TextView
-        android:id="@+id/tv_download_total_data_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/download_speed_label" />
-
-    <TextView
-        android:id="@+id/tv_total_download_data"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:text="@string/default_data_text"
-        app:layout_constraintBottom_toTopOf="@+id/tv_download_total_data_label"
-        app:layout_constraintStart_toEndOf="@+id/tv_download_total_data_label"
-        app:layout_constraintTop_toBottomOf="@+id/tv_download_total_data_label" />
-
-    <TextView
-        android:id="@+id/tv_total_upload_data_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:text="@string/upload_label"
-        app:layout_constraintBottom_toTopOf="@+id/tv_total_download_data"
-        app:layout_constraintStart_toEndOf="@+id/tv_total_download_data"
-        app:layout_constraintTop_toBottomOf="@+id/tv_total_download_data" />
-
-    <TextView
-        android:id="@+id/tv_total_upload_data"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:text="@string/default_data_text"
-        app:layout_constraintBottom_toTopOf="@+id/tv_total_upload_data_label"
-        app:layout_constraintStart_toEndOf="@+id/tv_total_upload_data_label"
-        app:layout_constraintTop_toBottomOf="@+id/tv_total_upload_data_label" />
-
     <TextView
         android:id="@+id/tv_users_label"
         android:layout_width="wrap_content"
