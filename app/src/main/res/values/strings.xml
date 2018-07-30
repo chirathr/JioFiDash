@@ -31,4 +31,7 @@
     <string name="download_and_upload_speeds_label">Download and upload speeds</string>
     <string name="cell_id_label">Cell id:</string>
     <string name="data_usage_caption_text">Download and upload data usage</string>
+    <string name="devices_label">Devices</string>
+    <string name="connected_devices_caption_text">Connected devices</string>
+    <string name="connected_devices_caption_text_singular">Connected device</string>
 </resources>
