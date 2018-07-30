@@ -60,14 +60,13 @@
             app:layout_constraintTop_toBottomOf="@+id/tv_devices_label" />
 
         <ImageView
-            android:id="@+id/devices_divided"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/colorGreyDark"
-            android:layout_margin="16dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/devices_label_text"
-            app:srcCompat="?attr/dividerHorizontal" />
+            android:id="@+id/imageView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_devices_label_caption"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:srcCompat="@drawable/ic_round_expand_more_24px" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

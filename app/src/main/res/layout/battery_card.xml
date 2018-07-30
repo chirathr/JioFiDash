@@ -26,7 +26,7 @@
             app:front_color3="@color/colorPrimaryGreen"
             app:front_width="10dp"
             app:is_need_content="true"
-            app:string_title="1Hr 5min"
+            app:string_title="1Hour 5min"
             app:is_need_title="true"
             app:is_need_unit="true"
             app:max_value="100"
