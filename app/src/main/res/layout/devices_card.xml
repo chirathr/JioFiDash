@@ -53,7 +53,7 @@
             android:id="@+id/tv_devices_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="0"
+            android:text="@string/users_default_text"
             android:textColor="@color/colorWhite"
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="@+id/tv_devices_label"

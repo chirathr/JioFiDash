@@ -107,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
         TextView totalDownloadTextView = (TextView) findViewById(R.id.tv_total_download_data);
 
 //        // Lan Info
-//        TextView userCountTextView = (TextView) findViewById(R.id.tv_users_count);
+        TextView deviceCountTextView = (TextView) findViewById(R.id.tv_devices_count);
 //        TextView userNameTextView = (TextView) findViewById(R.id.tv_user_name);
 //        TextView userConnectedTextView = (TextView) findViewById(R.id.tv_user_connected);
 
@@ -180,7 +180,7 @@ public class MainActivity extends AppCompatActivity {
                 totalDownloadTextView.setText(jioFiData.totalDownloadString);
 
                 // Lan info
-//                userCountTextView.setText(String.valueOf(jioFiData.userCount));
+                deviceCountTextView.setText(String.valueOf(jioFiData.userCount));
 
                 StringBuilder usersName = new StringBuilder();
                 StringBuilder userConnected = new StringBuilder();
