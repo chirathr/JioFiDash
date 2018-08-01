@@ -10,7 +10,7 @@ import android.widget.ImageView;
 
 public class splashScreen extends AppCompatActivity {
 
-    private static final int SPLASH_DELAY = 1500;
+    private static final int SPLASH_DELAY = 1000;
 
     private final Handler mHandler   = new Handler();
     private final Launcher mLauncher = new Launcher();
