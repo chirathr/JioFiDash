@@ -60,6 +60,8 @@ public class DevicesCardFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
+        handler = new Handler();
+
         View view = inflater.inflate(R.layout.devices_card, container, false);
 
         loadingProgressBar = view.findViewById(R.id.devices_loading_progress_bar);

@@ -63,9 +63,9 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/include" />
 
-        <include
-            android:id="@+id/include_card_devices"
-            layout="@layout/devices_card"
+        <fragment
+            android:id="@+id/devices_fragment"
+            android:name="com.chirathr.jiofidash.fragments.DevicesCardFragment"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
@@ -75,28 +75,6 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
-
-        <!--<include-->
-        <!--android:id="@+id/device_card_1"-->
-        <!--layout="@layout/devices_list_item"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--app:layout_constraintStart_toStartOf="parent"-->
-        <!--app:layout_constraintTop_toBottomOf="@+id/include_card_devices"-->
-        <!--android:layout_marginLeft="8dp"-->
-        <!--android:layout_marginRight="8dp"-->
-        <!--android:layout_marginTop="4dp"/>-->
-
-        <!--<include-->
-        <!--android:id="@+id/device_card_2"-->
-        <!--layout="@layout/devices_list_item"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--app:layout_constraintStart_toStartOf="parent"-->
-        <!--app:layout_constraintTop_toBottomOf="@+id/device_card_1"-->
-        <!--android:layout_marginLeft="8dp"-->
-        <!--android:layout_marginRight="8dp"-->
-        <!--android:layout_marginTop="4dp"/>-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
