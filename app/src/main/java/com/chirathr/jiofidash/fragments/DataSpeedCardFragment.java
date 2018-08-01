@@ -27,12 +27,12 @@ import androidx.fragment.app.Fragment;
 
 public class DataSpeedCardFragment extends Fragment {
 
+    private static final String TAG = DataSpeedCardFragment.class.getSimpleName();
+
     private TextView uploadSpeedTextView;
     private TextView uploadSpeedMaxTextView;
     private TextView downloadSpeedTextView;
     private TextView downloadSpeedMaxTextView;
-
-    private static final String TAG = DataSpeedCardFragment.class.getSimpleName();
 
     private Handler handler;
 
@@ -40,7 +40,6 @@ public class DataSpeedCardFragment extends Fragment {
         @Override
         public void run() {
             loadDataSpeed(getContext());
-
             handler.postDelayed(dataSpeedUpdateRunnable, 1000);
         }
     };
@@ -64,8 +63,7 @@ public class DataSpeedCardFragment extends Fragment {
         return dataSpeedCardView;
     }
 
-
-    public void loadDataSpeed(Context context) {
+    private void loadDataSpeed(Context context) {
         String urlString = NetworkUtils.getUrlString(
                 NetworkUtils.PERFORMANCE_INFO_ID,
                 NetworkUtils.DEVICE_6_ID);
@@ -90,7 +88,6 @@ public class DataSpeedCardFragment extends Fragment {
                 Log.v(TAG, error.toString());
             }
         });
-
         VolleySingleton.getInstance(getContext()).addToRequestQueue(jsonObjectRequest);
     }
 }

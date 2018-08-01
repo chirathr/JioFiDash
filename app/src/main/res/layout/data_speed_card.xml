@@ -101,7 +101,7 @@
             app:layout_constraintBottom_toTopOf="@+id/tv_upload_speed_max_label"
             app:layout_constraintStart_toEndOf="@+id/tv_upload_speed_max_label"
             app:layout_constraintTop_toBottomOf="@+id/tv_upload_speed_max_label"
-            tools:text="@string/default_speed_text"
+            android:text="@string/default_speed_text"
             android:textColor="@color/colorGreyDark"/>
 
         <TextView
@@ -112,7 +112,7 @@
             app:layout_constraintBottom_toTopOf="@+id/imageView2"
             app:layout_constraintStart_toEndOf="@+id/imageView2"
             app:layout_constraintTop_toBottomOf="@+id/imageView2"
-            tools:text="@string/default_speed_text"
+            android:text="@string/default_speed_text"
             style="@style/TextAppearance.MaterialComponents.Headline6"
             android:textColor="@color/colorWhite"/>
 
@@ -136,7 +136,7 @@
             app:layout_constraintBottom_toTopOf="@+id/tv_download_speed_max_label"
             app:layout_constraintStart_toEndOf="@+id/tv_download_speed_max_label"
             app:layout_constraintTop_toBottomOf="@+id/tv_download_speed_max_label"
-            tools:text="@string/default_speed_text"
+            android:text="@string/default_speed_text"
             android:textColor="@color/colorGreyDark"/>
 
         <TextView
