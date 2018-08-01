@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -23,6 +24,7 @@ import org.json.JSONObject;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
 public class DataSpeedCardFragment extends Fragment {
@@ -33,6 +35,8 @@ public class DataSpeedCardFragment extends Fragment {
     private TextView uploadSpeedMaxTextView;
     private TextView downloadSpeedTextView;
     private TextView downloadSpeedMaxTextView;
+    private ProgressBar loadingProgressBar;
+    private ConstraintLayout dataSpeedContrainLayout;
 
     private Handler handler;
 
@@ -52,6 +56,12 @@ public class DataSpeedCardFragment extends Fragment {
         handler = new Handler();
 
         View dataSpeedCardView = inflater.inflate(R.layout.data_speed_card, container, false);
+
+        loadingProgressBar = (ProgressBar) dataSpeedCardView.findViewById(R.id.date_speed_loading_progress_bar);
+        loadingProgressBar.getIndeterminateDrawable().setColorFilter(
+                getResources().getColor(R.color.colorGrey), android.graphics.PorterDuff.Mode.MULTIPLY);
+        dataSpeedContrainLayout = (ConstraintLayout) dataSpeedCardView.findViewById(R.id.data_speed_layout);
+        showLoading();
 
         uploadSpeedTextView = (TextView)  dataSpeedCardView.findViewById(R.id.tv_upload_speed);
         uploadSpeedMaxTextView = (TextView) dataSpeedCardView.findViewById(R.id.tv_upload_speed_max);
@@ -77,6 +87,9 @@ public class DataSpeedCardFragment extends Fragment {
                     downloadSpeedTextView.setText(response.getString(JioFiData.DOWNLOAD_RATE));
                     uploadSpeedMaxTextView.setText(response.getString(JioFiData.UPLOAD_RATE_MAX));
                     downloadSpeedMaxTextView.setText(response.getString(JioFiData.DOWNLOAD_RATE_MAX));
+
+                    showDataSpeed();
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -86,8 +99,20 @@ public class DataSpeedCardFragment extends Fragment {
             public void onErrorResponse(VolleyError error) {
                 Log.v(TAG, error.getMessage());
                 Log.v(TAG, error.toString());
+
+                showLoading();
             }
         });
         VolleySingleton.getInstance(getContext()).addToRequestQueue(jsonObjectRequest);
+    }
+
+    private void showLoading() {
+        loadingProgressBar.setVisibility(View.VISIBLE);
+        dataSpeedContrainLayout.setAlpha(Float.parseFloat("0.2"));
+    }
+
+    private void showDataSpeed() {
+        loadingProgressBar.setVisibility(View.INVISIBLE);
+        dataSpeedContrainLayout.setAlpha(Float.parseFloat("1.0"));
     }
 }

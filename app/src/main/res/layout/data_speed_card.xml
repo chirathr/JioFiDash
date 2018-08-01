@@ -11,146 +11,160 @@
     app:cardCornerRadius="3dp"
     app:cardElevation="@dimen/card_elevation">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingBottom="16dp">
+        android:layout_height="wrap_content">
 
-        <ImageView
-            android:id="@+id/devices_label_text"
-            android:layout_width="@dimen/card_header_icon"
-            android:layout_height="@dimen/card_header_icon"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_round_public_24px" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="16dp"
+            android:id="@+id/data_speed_layout">
 
-        <TextView
-            android:id="@+id/tv_devices_label"
-            style="@style/TextAppearance.MaterialComponents.Headline6"
+            <ImageView
+                android:id="@+id/devices_label_text"
+                android:layout_width="@dimen/card_header_icon"
+                android:layout_height="@dimen/card_header_icon"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_round_public_24px" />
+
+            <TextView
+                android:id="@+id/tv_devices_label"
+                style="@style/TextAppearance.MaterialComponents.Headline6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="@string/data_speed_label"
+                android:textColor="@color/colorWhite"
+                app:layout_constraintStart_toEndOf="@+id/devices_label_text"
+                app:layout_constraintTop_toTopOf="@+id/devices_label_text" />
+
+            <TextView
+                android:id="@+id/tv_devices_label_caption"
+                style="@style/TextAppearance.MaterialComponents.Caption"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/download_and_upload_speeds_label"
+                android:textColor="@color/colorGreyDark"
+                app:layout_constraintStart_toStartOf="@+id/tv_devices_label"
+                app:layout_constraintTop_toBottomOf="@+id/tv_devices_label" />
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="@dimen/data_speed_icon_size"
+                android:layout_height="@dimen/data_speed_icon_size"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="24dp"
+                app:layout_constraintStart_toStartOf="@+id/devices_label_text"
+                app:layout_constraintTop_toBottomOf="@+id/devices_label_text"
+                app:srcCompat="@drawable/ic_round_vertical_align_bottom_24px" />
+
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="@dimen/data_speed_icon_size"
+                android:layout_height="@dimen/data_speed_icon_size"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintStart_toStartOf="@+id/imageView"
+                app:layout_constraintTop_toBottomOf="@+id/imageView"
+                app:srcCompat="@drawable/ic_round_vertical_align_top_24px"
+                android:layout_marginBottom="20dp"/>
+
+
+            <TextView
+                android:id="@+id/tv_upload_speed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="@string/default_speed_text"
+                app:layout_constraintBottom_toTopOf="@+id/imageView"
+                app:layout_constraintStart_toEndOf="@+id/imageView"
+                app:layout_constraintTop_toBottomOf="@+id/imageView"
+                style="@style/TextAppearance.MaterialComponents.Headline6"
+                android:textColor="@color/colorWhite"/>
+
+            <TextView
+                android:id="@+id/tv_upload_speed_max_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:text="@string/max_speed_label"
+                app:layout_constraintBottom_toTopOf="@+id/tv_upload_speed"
+                app:layout_constraintStart_toEndOf="@+id/tv_upload_speed"
+                app:layout_constraintTop_toBottomOf="@+id/tv_upload_speed"
+                android:textColor="@color/colorGreyDark"/>
+
+            <TextView
+                android:id="@+id/tv_upload_speed_max"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                app:layout_constraintBottom_toTopOf="@+id/tv_upload_speed_max_label"
+                app:layout_constraintStart_toEndOf="@+id/tv_upload_speed_max_label"
+                app:layout_constraintTop_toBottomOf="@+id/tv_upload_speed_max_label"
+                android:text="@string/default_speed_text"
+                android:textColor="@color/colorGreyDark"/>
+
+            <TextView
+                android:id="@+id/tv_download_speed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                app:layout_constraintBottom_toTopOf="@+id/imageView2"
+                app:layout_constraintStart_toEndOf="@+id/imageView2"
+                app:layout_constraintTop_toBottomOf="@+id/imageView2"
+                android:text="@string/default_speed_text"
+                style="@style/TextAppearance.MaterialComponents.Headline6"
+                android:textColor="@color/colorWhite"/>
+
+            <TextView
+                android:id="@+id/tv_download_speed_max_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:text="@string/max_speed_label"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_download_speed"
+                app:layout_constraintStart_toEndOf="@+id/tv_download_speed"
+                app:layout_constraintTop_toTopOf="@+id/tv_download_speed"
+                app:layout_constraintVertical_bias="1.0"
+                android:textColor="@color/colorGreyDark"/>
+
+            <TextView
+                android:id="@+id/tv_download_speed_max"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                app:layout_constraintBottom_toTopOf="@+id/tv_download_speed_max_label"
+                app:layout_constraintStart_toEndOf="@+id/tv_download_speed_max_label"
+                app:layout_constraintTop_toBottomOf="@+id/tv_download_speed_max_label"
+                android:text="@string/default_speed_text"
+                android:textColor="@color/colorGreyDark"/>
+
+            <TextView
+                android:id="@+id/tv_lte_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:text="@string/default_lte_status_text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                style="@style/TextAppearance.MaterialComponents.Caption"
+                android:textColor="@color/colorGreyDark"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <ProgressBar
+            android:id="@+id/date_speed_loading_progress_bar"
+            style="?android:attr/progressBarStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:text="@string/data_speed_label"
-            android:textColor="@color/colorWhite"
-            app:layout_constraintStart_toEndOf="@+id/devices_label_text"
-            app:layout_constraintTop_toTopOf="@+id/devices_label_text" />
-
-        <TextView
-            android:id="@+id/tv_devices_label_caption"
-            style="@style/TextAppearance.MaterialComponents.Caption"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="@string/download_and_upload_speeds_label"
-            android:textColor="@color/colorGreyDark"
-            app:layout_constraintStart_toStartOf="@+id/tv_devices_label"
-            app:layout_constraintTop_toBottomOf="@+id/tv_devices_label" />
-
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="@dimen/data_speed_icon_size"
-            android:layout_height="@dimen/data_speed_icon_size"
-            android:layout_marginStart="0dp"
-            android:layout_marginTop="24dp"
-            app:layout_constraintStart_toStartOf="@+id/devices_label_text"
-            app:layout_constraintTop_toBottomOf="@+id/devices_label_text"
-            app:srcCompat="@drawable/ic_round_vertical_align_bottom_24px" />
-
-        <ImageView
-            android:id="@+id/imageView2"
-            android:layout_width="@dimen/data_speed_icon_size"
-            android:layout_height="@dimen/data_speed_icon_size"
-            android:layout_marginStart="0dp"
-            android:layout_marginTop="16dp"
-            app:layout_constraintStart_toStartOf="@+id/imageView"
-            app:layout_constraintTop_toBottomOf="@+id/imageView"
-            app:srcCompat="@drawable/ic_round_vertical_align_top_24px"
-            android:layout_marginBottom="20dp"/>
-
-
-        <TextView
-            android:id="@+id/tv_upload_speed"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:text="@string/default_speed_text"
-            app:layout_constraintBottom_toTopOf="@+id/imageView"
-            app:layout_constraintStart_toEndOf="@+id/imageView"
-            app:layout_constraintTop_toBottomOf="@+id/imageView"
-            style="@style/TextAppearance.MaterialComponents.Headline6"
-            android:textColor="@color/colorWhite"/>
-
-        <TextView
-            android:id="@+id/tv_upload_speed_max_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:text="@string/max_speed_label"
-            app:layout_constraintBottom_toTopOf="@+id/tv_upload_speed"
-            app:layout_constraintStart_toEndOf="@+id/tv_upload_speed"
-            app:layout_constraintTop_toBottomOf="@+id/tv_upload_speed"
-            android:textColor="@color/colorGreyDark"/>
-
-        <TextView
-            android:id="@+id/tv_upload_speed_max"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            app:layout_constraintBottom_toTopOf="@+id/tv_upload_speed_max_label"
-            app:layout_constraintStart_toEndOf="@+id/tv_upload_speed_max_label"
-            app:layout_constraintTop_toBottomOf="@+id/tv_upload_speed_max_label"
-            android:text="@string/default_speed_text"
-            android:textColor="@color/colorGreyDark"/>
-
-        <TextView
-            android:id="@+id/tv_download_speed"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            app:layout_constraintBottom_toTopOf="@+id/imageView2"
-            app:layout_constraintStart_toEndOf="@+id/imageView2"
-            app:layout_constraintTop_toBottomOf="@+id/imageView2"
-            android:text="@string/default_speed_text"
-            style="@style/TextAppearance.MaterialComponents.Headline6"
-            android:textColor="@color/colorWhite"/>
-
-        <TextView
-            android:id="@+id/tv_download_speed_max_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:text="@string/max_speed_label"
-            app:layout_constraintBottom_toBottomOf="@+id/tv_download_speed"
-            app:layout_constraintStart_toEndOf="@+id/tv_download_speed"
-            app:layout_constraintTop_toTopOf="@+id/tv_download_speed"
-            app:layout_constraintVertical_bias="1.0"
-            android:textColor="@color/colorGreyDark"/>
-
-        <TextView
-            android:id="@+id/tv_download_speed_max"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            app:layout_constraintBottom_toTopOf="@+id/tv_download_speed_max_label"
-            app:layout_constraintStart_toEndOf="@+id/tv_download_speed_max_label"
-            app:layout_constraintTop_toBottomOf="@+id/tv_download_speed_max_label"
-            android:text="@string/default_speed_text"
-            android:textColor="@color/colorGreyDark"/>
-
-        <TextView
-            android:id="@+id/tv_lte_status"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:text="@string/default_lte_status_text"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            style="@style/TextAppearance.MaterialComponents.Caption"
-            android:textColor="@color/colorGreyDark"/>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            android:layout_gravity="center"
+            android:indeterminate="true"/>
+    </FrameLayout>
 
 </com.google.android.material.card.MaterialCardView>
