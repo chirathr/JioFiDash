@@ -175,7 +175,7 @@ public class LteCardFragment extends Fragment {
                 }
                 case LTE_MEDIUM_SPEED: {
                     text = LTE_MEDIUM_SPEED_STRING;
-                    textColor = R.color.colorAccentLight;
+                    textColor = R.color.colorAccentBlueLight;
                     break;
                 }
                 case LTE_LOW_SPEED: {

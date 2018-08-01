@@ -30,8 +30,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        NetworkUtils.login(this);
-
         progressBar = (ColorArcProgressBar) findViewById(R.id.bar1);
         progressBar.setCurrentValues(80);
     }
