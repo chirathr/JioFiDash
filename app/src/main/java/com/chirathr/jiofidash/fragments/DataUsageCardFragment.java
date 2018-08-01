@@ -30,6 +30,7 @@ import androidx.fragment.app.Fragment;
 public class DataUsageCardFragment extends Fragment {
 
     private static final int DELAY = 5000;
+    private static final int START_DELAY = 1000;
 
     private static final String TAG = DataUsageCardFragment.class.getSimpleName();
 
@@ -71,13 +72,17 @@ public class DataUsageCardFragment extends Fragment {
         uploadData = (TextView) dataUsageView.findViewById(R.id.tv_total_upload_data);
         downloadData = (TextView) dataUsageView.findViewById(R.id.tv_total_download_data);
 
+        handler.postDelayed(dataUsageUpdateRunnable, START_DELAY);
+
         return dataUsageView;
     }
 
     @Override
     public void onResume() {
-        updateUI = true;
-        handler.post(dataUsageUpdateRunnable);
+        if (!updateUI) {
+            updateUI = true;
+            handler.post(dataUsageUpdateRunnable);
+        }
         super.onResume();
     }
 

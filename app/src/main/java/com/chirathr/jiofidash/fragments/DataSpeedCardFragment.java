@@ -31,6 +31,9 @@ public class DataSpeedCardFragment extends Fragment {
 
     private static final String TAG = DataSpeedCardFragment.class.getSimpleName();
 
+    private static final int DELAY = 1000;
+    private static final int START_DELAY = 1000;
+
     private TextView uploadSpeedTextView;
     private TextView uploadSpeedMaxTextView;
     private TextView downloadSpeedTextView;
@@ -47,7 +50,7 @@ public class DataSpeedCardFragment extends Fragment {
         public void run() {
             loadDataSpeed(getContext());
             if (updateUI) {
-                handler.postDelayed(dataSpeedUpdateRunnable, 1000);
+                handler.postDelayed(dataSpeedUpdateRunnable, DELAY);
             }
         }
     };
@@ -72,13 +75,17 @@ public class DataSpeedCardFragment extends Fragment {
         downloadSpeedTextView = (TextView) dataSpeedCardView.findViewById(R.id.tv_download_speed);
         downloadSpeedMaxTextView = (TextView) dataSpeedCardView.findViewById(R.id.tv_download_speed_max);
 
+        handler.postDelayed(dataSpeedUpdateRunnable, START_DELAY);
+
         return dataSpeedCardView;
     }
 
     @Override
     public void onResume() {
-        updateUI = true;
-        handler.post(dataSpeedUpdateRunnable);
+        if (!updateUI) {
+            updateUI = true;
+            handler.post(dataSpeedUpdateRunnable);
+        }
         super.onResume();
     }
 

@@ -31,6 +31,8 @@ import androidx.fragment.app.Fragment;
 public class LteCardFragment extends Fragment {
 
     private static final int DELAY = 1000;
+    private static final int START_DELAY = 1000;
+
     private static final String TAG = LteCardFragment.class.getSimpleName();
 
     private static final int LTE_HIGH_SPEED = 40;
@@ -94,13 +96,17 @@ public class LteCardFragment extends Fragment {
         lteBandwidthTextView = (TextView) view.findViewById(R.id.tv_lte_bandwidth);
         lteCellIdTextView = (TextView) view.findViewById(R.id.tv_lte_cell_id);
 
+        handler.postDelayed(lteInfoRunnable, START_DELAY);
+
         return view;
     }
 
     @Override
     public void onResume() {
-        updateUI = true;
-        handler.post(lteInfoRunnable);
+        if (!updateUI) {
+            updateUI = true;
+            handler.post(lteInfoRunnable);
+        }
         super.onResume();
     }
 
@@ -164,22 +170,22 @@ public class LteCardFragment extends Fragment {
             switch (lteBand) {
                 case LTE_HIGH_SPEED: {
                     text = LTE_HIGH_SPEED_STRING;
-                    textColor = getResources().getColor(R.color.colorPrimaryGreenLight);
+                    textColor = R.color.colorPrimaryGreenLight;
                     break;
                 }
                 case LTE_MEDIUM_SPEED: {
                     text = LTE_MEDIUM_SPEED_STRING;
-                    textColor = getResources().getColor(R.color.colorAccentLight);
+                    textColor = R.color.colorAccentLight;
                     break;
                 }
                 case LTE_LOW_SPEED: {
                     text = LTE_LOW_SPEED_STRING;
-                    textColor = getResources().getColor(R.color.colorPrimaryYellowLight);
+                    textColor = R.color.colorPrimaryYellowLight;
                     break;
                 }
                 default:
                     text = LTE_NO_NETWORK_STRING;
-                    textColor = getResources().getColor(R.color.colorPrimaryRedLight);
+                    textColor = R.color.colorPrimaryRedLight;
             }
 
             if (rsrp < LTE_RSRP_POOR) {
@@ -201,13 +207,13 @@ public class LteCardFragment extends Fragment {
         catch (Exception e) {
             text = LTE_NO_NETWORK_STRING;
             icon = LTE_NETWORK_ICON_NO_SIGNAL;
-            textColor = getResources().getColor(R.color.colorPrimaryRedLight);
+            textColor = R.color.colorPrimaryRedLight;
 
             Log.v(TAG, "No signal: " + e.getMessage());
         }
 
         lteSpeedTextView.setText(text);
-        lteSpeedTextView.setTextColor(textColor);
+        lteSpeedTextView.setTextColor(getResources().getColor(textColor));
         lteNetworkIcon.setImageDrawable(getResources().getDrawable(icon));
     }
 }
