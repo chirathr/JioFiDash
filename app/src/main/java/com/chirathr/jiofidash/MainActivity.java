@@ -90,15 +90,10 @@ public class MainActivity extends AppCompatActivity {
 //        TextView batteryStatusTextView = (TextView) findViewById(R.id.tv_battery_status);
 
         // LTE info
-        TextView lteConnectedTimeString = (TextView) findViewById(R.id.tv_time);
         TextView lteStatusTextView = (TextView) findViewById(R.id.tv_lte_status);
         TextView lteBandTextView = (TextView) findViewById(R.id.tv_lte_band);
         TextView lteBandwidthTextView = (TextView) findViewById(R.id.tv_lte_bandwidth);
         TextView lteCellIdTextView = (TextView) findViewById(R.id.tv_lte_cell_id);
-
-        // Wan Info
-        TextView totalUploadTextView = (TextView) findViewById(R.id.tv_total_upload_data);
-        TextView totalDownloadTextView = (TextView) findViewById(R.id.tv_total_download_data);
 
 //        // Lan Info
         TextView deviceCountTextView = (TextView) findViewById(R.id.tv_devices_count);
@@ -120,7 +115,6 @@ public class MainActivity extends AppCompatActivity {
                             jiofiAvailable = true;
                             jioFiData.loadDeviceInfo(context);
                             jioFiData.loadLteInfo(context);
-                            jioFiData.loadWanInfo(context);
                             jioFiData.loadLanInfo(context);
                         } else {
                             jiofiAvailable = false;
@@ -156,15 +150,10 @@ public class MainActivity extends AppCompatActivity {
 //                batteryStatusTextView.setText(jioFiData.batteryStatus);
 
                 // LTE info
-                lteConnectedTimeString.setText(jioFiData.lteTimeString);
                 lteStatusTextView.setText(jioFiData.lteStatus);
                 lteBandTextView.setText(String.valueOf(jioFiData.lteBand));
                 lteBandwidthTextView.setText(jioFiData.lteBandwidth);
                 lteCellIdTextView.setText(String.valueOf(jioFiData.lteCellId));
-
-                // Wan info
-                totalUploadTextView.setText(jioFiData.totalUploadString);
-                totalDownloadTextView.setText(jioFiData.totalDownloadString);
 
                 // Lan info
                 deviceCountTextView.setText(String.valueOf(jioFiData.userCount));
@@ -187,8 +176,8 @@ public class MainActivity extends AppCompatActivity {
 
             } else if (jioFiData != null) {
                 if (mWifiEnableToast != null) mWifiEnableToast.cancel();
-                mWifiEnableToast = Toast.makeText(MainActivity.this, "JioFi not found.", Toast.LENGTH_LONG);
-                mWifiEnableToast.show();
+//                mWifiEnableToast = Toast.makeText(MainActivity.this, "JioFi not found.", Toast.LENGTH_LONG);
+//                mWifiEnableToast.show();
             }
         }
     }

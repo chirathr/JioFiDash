@@ -32,7 +32,15 @@
 
             <include layout="@layout/lte_info_card" />
 
-            <include layout="@layout/data_usage_card" />
+            <fragment
+                android:id="@+id/data_usage_fragment"
+                android:name="com.chirathr.jiofidash.fragments.DataUsageCardFragment"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/card_padding"
+                android:layout_marginBottom="@dimen/card_padding"
+                android:layout_marginEnd="@dimen/card_padding"/>
 
         </LinearLayout>
 
