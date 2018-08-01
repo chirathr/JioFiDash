@@ -11,67 +11,85 @@
     app:cardCornerRadius="3dp"
     app:cardElevation="@dimen/card_elevation">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingBottom="16dp"
+        android:layout_height="wrap_content"
         android:foreground="?android:attr/selectableItemBackground"
         android:clickable="true"
         android:focusable="true">
 
-        <ImageView
-            android:id="@+id/lte_network_icon"
-            android:layout_width="@dimen/card_header_icon"
-            android:layout_height="@dimen/card_header_icon"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_round_devices_24px" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/devices_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="16dp"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true">
 
-        <TextView
-            android:id="@+id/tv_devices_label"
-            style="@style/TextAppearance.MaterialComponents.Headline6"
+            <ImageView
+                android:id="@+id/lte_network_icon"
+                android:layout_width="@dimen/card_header_icon"
+                android:layout_height="@dimen/card_header_icon"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_round_devices_24px" />
+
+            <TextView
+                android:id="@+id/tv_devices_label"
+                style="@style/TextAppearance.MaterialComponents.Headline6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="@string/devices_label"
+                android:textColor="@color/colorWhite"
+                app:layout_constraintStart_toEndOf="@+id/lte_network_icon"
+                app:layout_constraintTop_toTopOf="@+id/lte_network_icon" />
+
+            <TextView
+                android:id="@+id/tv_devices_label_caption"
+                style="@style/TextAppearance.MaterialComponents.Caption"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:text="@string/connected_devices_caption_text"
+                android:textColor="@color/colorGreyDark"
+                app:layout_constraintBottom_toTopOf="@+id/tv_devices_count"
+                app:layout_constraintStart_toEndOf="@+id/tv_devices_count"
+                app:layout_constraintTop_toBottomOf="@+id/tv_devices_count" />
+
+            <TextView
+                android:id="@+id/tv_devices_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/users_default_text"
+                android:textColor="@color/colorWhite"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="@+id/tv_devices_label"
+                app:layout_constraintTop_toBottomOf="@+id/tv_devices_label" />
+
+            <ImageView
+                android:id="@+id/imageView4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_devices_label_caption"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:srcCompat="@drawable/ic_round_expand_more_24px" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <ProgressBar
+            android:id="@+id/devices_loading_progress_bar"
+            style="?android:attr/progressBarStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:text="@string/devices_label"
-            android:textColor="@color/colorWhite"
-            app:layout_constraintStart_toEndOf="@+id/lte_network_icon"
-            app:layout_constraintTop_toTopOf="@+id/lte_network_icon" />
+            android:layout_gravity="center"
+            android:indeterminate="true"/>
 
-        <TextView
-            android:id="@+id/tv_devices_label_caption"
-            style="@style/TextAppearance.MaterialComponents.Caption"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:text="@string/connected_devices_caption_text"
-            android:textColor="@color/colorGreyDark"
-            app:layout_constraintBottom_toTopOf="@+id/tv_devices_count"
-            app:layout_constraintStart_toEndOf="@+id/tv_devices_count"
-            app:layout_constraintTop_toBottomOf="@+id/tv_devices_count" />
-
-        <TextView
-            android:id="@+id/tv_devices_count"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/users_default_text"
-            android:textColor="@color/colorWhite"
-            android:textSize="16sp"
-            app:layout_constraintStart_toStartOf="@+id/tv_devices_label"
-            app:layout_constraintTop_toBottomOf="@+id/tv_devices_label" />
-
-        <ImageView
-            android:id="@+id/imageView4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            app:layout_constraintBottom_toBottomOf="@+id/tv_devices_label_caption"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:srcCompat="@drawable/ic_round_expand_more_24px" />
-
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </FrameLayout>
 
 </com.google.android.material.card.MaterialCardView>
