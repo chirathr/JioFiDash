@@ -53,10 +53,10 @@ public class DataSpeedCardFragment extends Fragment {
 
         View dataSpeedCardView = inflater.inflate(R.layout.data_speed_card, container, false);
 
-        uploadSpeedTextView = (TextView)  container.findViewById(R.id.tv_upload_speed);
-        uploadSpeedMaxTextView = (TextView) container.findViewById(R.id.tv_upload_speed_max);
-        downloadSpeedTextView = (TextView) container.findViewById(R.id.tv_download_speed);
-        downloadSpeedMaxTextView = (TextView) container.findViewById(R.id.tv_download_speed_max);
+        uploadSpeedTextView = (TextView)  dataSpeedCardView.findViewById(R.id.tv_upload_speed);
+        uploadSpeedMaxTextView = (TextView) dataSpeedCardView.findViewById(R.id.tv_upload_speed_max);
+        downloadSpeedTextView = (TextView) dataSpeedCardView.findViewById(R.id.tv_download_speed);
+        downloadSpeedMaxTextView = (TextView) dataSpeedCardView.findViewById(R.id.tv_download_speed_max);
 
         handler.post(dataSpeedUpdateRunnable);
 

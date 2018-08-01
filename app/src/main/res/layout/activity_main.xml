@@ -28,7 +28,7 @@
             android:orientation="horizontal"
             android:weightSum="2"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/include3">
+            app:layout_constraintTop_toBottomOf="@+id/data_speed_fragment">
 
             <include layout="@layout/lte_info_card" />
 
@@ -36,9 +36,9 @@
 
         </LinearLayout>
 
-        <include
-            android:id="@+id/include3"
-            layout="@layout/data_speed_card"
+        <fragment
+            android:id="@+id/data_speed_fragment"
+            android:name="com.chirathr.jiofidash.fragments.DataSpeedCardFragment"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"

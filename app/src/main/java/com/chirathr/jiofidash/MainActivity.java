@@ -96,12 +96,6 @@ public class MainActivity extends AppCompatActivity {
         TextView lteBandwidthTextView = (TextView) findViewById(R.id.tv_lte_bandwidth);
         TextView lteCellIdTextView = (TextView) findViewById(R.id.tv_lte_cell_id);
 
-        // Performance Info
-        TextView uploadSpeedTextView = (TextView) findViewById(R.id.tv_upload_speed);
-        TextView uploadSpeedMaxTextView = (TextView) findViewById(R.id.tv_upload_speed_max);
-        TextView downloadSpeedTextView = (TextView) findViewById(R.id.tv_download_speed);
-        TextView downloadSpeedMaxTextView = (TextView) findViewById(R.id.tv_download_speed_max);
-
         // Wan Info
         TextView totalUploadTextView = (TextView) findViewById(R.id.tv_total_upload_data);
         TextView totalDownloadTextView = (TextView) findViewById(R.id.tv_total_download_data);
@@ -126,7 +120,6 @@ public class MainActivity extends AppCompatActivity {
                             jiofiAvailable = true;
                             jioFiData.loadDeviceInfo(context);
                             jioFiData.loadLteInfo(context);
-                            jioFiData.loadPerformanceInfo(context);
                             jioFiData.loadWanInfo(context);
                             jioFiData.loadLanInfo(context);
                         } else {
@@ -168,12 +161,6 @@ public class MainActivity extends AppCompatActivity {
                 lteBandTextView.setText(String.valueOf(jioFiData.lteBand));
                 lteBandwidthTextView.setText(jioFiData.lteBandwidth);
                 lteCellIdTextView.setText(String.valueOf(jioFiData.lteCellId));
-
-                // Performance Info
-                uploadSpeedTextView.setText(jioFiData.uploadRateString);
-                uploadSpeedMaxTextView.setText(jioFiData.uploadRateMaxString);
-                downloadSpeedTextView.setText(jioFiData.downloadRateString);
-                downloadSpeedMaxTextView.setText(jioFiData.downloadRateMaxString);
 
                 // Wan info
                 totalUploadTextView.setText(jioFiData.totalUploadString);
