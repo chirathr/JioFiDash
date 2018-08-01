@@ -93,7 +93,7 @@ public class DataUsageCardFragment extends Fragment {
     }
 
     private void loadUsageData(Context context) {
-        String urlString = NetworkUtils.getUrlString(NetworkUtils.WAN_INFO_ID, NetworkUtils.DEVICE_6_ID);
+        String urlString = NetworkUtils.getUrlString(NetworkUtils.WAN_INFO_ID);
 
         JsonObjectRequest dataUsageJsonObjectRequest = new JsonObjectRequest(
                 Request.Method.GET, urlString, null, new Response.Listener<JSONObject>() {
@@ -102,7 +102,6 @@ public class DataUsageCardFragment extends Fragment {
                 try {
                     downloadData.setText(response.getString(JioFiData.TOTAL_DOWNLOAD));
                     uploadData.setText(response.getString(JioFiData.TOTAL_UPLOAD));
-                    Log.v(TAG, "Running");
                     showDataUsage();
                 } catch (JSONException e) {
                     Log.v(TAG, "JSONException: " + e.getMessage());

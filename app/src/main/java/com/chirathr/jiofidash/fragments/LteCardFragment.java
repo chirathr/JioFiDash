@@ -117,7 +117,7 @@ public class LteCardFragment extends Fragment {
     }
 
     private void loadLteData(Context context) {
-        String urlString = NetworkUtils.getUrlString(NetworkUtils.LTE_INFO_ID, NetworkUtils.DEVICE_6_ID);
+        String urlString = NetworkUtils.getUrlString(NetworkUtils.LTE_INFO_ID);
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                 Request.Method.GET, urlString, null, new Response.Listener<JSONObject>() {

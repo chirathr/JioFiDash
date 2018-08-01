@@ -96,9 +96,7 @@ public class DataSpeedCardFragment extends Fragment {
     }
 
     private void loadDataSpeed(Context context) {
-        String urlString = NetworkUtils.getUrlString(
-                NetworkUtils.PERFORMANCE_INFO_ID,
-                NetworkUtils.DEVICE_6_ID);
+        String urlString = NetworkUtils.getUrlString(NetworkUtils.PERFORMANCE_INFO_ID);
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                 Request.Method.GET, urlString, null, new Response.Listener<JSONObject>() {

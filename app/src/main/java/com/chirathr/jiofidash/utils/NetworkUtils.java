@@ -90,7 +90,8 @@ public class NetworkUtils {
     private static String SAVING_TIME_FORM_TYPE = "sleep_time";
 
 
-    public static String getUrlString(int urlType, int deviceType) {
+    public static String getUrlString(int urlType) {
+        int deviceType = DEVICE_6_ID;
         String[] deviceUrls = getDeviceUrls(deviceType);
         return getHostAddress() + deviceUrls[urlType];
     }
@@ -194,7 +195,7 @@ public class NetworkUtils {
 
         initRequestQueue(context);
 
-        String loginUrl = getUrlString(LOGIN_URL_ID, DEVICE_6_ID);
+        String loginUrl = getUrlString(LOGIN_URL_ID);
 
         // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.GET, loginUrl,
@@ -230,7 +231,7 @@ public class NetworkUtils {
         if (csrfToken == null)
             return;
 
-        String loginUrl = getUrlString(LOGIN_URL_ID, DEVICE_6_ID);
+        String loginUrl = getUrlString(LOGIN_URL_ID);
 
         Response.Listener<String> loginListener = new Response.Listener<String>() {
             @Override
@@ -323,7 +324,7 @@ public class NetworkUtils {
         };
 
 
-        String deviceSettingUrl = getUrlString(URL_DEVICE_SETTINGS_ID, DEVICE_6_ID);
+        String deviceSettingUrl = getUrlString(URL_DEVICE_SETTINGS_ID);
 
         StringRequest stringRequest = new StringRequest(
                 Request.Method.GET, deviceSettingUrl, deviceSettingLister, deviceSettingErrorLister) {
@@ -365,7 +366,7 @@ public class NetworkUtils {
             }
         };
 
-        String deviceSettingUrl = getUrlString(URL_DEVICE_SETTINGS_POST_ID, DEVICE_6_ID);
+        String deviceSettingUrl = getUrlString(URL_DEVICE_SETTINGS_POST_ID);
 
         StringRequest powerSaveChangeRequest = new StringRequest(
                 Request.Method.POST,
