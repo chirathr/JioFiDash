@@ -19,6 +19,7 @@ public class JioFiData {
     public static final String LTE_BAND = "opband";
     public static final String LTE_BANDWIDTH = "bandwidth";
     public static final String LTE_PHYSICAL_CELL_ID = "pcellID";
+    public static final String LTE_RSRP_ID = "rsrp";
 
     public String lteTimeString;
     public String lteStatus;
