@@ -213,7 +213,11 @@ public class LteCardFragment extends Fragment {
         }
 
         lteSpeedTextView.setText(text);
-        lteSpeedTextView.setTextColor(getResources().getColor(textColor));
-        lteNetworkIcon.setImageDrawable(getResources().getDrawable(icon));
+        try {
+            lteSpeedTextView.setTextColor(getResources().getColor(textColor));
+            lteNetworkIcon.setImageDrawable(getResources().getDrawable(icon));
+        } catch (IllegalStateException e) {
+            Log.v(TAG, "IllegalStateException: " + e.getMessage());
+        }
     }
 }
