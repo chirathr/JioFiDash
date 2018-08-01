@@ -40,11 +40,15 @@ public class DataSpeedCardFragment extends Fragment {
 
     private Handler handler;
 
+    private boolean updateUI = true;
+
     private Runnable dataSpeedUpdateRunnable = new Runnable() {
         @Override
         public void run() {
             loadDataSpeed(getContext());
-            handler.postDelayed(dataSpeedUpdateRunnable, 1000);
+            if (updateUI) {
+                handler.postDelayed(dataSpeedUpdateRunnable, 1000);
+            }
         }
     };
 
@@ -68,9 +72,20 @@ public class DataSpeedCardFragment extends Fragment {
         downloadSpeedTextView = (TextView) dataSpeedCardView.findViewById(R.id.tv_download_speed);
         downloadSpeedMaxTextView = (TextView) dataSpeedCardView.findViewById(R.id.tv_download_speed_max);
 
-        handler.post(dataSpeedUpdateRunnable);
-
         return dataSpeedCardView;
+    }
+
+    @Override
+    public void onResume() {
+        updateUI = true;
+        handler.post(dataSpeedUpdateRunnable);
+        super.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        updateUI = false;
+        super.onPause();
     }
 
     private void loadDataSpeed(Context context) {
@@ -103,7 +118,7 @@ public class DataSpeedCardFragment extends Fragment {
                 showLoading();
             }
         });
-        VolleySingleton.getInstance(getContext()).addToRequestQueue(jsonObjectRequest);
+        VolleySingleton.getInstance(context).addToRequestQueue(jsonObjectRequest);
     }
 
     private void showLoading() {
