@@ -13,6 +13,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.chirathr.jiofidash.data.JioFiPreferences;
 
+import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -37,7 +38,7 @@ public class NetworkUtils {
 
     // JioFI 6
     public static final int DEVICE_6_ID = 6;
-    private static final String[] DEVICE_6_URLS = new String[] {
+    private static final String[] DEVICE_6_URLS = new String[]{
             "/lte_ajax.cgi",
             "/lan_ajax.cgi",
             "/wan_info_ajax.cgi",
@@ -89,7 +90,7 @@ public class NetworkUtils {
     private static String SAVING_TIME_FORM_TYPE = "sleep_time";
 
 
-    private static String getUrlString(int urlType, int deviceType) {
+    public static String getUrlString(int urlType, int deviceType) {
         String[] deviceUrls = getDeviceUrls(deviceType);
         return getHostAddress() + deviceUrls[urlType];
     }
@@ -259,7 +260,7 @@ public class NetworkUtils {
                 new StringRequest(Request.Method.POST, loginUrl, loginListener, LoginErrorListener) {
                     @Override
                     protected Map<String, String> getParams() {
-                        Map<String,String> userLoginData = JioFiPreferences.getUserLoginData(context);
+                        Map<String, String> userLoginData = JioFiPreferences.getUserLoginData(context);
                         Map<String, String> params = new HashMap<>();
 
                         params.put(LOGIN_USERNAME_STRING_ID,
@@ -272,8 +273,8 @@ public class NetworkUtils {
 
                     @Override
                     public Map<String, String> getHeaders() throws AuthFailureError {
-                        Map<String,String> params = new HashMap<String, String>();
-                        params.put("Content-Type","application/x-www-form-urlencoded");
+                        Map<String, String> params = new HashMap<String, String>();
+                        params.put("Content-Type", "application/x-www-form-urlencoded");
                         return params;
                     }
                 };
@@ -307,8 +308,7 @@ public class NetworkUtils {
                     // TODO change convert to Variable
                     Log.v(TAG, "changePowerSavingTimeOut csrf: " + csrfToken);
                     postPowerSavingTimeOut(context, powerSavingTimeOut);
-                }
-                else {
+                } else {
                     Log.v(TAG, "Cookie error or login not successful");
                     login(context);
                 }
@@ -388,8 +388,8 @@ public class NetworkUtils {
 
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String,String> params = new HashMap<String, String>();
-                params.put("Content-Type","application/x-www-form-urlencoded");
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Content-Type", "application/x-www-form-urlencoded");
                 params.put("Cookie", getCookieString());
                 return params;
             }
@@ -397,5 +397,4 @@ public class NetworkUtils {
 
         requestQueue.add(powerSaveChangeRequest);
     }
-
 }

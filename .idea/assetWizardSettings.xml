@@ -90,8 +90,8 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
-                            <entry key="outputName" value="ic_launcher_animated_00001" />
-                            <entry key="sourceFile" value="$USER_HOME$/Pictures/Logo-psd/ic_launcher_animated_00001.psd" />
+                            <entry key="outputName" value="ic_round_signal_cellular_2_bar_24px" />
+                            <entry key="sourceFile" value="$USER_HOME$/Downloads/round-signal_cellular_2_bar-24px.svg" />
                           </map>
                         </option>
                       </PersistentState>

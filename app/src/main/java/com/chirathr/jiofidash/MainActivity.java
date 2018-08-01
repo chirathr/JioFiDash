@@ -85,17 +85,6 @@ public class MainActivity extends AppCompatActivity {
 
         private JioFiData jioFiData;
 
-//        // Device Info
-//        TextView batteryLevelTextView = (TextView) findViewById(R.id.tv_battery_level);
-//        TextView batteryStatusTextView = (TextView) findViewById(R.id.tv_battery_status);
-
-        // LTE info
-        TextView lteStatusTextView = (TextView) findViewById(R.id.tv_lte_status);
-        TextView lteBandTextView = (TextView) findViewById(R.id.tv_lte_band);
-        TextView lteBandwidthTextView = (TextView) findViewById(R.id.tv_lte_bandwidth);
-        TextView lteCellIdTextView = (TextView) findViewById(R.id.tv_lte_cell_id);
-
-//        // Lan Info
         TextView deviceCountTextView = (TextView) findViewById(R.id.tv_devices_count);
 //        TextView userNameTextView = (TextView) findViewById(R.id.tv_user_name);
 //        TextView userConnectedTextView = (TextView) findViewById(R.id.tv_user_connected);
@@ -149,11 +138,6 @@ public class MainActivity extends AppCompatActivity {
 //                batteryLevelTextView.setText(batteryLevelString);
 //                batteryStatusTextView.setText(jioFiData.batteryStatus);
 
-                // LTE info
-                lteStatusTextView.setText(jioFiData.lteStatus);
-                lteBandTextView.setText(String.valueOf(jioFiData.lteBand));
-                lteBandwidthTextView.setText(jioFiData.lteBandwidth);
-                lteCellIdTextView.setText(String.valueOf(jioFiData.lteCellId));
 
                 // Lan info
                 deviceCountTextView.setText(String.valueOf(jioFiData.userCount));

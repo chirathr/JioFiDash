@@ -24,7 +24,7 @@
             android:paddingBottom="16dp">
 
             <ImageView
-                android:id="@+id/devices_label_text"
+                android:id="@+id/lte_network_icon"
                 android:layout_width="@dimen/card_header_icon"
                 android:layout_height="50dp"
                 android:layout_marginStart="16dp"
@@ -41,8 +41,8 @@
                 android:layout_marginStart="16dp"
                 android:text="@string/total_data_used_label"
                 android:textColor="@color/colorWhite"
-                app:layout_constraintStart_toEndOf="@+id/devices_label_text"
-                app:layout_constraintTop_toTopOf="@+id/devices_label_text" />
+                app:layout_constraintStart_toEndOf="@+id/lte_network_icon"
+                app:layout_constraintTop_toTopOf="@+id/lte_network_icon" />
 
             <!--<TextView-->
                 <!--android:id="@+id/tv_up_time"-->
@@ -62,8 +62,8 @@
                 android:layout_height="@dimen/data_speed_icon_size"
                 android:layout_marginTop="8dp"
                 android:rotation="90"
-                app:layout_constraintStart_toStartOf="@+id/devices_label_text"
-                app:layout_constraintTop_toBottomOf="@+id/devices_label_text"
+                app:layout_constraintStart_toStartOf="@+id/lte_network_icon"
+                app:layout_constraintTop_toBottomOf="@+id/lte_network_icon"
                 app:srcCompat="@drawable/ic_round_play_arrow_24px" />
 
             <TextView

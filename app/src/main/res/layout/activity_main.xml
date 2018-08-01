@@ -30,7 +30,16 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/data_speed_fragment">
 
-            <include layout="@layout/lte_info_card" />
+            <fragment
+                android:id="@+id/lte_info_fragment"
+                android:name="com.chirathr.jiofidash.fragments.LteCardFragment"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/card_padding"
+                android:layout_marginBottom="@dimen/card_padding"
+                android:layout_marginEnd="@dimen/card_padding"
+                android:layout_marginStart="@dimen/card_padding"/>
 
             <fragment
                 android:id="@+id/data_usage_fragment"

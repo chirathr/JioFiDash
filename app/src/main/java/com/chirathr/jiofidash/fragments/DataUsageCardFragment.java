@@ -100,13 +100,14 @@ public class DataUsageCardFragment extends Fragment {
                     Log.v(TAG, "Running");
                     showDataUsage();
                 } catch (JSONException e) {
-                    Log.v(TAG, "Error:" + e.getMessage());
+                    Log.v(TAG, "JSONException: " + e.getMessage());
                     showLoading();
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                Log.v(TAG, "Error: " + error.getMessage());
                 showLoading();
             }
         });

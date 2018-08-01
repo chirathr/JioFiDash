@@ -17,7 +17,7 @@
         android:paddingBottom="16dp">
 
         <ImageView
-            android:id="@+id/devices_label_text"
+            android:id="@+id/lte_network_icon"
             android:layout_width="@dimen/card_header_icon"
             android:layout_height="@dimen/card_header_icon"
             android:layout_marginStart="16dp"
@@ -34,8 +34,8 @@
             android:layout_marginStart="16dp"
             android:text="@string/devices_label"
             android:textColor="@color/colorWhite"
-            app:layout_constraintStart_toEndOf="@+id/devices_label_text"
-            app:layout_constraintTop_toTopOf="@+id/devices_label_text" />
+            app:layout_constraintStart_toEndOf="@+id/lte_network_icon"
+            app:layout_constraintTop_toTopOf="@+id/lte_network_icon" />
 
         <TextView
             android:id="@+id/tv_devices_label_caption"
