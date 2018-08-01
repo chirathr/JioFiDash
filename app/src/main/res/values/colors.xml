@@ -3,16 +3,36 @@
     <color name="colorBackground">#212121</color>
     <color name="colorBackgroundCard">#252525</color>
     <color name="colorPrimaryDark">#1b1b1b</color>
-    <color name="colorPrimary">@color/colorBackground</color>
-    <color name="colorPrimaryRed">#ff3d00</color>
+
+
     <color name="colorPrimaryRedLight">#ff7539</color>
-    <color name="colorPrimaryYellow">#ffa000</color>
-    <color name="colorPrimaryYellowLight">#ffd149</color>
-    <color name="colorAccent">#3d5afe</color>
-    <color name="colorAccentBlue">#3d5afe</color>
-    <color name="colorAccentLight">#7a7cff</color>
-    <color name="colorPrimaryGreen">#388e3c</color>
-    <color name="colorPrimaryGreenLight">#6abf69</color>
+    <color name="colorPrimaryRed">#ff3d00</color>
+    <color name="colorPrimaryRedDark">#c30000</color>
+
+    <color name="colorAccentBlueLight">#7a7cff</color>
+    <color name="colorAccentBlue">#304ffe</color>
+    <color name="colorAccentBlueDark">#0026ca</color>
+
+    <color name="colorPrimaryGreenLight">#9cff57</color>
+    <color name="colorPrimaryGreen">#64dd17</color>
+    <color name="colorPrimaryGreenDark">#1faa00</color>
+
+    <color name="colorPrimaryYellowLight">#fff64f</color>
+    <color name="colorPrimaryYellow">#ffc400</color>
+    <color name="colorPrimaryYellowDark">#ffc400</color>
+
+    <color name="colorPrimaryOrangeLight">#ff9e40</color>
+    <color name="colorPrimaryOrange">#ff6d00</color>
+    <color name="colorPrimaryOrangeDark">#c43c00</color>
+
+    <color name="colorPrimaryPurpleLight">#e254ff</color>
+    <color name="colorPrimaryPurple">#aa00ff</color>
+    <color name="colorPrimaryPurpleDark">#7200ca</color>
+
+
+    <color name="colorPrimary">@color/colorBackground</color>
+    <color name="colorAccent">@color/colorAccentBlue</color>
+
 
     <color name="colorWhite">#ffffff</color>
     <color name="colorGrey">#eceff1</color>
