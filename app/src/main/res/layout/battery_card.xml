@@ -8,30 +8,37 @@
     android:layout_margin="8dp"
     app:cardCornerRadius="2dp"
     app:cardElevation="@dimen/card_elevation"
-    android:background="@color/colorBackgroundCard"
     app:cardBackgroundColor="@color/colorBackgroundCard">
 
-        <com.chirathr.jiofidash.progressBar.ColorArcProgressBar
-            android:id="@+id/bar1"
-            android:layout_width="300dp"
-            android:layout_height="300dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            app:back_color="@android:color/darker_gray"
-            app:back_width="10dp"
-            app:front_color1="@color/colorPrimaryRed"
-            app:front_color2="@color/colorAccentBlue"
-            app:front_color3="@color/colorPrimaryGreen"
-            app:front_width="10dp"
-            app:is_need_content="true"
-            app:string_title="1Hour 5min"
-            app:is_need_title="true"
-            app:is_need_unit="true"
-            app:max_value="100"
-            app:string_unit="Charging"
-            app:total_engle="270"
-            android:background="@color/colorBackgroundCard"/>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true">
+                <com.chirathr.jiofidash.progressBar.ColorArcProgressBar
+                    android:id="@+id/bar1"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    app:back_color="@android:color/darker_gray"
+                    app:back_width="10dp"
+                    app:front_color1="@color/colorPrimaryRed"
+                    app:front_color2="@color/colorAccentBlue"
+                    app:front_color3="@color/colorPrimaryGreen"
+                    app:front_width="10dp"
+                    app:is_need_content="true"
+                    app:string_title="1Hour 5min"
+                    app:is_need_title="true"
+                    app:is_need_unit="true"
+                    app:max_value="100"
+                    app:string_unit="Charging"
+                    app:total_engle="270"/>
+        </FrameLayout>
+
+
 
 </com.google.android.material.card.MaterialCardView>
