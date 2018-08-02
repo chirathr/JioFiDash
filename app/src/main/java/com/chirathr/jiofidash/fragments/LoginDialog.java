@@ -2,6 +2,7 @@ package com.chirathr.jiofidash.fragments;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -68,7 +69,6 @@ public class LoginDialog extends DialogFragment {
     public void onStart() {
         super.onStart();
 
-
         AlertDialog alertDialog = (AlertDialog) getDialog();
 
         if (alertDialog != null) {
@@ -105,18 +105,18 @@ public class LoginDialog extends DialogFragment {
         protected void onPreExecute() {
             super.onPreExecute();
             showLoading();
+
+            Context context = getContext();
+
+            if (context != null && !NetworkUtils.isOnline(context)) {
+                cancel(true);
+                closeDialog();
+            }
         }
 
         @Override
         protected Void doInBackground(Void... voids) {
-
             loginSuccessfull = NetworkUtils.login(getContext());
-
-            Log.v(TAG, loginSuccessfull + "");
-
-            if (loginSuccessfull)
-                Log.v(TAG, "Successfully logged in");
-
             return null;
         }
 
@@ -124,10 +124,15 @@ public class LoginDialog extends DialogFragment {
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
 
-            if (loginSuccessfull)
+            if (loginSuccessfull) {
                 closeDialog();
-            else
+            }
+            else {
                 hideLoading();
+                if (NetworkUtils.authenticationError) {
+                    displayAuthError();
+                }
+            }
         }
     }
 
@@ -137,5 +142,11 @@ public class LoginDialog extends DialogFragment {
 
     private void hideLoading() {
         progressBar.setVisibility(View.INVISIBLE);
+    }
+
+    private void displayAuthError() {
+        // TODO Make strings as constants
+        usernameEditText.setError("Username or password wrong");
+        passwordEditText.setError("Username or password wrong");
     }
 }
