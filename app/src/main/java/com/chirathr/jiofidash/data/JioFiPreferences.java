@@ -63,6 +63,10 @@ public class JioFiPreferences {
 
     public boolean loadUsernameAndPassword(Context context) {
 
+        if (username != null && password != null) {
+            return true;
+        }
+
         SharedPreferences sharedPref = context.getSharedPreferences(
                 context.getString(R.string.data_preference_file_key), Context.MODE_PRIVATE);
 
