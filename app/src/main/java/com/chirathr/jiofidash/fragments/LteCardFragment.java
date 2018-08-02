@@ -86,6 +86,8 @@ public class LteCardFragment extends Fragment {
         View view = inflater.inflate(R.layout.lte_info_card, container, false);
 
         loadingProgressBar = (ProgressBar) view.findViewById(R.id.lte_info_loading_progress_bar);
+        loadingProgressBar.getIndeterminateDrawable().setColorFilter(
+                getResources().getColor(R.color.colorGrey), android.graphics.PorterDuff.Mode.MULTIPLY);
         layout = (ConstraintLayout) view.findViewById(R.id.lte_info_layout);
 
         showLoading();

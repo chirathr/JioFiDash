@@ -65,6 +65,8 @@ public class DevicesCardFragment extends Fragment {
         View view = inflater.inflate(R.layout.devices_card, container, false);
 
         loadingProgressBar = view.findViewById(R.id.devices_loading_progress_bar);
+        loadingProgressBar.getIndeterminateDrawable().setColorFilter(
+                getResources().getColor(R.color.colorGrey), android.graphics.PorterDuff.Mode.MULTIPLY);
         devicesLayout = view.findViewById(R.id.devices_layout);
         showLoading();
         devicesCount = view.findViewById(R.id.tv_devices_count);

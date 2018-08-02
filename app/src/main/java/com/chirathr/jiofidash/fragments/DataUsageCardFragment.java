@@ -65,6 +65,8 @@ public class DataUsageCardFragment extends Fragment {
         View dataUsageView = inflater.inflate(R.layout.data_usage_card, container, false);
 
         loadingProgressBar = (ProgressBar) dataUsageView.findViewById(R.id.date_usage_loading_progress_bar);
+        loadingProgressBar.getIndeterminateDrawable().setColorFilter(
+                getResources().getColor(R.color.colorGrey), android.graphics.PorterDuff.Mode.MULTIPLY);
         dataUsageLayout = (ConstraintLayout) dataUsageView.findViewById(R.id.data_usage_layout);
 
         showLoading();
