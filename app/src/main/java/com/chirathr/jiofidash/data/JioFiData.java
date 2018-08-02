@@ -39,6 +39,9 @@ public class JioFiData {
     public static final String BATTERY_LEVEL = "batterylevel";
     public static final String BATTERY_STATUS = "batterystatus";
 
+    private static final int batteryTimeAt100 = 370;
+    private static final String batteryTimeFormatString = "%d hours %d mins";
+
     private static final String TAG = JioFiData.class.getSimpleName();
 
     public static int getBatteryLevel(String text) {
@@ -48,6 +51,21 @@ public class JioFiData {
             Log.v(TAG, "Error converting to battery % : " + e.getMessage());
             return 0;
         }
+    }
+
+    public static String calculateRemainingTimeString(int batteryPercentage) {
+        // TODO Calculate battery time left based on rate of change
+
+        if (batteryPercentage == 0) {
+            return String.format(batteryTimeFormatString, 0, 0);
+        }
+
+        int batteryRemaining = (int) Math.round(batteryTimeAt100 * (batteryPercentage / 100.0));
+
+        int hours = batteryRemaining / 60;
+        int minutes = batteryRemaining % 60;
+
+        return String.format(batteryTimeFormatString, hours, minutes);
     }
 
 }

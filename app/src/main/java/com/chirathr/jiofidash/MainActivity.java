@@ -102,6 +102,7 @@ public class MainActivity extends AppCompatActivity {
                     int batteryPercent = JioFiData.getBatteryLevel(response.getString(JioFiData.BATTERY_LEVEL));
                     batteryProgressBar.setCurrentValues(batteryPercent);
                     batteryProgressBar.setUnit(response.getString(JioFiData.BATTERY_STATUS));
+                    batteryProgressBar.setTitle(JioFiData.calculateRemainingTimeString(batteryPercent));
                 } catch (JSONException e) {
                     Log.v(TAG, "JSONException: " + e.getMessage());
                 }
