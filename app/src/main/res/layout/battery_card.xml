@@ -17,7 +17,7 @@
             android:clickable="true"
             android:focusable="true">
                 <com.chirathr.jiofidash.progressBar.ColorArcProgressBar
-                    android:id="@+id/bar1"
+                    android:id="@+id/batteryProgressBar"
                     android:layout_width="match_parent"
                     android:layout_height="300dp"
                     android:layout_gravity="center_horizontal"

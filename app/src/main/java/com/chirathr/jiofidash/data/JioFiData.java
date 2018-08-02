@@ -39,6 +39,15 @@ public class JioFiData {
     public static final String BATTERY_LEVEL = "batterylevel";
     public static final String BATTERY_STATUS = "batterystatus";
 
-    private final String TAG = JioFiData.class.getSimpleName();
+    private static final String TAG = JioFiData.class.getSimpleName();
+
+    public static int getBatteryLevel(String text) {
+        try {
+            return Integer.parseInt(text.split(" ")[0]);
+        } catch (Exception e) {
+            Log.v(TAG, "Error converting to battery % : " + e.getMessage());
+            return 0;
+        }
+    }
 
 }
