@@ -18,14 +18,24 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.ProtocolException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
+
+import javax.net.ssl.HttpsURLConnection;
 
 public class NetworkUtils {
 
@@ -81,24 +91,34 @@ public class NetworkUtils {
 
     private static String LOGIN_USERNAME_STRING_ID = "identify";
     private static String LOGIN_PASSWORD_STRING_ID = "password";
-    public static String csrfToken = null;
+    private static String csrfToken = null;
 
     private static String cookieString = null;
+    public static boolean isLoggedIn = false;
+    public static boolean authenticationError = false;
 
     // Power saving settings
     private static String SAVING_TIME_STRING_ID = "Saving_Time";
     private static String SAVING_TIME_FORM_TYPE = "sleep_time";
 
+    private static final String COOKIE_FORMAT_STRING = "ksession=%s";
+
+    public static int getDeviceType() {
+        return DEVICE_6_ID;
+    }
+
 
     public static String getUrlString(int urlType) {
-        int deviceType = DEVICE_6_ID;
+        int deviceType = getDeviceType();
         String[] deviceUrls = getDeviceUrls(deviceType);
         return getHostAddress() + deviceUrls[urlType];
     }
 
-    private static URL getURL(int urlType, int deviceType) {
+    private static URL getURL(int urlType) {
         URL url = null;
         String urlString;
+
+        int deviceType = getDeviceType();
 
         String[] deviceUrls = getDeviceUrls(deviceType);
         if (deviceUrls == null) return null;
@@ -114,12 +134,10 @@ public class NetworkUtils {
         return url;
     }
 
-    // TODO(1) Use volley to make the requests
-
     public static String getJsonData(Context context, int urlType, int deviceType) {
         String response = null;
         HttpURLConnection urlConnection = null;
-        URL url = getURL(urlType, deviceType);
+        URL url = getURL(urlType);
 
         if (url == null) return null;
 
@@ -159,7 +177,7 @@ public class NetworkUtils {
             urlConnection.setConnectTimeout(100);
             urlConnection.connect();
 
-            if (urlConnection.getResponseCode() == 200)
+            if (urlConnection.getResponseCode() == HttpsURLConnection.HTTP_OK)
                 return true;
 
         } catch (MalformedURLException e) {
@@ -184,43 +202,152 @@ public class NetworkUtils {
 
     public static String getCookieString() {
         if (cookieString != null)
-            return "ksession=" + cookieString;
+            return String.format(COOKIE_FORMAT_STRING, cookieString);
         else {
             Log.v(TAG, "Cookie not set");
             return null;
         }
     }
 
-    public static void login(final Context context) {
+    public static String getQuery(Map<String, String> params) throws UnsupportedEncodingException {
+        StringBuilder stringBuilder = new StringBuilder();
+        boolean first = true;
 
-        initRequestQueue(context);
-
-        String loginUrl = getUrlString(LOGIN_URL_ID);
-
-        // Request a string response from the provided URL.
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, loginUrl,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        // Get the login token
-                        Document loginDocument = Jsoup.parse(response);
-                        csrfToken = loginDocument.select(TOKEN_INPUT_CSS_SELECTOR)
-                                .attr(VALUE_ATTRIBUTE_KEY);
-
-                        Log.v(TAG, "Login token: " + csrfToken);
-
-                        loginAndSetCookie(context);
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.v(TAG, "Failed to get login Token: " + error.getMessage());
-                csrfToken = null;
+        for (Map.Entry<String, String> entry : params.entrySet()) {
+            if (first) {
+                first = false;
+            } else {
+                stringBuilder.append("&");
             }
-        });
 
-        // Add the request to the RequestQueue.
-        requestQueue.add(stringRequest);
+            stringBuilder.append(URLEncoder.encode(entry.getKey(), "UTF-8"));
+            stringBuilder.append("=");
+            stringBuilder.append(URLEncoder.encode(entry.getValue(), "UTF-8"));
+        }
+
+        return stringBuilder.toString();
+    }
+
+    public static String postRequest(URL url, Map<String, String> params) {
+
+        HttpURLConnection connection = null;
+        OutputStream outputStream = null;
+        BufferedWriter writer = null;
+        int responseCode;
+        StringBuilder result = new StringBuilder();
+
+        try {
+            connection = (HttpURLConnection) url.openConnection();
+            connection.setConnectTimeout(300);
+            connection.setReadTimeout(300);
+            connection.setRequestMethod("POST");
+            connection.setDoInput(true);
+            connection.setDoOutput(true);
+
+            outputStream = connection.getOutputStream();
+            writer = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
+
+            writer.write(getQuery(params));
+            writer.flush();
+            writer.close();
+            connection.connect();
+
+            Log.v(TAG, connection.getResponseMessage() + "");
+
+            responseCode = connection.getResponseCode();
+
+            Log.v(TAG, "Response code: " + responseCode);
+
+            if (responseCode == HttpsURLConnection.HTTP_OK) {
+                String line;
+                BufferedReader br=new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                while ((line=br.readLine()) != null) {
+                    result.append(line);
+                }
+            }
+
+            Log.v(TAG, result.toString());
+
+        } catch (UnsupportedEncodingException e) {
+            Log.v(TAG, "(postRequest)UnsupportedEncodingException: " + e.getMessage());
+            return null;
+        } catch (ProtocolException e) {
+            Log.v(TAG, "(postRequest)ProtocolException: " + e.getMessage());
+            return null;
+        } catch (IOException e) {
+            Log.v(TAG, "(postRequest)IOException: " + e.getCause());
+            e.printStackTrace();
+            return null;
+        } finally {
+            if (connection != null)
+                connection.disconnect();
+        }
+        return result.toString();
+    }
+
+    public static Map<String, String> getLoginParams(Context context, String csrfToken) {
+        Map<String, String> userLoginData = JioFiPreferences.getInstance().getUserLoginData(context);
+        Map<String, String> params = new HashMap<>();
+
+        params.put(LOGIN_USERNAME_STRING_ID,
+                userLoginData.get(JioFiPreferences.USERNAME_STRING_ID));
+        params.put(LOGIN_PASSWORD_STRING_ID,
+                userLoginData.get(JioFiPreferences.PASSWORD_STRING_ID));
+        params.put(CSRF_TOKEN_STRING_ID, csrfToken);
+
+        return params;
+    }
+
+
+    public static boolean login(final Context context) {
+
+        String urlString = getUrlString(LOGIN_URL_ID);
+        URL url = getURL(LOGIN_URL_ID);
+
+        String response;
+
+        try {
+            Document loginDocument = Jsoup.connect(urlString).get();
+            csrfToken = loginDocument.select(TOKEN_INPUT_CSS_SELECTOR)
+                    .attr(VALUE_ATTRIBUTE_KEY);
+            Log.v(TAG, "Login token: " + csrfToken);
+
+            if (csrfToken == null || csrfToken.equals("")) {
+                return false;
+            }
+
+            Map<String, String> params = getLoginParams(context, csrfToken);
+            response = postRequest(url, params);
+
+            boolean loginSucess = response != null &&
+                    !response.contains("Login Fail") &&
+                    !response.contains("User already logged in !");
+
+            if (response != null && response.contains("Login Fail")) {
+                isLoggedIn = false;
+                authenticationError = true;
+            }
+
+            if (loginSucess) {
+                int startIndex = response.lastIndexOf("ksession") + 12;
+                cookieString = response.substring(startIndex, startIndex + 32);
+
+                Log.v(TAG, "cookie " + cookieString);
+
+                isLoggedIn = true;
+                authenticationError = false;
+
+            } else {
+                Log.v(TAG, "Login Failed !");
+                return false;
+            }
+
+            return true;
+        } catch (IOException e) {
+            Log.v(TAG, "IOException, Jsoup connect: " + e.getMessage());
+            csrfToken = null;
+            return false;
+        }
     }
 
     private static void loginAndSetCookie(final Context context) {
@@ -237,6 +364,8 @@ public class NetworkUtils {
             @Override
             public void onResponse(String response) {
                 // Display the first 500 characters of the response string.
+
+                Log.v(TAG, response);
 
                 if (!response.contains("User already logged in !")) {
                     int startIndex = response.lastIndexOf("ksession") + 12;
@@ -261,7 +390,8 @@ public class NetworkUtils {
                 new StringRequest(Request.Method.POST, loginUrl, loginListener, LoginErrorListener) {
                     @Override
                     protected Map<String, String> getParams() {
-                        Map<String, String> userLoginData = JioFiPreferences.getUserLoginData(context);
+                        Map<String, String> userLoginData = JioFiPreferences.getInstance()
+                                .getUserLoginData(context);
                         Map<String, String> params = new HashMap<>();
 
                         params.put(LOGIN_USERNAME_STRING_ID,
