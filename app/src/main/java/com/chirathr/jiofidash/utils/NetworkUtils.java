@@ -1,6 +1,7 @@
 package com.chirathr.jiofidash.utils;
 
 import android.content.Context;
+import android.net.Uri;
 import android.net.wifi.WifiManager;
 import android.util.Log;
 
@@ -126,6 +127,7 @@ public class NetworkUtils {
 
         try {
             url = new URL(urlString);
+
         } catch (MalformedURLException e) {
             Log.v(TAG, "Malformed string url used to create URL: " + e.getMessage());
             return null;
@@ -209,23 +211,14 @@ public class NetworkUtils {
         }
     }
 
-    public static String getQuery(Map<String, String> params) throws UnsupportedEncodingException {
-        StringBuilder stringBuilder = new StringBuilder();
-        boolean first = true;
+    public static String getPostParams(Map<String, String> params) throws UnsupportedEncodingException {
+        Uri.Builder builder = new Uri.Builder();
 
         for (Map.Entry<String, String> entry : params.entrySet()) {
-            if (first) {
-                first = false;
-            } else {
-                stringBuilder.append("&");
-            }
-
-            stringBuilder.append(URLEncoder.encode(entry.getKey(), "UTF-8"));
-            stringBuilder.append("=");
-            stringBuilder.append(URLEncoder.encode(entry.getValue(), "UTF-8"));
+            builder.appendQueryParameter(entry.getKey(), entry.getValue());
         }
 
-        return stringBuilder.toString();
+        return builder.build().getEncodedQuery();
     }
 
     public static String postRequest(URL url, Map<String, String> params) {
@@ -238,21 +231,21 @@ public class NetworkUtils {
 
         try {
             connection = (HttpURLConnection) url.openConnection();
-            connection.setConnectTimeout(300);
-            connection.setReadTimeout(300);
+            connection.setConnectTimeout(3000);
+            connection.setReadTimeout(3000);
             connection.setRequestMethod("POST");
             connection.setDoInput(true);
             connection.setDoOutput(true);
+            connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
 
             outputStream = connection.getOutputStream();
             writer = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
 
-            writer.write(getQuery(params));
+            writer.write(getPostParams(params));
             writer.flush();
             writer.close();
-            connection.connect();
 
-            Log.v(TAG, connection.getResponseMessage() + "");
+            connection.connect();
 
             responseCode = connection.getResponseCode();
 
