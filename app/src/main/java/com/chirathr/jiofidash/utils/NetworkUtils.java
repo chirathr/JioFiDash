@@ -32,9 +32,12 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -95,8 +98,10 @@ public class NetworkUtils {
     private static String csrfToken = null;
 
     private static String cookieString = null;
-    public static boolean isLoggedIn = false;
+    public static Date loggedInAt;
     public static boolean authenticationError = false;
+
+    public static final int LOGIN_TIMEOUT = 10;
 
     // Power saving settings
     private static String SAVING_TIME_STRING_ID = "Saving_Time";
@@ -217,7 +222,6 @@ public class NetworkUtils {
         for (Map.Entry<String, String> entry : params.entrySet()) {
             builder.appendQueryParameter(entry.getKey(), entry.getValue());
         }
-
         return builder.build().getEncodedQuery();
     }
 
@@ -246,10 +250,7 @@ public class NetworkUtils {
             writer.close();
 
             connection.connect();
-
             responseCode = connection.getResponseCode();
-
-            Log.v(TAG, "Response code: " + responseCode);
 
             if (responseCode == HttpsURLConnection.HTTP_OK) {
                 String line;
@@ -259,8 +260,6 @@ public class NetworkUtils {
                 }
             }
 
-            Log.v(TAG, result.toString());
-
         } catch (UnsupportedEncodingException e) {
             Log.v(TAG, "(postRequest)UnsupportedEncodingException: " + e.getMessage());
             return null;
@@ -269,7 +268,6 @@ public class NetworkUtils {
             return null;
         } catch (IOException e) {
             Log.v(TAG, "(postRequest)IOException: " + e.getCause());
-            e.printStackTrace();
             return null;
         } finally {
             if (connection != null)
@@ -294,6 +292,19 @@ public class NetworkUtils {
 
     public static boolean login(final Context context) {
 
+        Calendar cal = Calendar.getInstance();
+        Date dateTimeNow = cal.getTime();
+
+        // If logged in recently
+        if (cookieString != null && loggedInAt != null) {
+            long diffInTime = (long) ((dateTimeNow.getTime() - loggedInAt.getTime()) / (1000 * 60 * 60 * 24));
+            long minutes = TimeUnit.MILLISECONDS.toMinutes(diffInTime);
+
+            if (minutes < LOGIN_TIMEOUT) {
+                return true;
+            }
+        }
+
         String urlString = getUrlString(LOGIN_URL_ID);
         URL url = getURL(LOGIN_URL_ID);
 
@@ -317,7 +328,6 @@ public class NetworkUtils {
                     !response.contains("User already logged in !");
 
             if (response != null && response.contains("Login Fail")) {
-                isLoggedIn = false;
                 authenticationError = true;
             }
 
@@ -326,8 +336,6 @@ public class NetworkUtils {
                 cookieString = response.substring(startIndex, startIndex + 32);
 
                 Log.v(TAG, "cookie " + cookieString);
-
-                isLoggedIn = true;
                 authenticationError = false;
 
             } else {
@@ -341,69 +349,6 @@ public class NetworkUtils {
             csrfToken = null;
             return false;
         }
-    }
-
-    private static void loginAndSetCookie(final Context context) {
-
-        initRequestQueue(context);
-
-        // Login token is not set
-        if (csrfToken == null)
-            return;
-
-        String loginUrl = getUrlString(LOGIN_URL_ID);
-
-        Response.Listener<String> loginListener = new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                // Display the first 500 characters of the response string.
-
-                Log.v(TAG, response);
-
-                if (!response.contains("User already logged in !")) {
-                    int startIndex = response.lastIndexOf("ksession") + 12;
-                    cookieString = response.substring(startIndex, startIndex + 32);
-
-                    Log.v(TAG, "cookie " + cookieString);
-                } else {
-                    Log.v(TAG, "User already logged in !");
-                }
-            }
-        };
-
-        Response.ErrorListener LoginErrorListener = new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.v(TAG, "Failed to Login: " + error.getMessage());
-            }
-        };
-
-        // Request a string response from the provided URL.
-        StringRequest stringRequest =
-                new StringRequest(Request.Method.POST, loginUrl, loginListener, LoginErrorListener) {
-                    @Override
-                    protected Map<String, String> getParams() {
-                        Map<String, String> userLoginData = JioFiPreferences.getInstance()
-                                .getUserLoginData(context);
-                        Map<String, String> params = new HashMap<>();
-
-                        params.put(LOGIN_USERNAME_STRING_ID,
-                                userLoginData.get(JioFiPreferences.USERNAME_STRING_ID));
-                        params.put(LOGIN_PASSWORD_STRING_ID,
-                                userLoginData.get(JioFiPreferences.PASSWORD_STRING_ID));
-                        params.put(CSRF_TOKEN_STRING_ID, csrfToken);
-                        return params;
-                    }
-
-                    @Override
-                    public Map<String, String> getHeaders() throws AuthFailureError {
-                        Map<String, String> params = new HashMap<String, String>();
-                        params.put("Content-Type", "application/x-www-form-urlencoded");
-                        return params;
-                    }
-                };
-
-        requestQueue.add(stringRequest);
     }
 
     public static void changePowerSavingTimeOut(final Context context, final int powerSavingTimeOut) {
