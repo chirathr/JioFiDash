@@ -34,4 +34,7 @@
     <string name="devices_label">Devices</string>
     <string name="connected_devices_caption_text">Connected devices</string>
     <string name="connected_devices_caption_text_singular">Connected device</string>
+
+    <!--Shared preferences-->
+    <string name="data_preference_file_key">com.chirathr.jiofidash.data_preference</string>
 </resources>

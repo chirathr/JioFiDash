@@ -3,6 +3,10 @@ package com.chirathr.jiofidash;
 import android.content.Context;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -16,6 +20,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.chirathr.jiofidash.data.JioFiData;
+import com.chirathr.jiofidash.fragments.LoginDialog;
 import com.chirathr.jiofidash.progressBar.ColorArcProgressBar;
 import com.chirathr.jiofidash.utils.NetworkUtils;
 import com.chirathr.jiofidash.utils.VolleySingleton;
@@ -53,6 +58,11 @@ public class MainActivity extends AppCompatActivity {
         batteryProgressBar = (ColorArcProgressBar) findViewById(R.id.batteryProgressBar);
 
         handler.post(batteryUpdateRunnable);
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+
+        LoginDialog loginDialog = new LoginDialog();
+        loginDialog.show(fragmentManager, "LoginDialog");
     }
 
     @Override
@@ -102,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
                     int batteryPercent = JioFiData.getBatteryLevel(response.getString(JioFiData.BATTERY_LEVEL));
                     batteryProgressBar.setCurrentValues(batteryPercent);
                     batteryProgressBar.setUnit(response.getString(JioFiData.BATTERY_STATUS));
-                    batteryProgressBar.setTitle(JioFiData.calculateRemainingTimeString(batteryPercent));
+                    batteryProgressBar.setTitle(JioFiData.calculateRemainingTimeString(getApplicationContext(), batteryPercent));
                 } catch (JSONException e) {
                     Log.v(TAG, "JSONException: " + e.getMessage());
                 }

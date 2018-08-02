@@ -8,6 +8,7 @@
         <item name="colorAccent">@color/colorAccentBlue</item>
         <item name="android:textColor">@color/colorGrey</item>
         <item name="colorControlHighlight">#40ffffff</item>
+        <item name="editTextColor">@color/colorGrey</item>
 
         <!-- specify enter and exit transitions -->
         <!--<item name="android:windowEnterTransition">@android:transition/fade</item>-->
@@ -28,5 +29,6 @@
     <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
         <item name="android:background">@android:color/black</item>
     </style>
+
 
 </resources>

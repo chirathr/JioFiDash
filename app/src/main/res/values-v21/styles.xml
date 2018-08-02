@@ -5,4 +5,30 @@
         <item name="windowNoTitle">true</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
+
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorGreyDark</item>
+        <item name="android:textColor">@color/colorGrey</item>
+        <item name="colorControlHighlight">#40ffffff</item>
+        <item name="editTextColor">@color/colorGrey</item>
+
+        <!-- specify enter and exit transitions -->
+        <!--<item name="android:windowEnterTransition">@android:transition/fade</item>-->
+        <!--<item name="android:windowExitTransition">@android:transition/fade</item>-->
+        <item name="android:alertDialogTheme">@style/AlertDialogCustom</item>
+    </style>
+
+    <style name="AlertDialogCustom" parent="android:Theme.Material.Light.Dialog.Alert">
+        <item name="android:textColor">@color/colorGrey</item>
+        <item name="android:textColorHint">@color/colorGreyDark</item>
+        <item name="android:colorPrimary">@color/colorBackground</item>
+        <item name="android:colorAccent">@color/colorWhite</item>
+        <item name="android:colorBackground">@color/colorBackground</item>
+        <item name="colorAccent">@color/colorBackground</item>
+        <item name="android:buttonStyle">@style/Widget.MaterialComponents.Button.TextButton.Dialog.IconButton</item>
+    </style>
+
 </resources>

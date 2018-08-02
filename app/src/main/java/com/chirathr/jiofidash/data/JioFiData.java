@@ -1,14 +1,17 @@
 package com.chirathr.jiofidash.data;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 
+import com.chirathr.jiofidash.R;
 import com.chirathr.jiofidash.utils.NetworkUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class JioFiData {
@@ -53,14 +56,16 @@ public class JioFiData {
         }
     }
 
-    public static String calculateRemainingTimeString(int batteryPercentage) {
+    public static String calculateRemainingTimeString(Context context, int batteryPercentage) {
+
+        int batteryRemaining;
         // TODO Calculate battery time left based on rate of change
 
         if (batteryPercentage == 0) {
             return String.format(batteryTimeFormatString, 0, 0);
         }
 
-        int batteryRemaining = (int) Math.round(batteryTimeAt100 * (batteryPercentage / 100.0));
+        batteryRemaining = (int) Math.round(batteryTimeAt100 * (batteryPercentage / 100.0));
 
         int hours = batteryRemaining / 60;
         int minutes = batteryRemaining % 60;

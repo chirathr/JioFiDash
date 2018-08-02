@@ -5,9 +5,9 @@ Show details about your JioFi
 * Battery
     * Percentage - done
     * Time remaining
-* Range 
+* Range - done
 * LTE band (Band, bandwidth) - done
-* WiFi users - done
+* WiFi users - 
 
 * Download/ Upload speeds - done
 * Total data used(D/U) - done
@@ -23,3 +23,9 @@ Show details about your JioFi
 * Restore default
 * Power save timeout
 * Change connection url
+
+
+Things to do:
+- Initial setup
+- Check for WiFi and jioFi availability
+- 
