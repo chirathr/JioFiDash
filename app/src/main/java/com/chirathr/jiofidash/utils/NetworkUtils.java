@@ -54,6 +54,8 @@ public class NetworkUtils {
 
     // JioFI 6
     public static final int DEVICE_6_ID = 6;
+    public static final int DEVICE_OTHER_ID = 0;
+    public static final int DEVICE_NOT_SET_ID = -1;
     private static final String[] DEVICE_6_URLS = new String[]{
             "/lte_ajax.cgi",
             "/lan_ajax.cgi",
@@ -77,7 +79,7 @@ public class NetworkUtils {
 
     // Get device url based on type
     public static String[] getDeviceUrls(int deviceType) {
-        if (deviceType == 6)    // JioFi 6
+        if (deviceType == DEVICE_6_ID)    // JioFi 6
             return DEVICE_6_URLS;
 
         return null;
@@ -111,13 +113,9 @@ public class NetworkUtils {
 
     private static final String COOKIE_FORMAT_STRING = "ksession=%s";
 
-    public static int getDeviceType() {
-        return DEVICE_6_ID;
-    }
-
 
     public static String getUrlString(int urlType) {
-        int deviceType = getDeviceType();
+        int deviceType = JioFiPreferences.currentDeviceId;
         String[] deviceUrls = getDeviceUrls(deviceType);
         return getHostAddress() + deviceUrls[urlType];
     }
@@ -126,7 +124,7 @@ public class NetworkUtils {
         URL url = null;
         String urlString;
 
-        int deviceType = getDeviceType();
+        int deviceType = JioFiPreferences.currentDeviceId;
 
         String[] deviceUrls = getDeviceUrls(deviceType);
         if (deviceUrls == null) return null;

@@ -4,19 +4,27 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.chirathr.jiofidash.R;
+import com.chirathr.jiofidash.utils.NetworkUtils;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class JioFiPreferences {
 
+    private static JioFiPreferences mInstance;
+
     public static final String USERNAME_STRING_ID = "username";
     public static final String PASSWORD_STRING_ID = "password";
 
-    private static JioFiPreferences mInstance;
-
     public String username;
     public String password;
+
+    // Devices
+
+    public static final String DEVICE_6 = "JMR815";
+    public static final String DEVICE_OTHER = "other";
+
+    public static int currentDeviceId;
 
     public Map<String, String> getUserLoginData(Context context) {
         Map<String,String> params = new HashMap<String, String>();
@@ -80,5 +88,35 @@ public class JioFiPreferences {
         }
 
         return false;
+    }
+
+    public void setDevice(Context context, int deviceId) {
+
+        SharedPreferences sharedPref = context.getSharedPreferences(
+                context.getString(R.string.data_preference_file_key), Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+
+        if (deviceId == NetworkUtils.DEVICE_6_ID || deviceId == NetworkUtils.DEVICE_OTHER_ID) {
+            editor.putInt(context.getString(R.string.saved_device_key), NetworkUtils.DEVICE_6_ID);
+            editor.apply();
+
+            currentDeviceId = deviceId;
+        }
+    }
+
+    public int getDeviceId(Context context) {
+        SharedPreferences sharedPref = context.getSharedPreferences(
+                context.getString(R.string.data_preference_file_key), Context.MODE_PRIVATE);
+
+        currentDeviceId = sharedPref.getInt(context.getString(R.string.saved_device_key), -1);
+
+        return currentDeviceId;
+    }
+
+    public void loadDeviceId(Context context) {
+        SharedPreferences sharedPref = context.getSharedPreferences(
+                context.getString(R.string.data_preference_file_key), Context.MODE_PRIVATE);
+
+        currentDeviceId = sharedPref.getInt(context.getString(R.string.saved_device_key), -1);
     }
 }

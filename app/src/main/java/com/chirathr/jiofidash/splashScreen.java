@@ -8,6 +8,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.widget.ImageView;
 
+import com.chirathr.jiofidash.data.JioFiPreferences;
+import com.chirathr.jiofidash.utils.NetworkUtils;
+
 public class splashScreen extends AppCompatActivity {
 
     private static final int SPLASH_DELAY = 1000;
@@ -29,6 +32,10 @@ public class splashScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
 
+        // Initial setup
+        JioFiPreferences.getInstance().loadDeviceId(this);
+
+
         ImageView launcherIcon = (ImageView) findViewById(R.id.launcher_animated);
         launcherIcon.setBackgroundResource(R.drawable.ic_launcher_animated);
         launcherAnimation = (AnimationDrawable) launcherIcon.getBackground();
@@ -46,7 +53,11 @@ public class splashScreen extends AppCompatActivity {
 
     private void launch() {
         if (!isFinishing()) {
-            startActivity(new Intent(this, MainActivity.class));
+            if (JioFiPreferences.currentDeviceId == NetworkUtils.DEVICE_NOT_SET_ID) {
+
+            } else {
+                startActivity(new Intent(this, MainActivity.class));
+            }
             finish();
         }
     }

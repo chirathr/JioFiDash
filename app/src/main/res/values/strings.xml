@@ -39,4 +39,6 @@
     <string name="data_preference_file_key">com.chirathr.jiofidash.data_preference</string>
     <string name="saved_user_name_key">username</string>
     <string name="saved_password_key">password</string>
+
+    <string name="saved_device_key">device_id</string>
 </resources>
