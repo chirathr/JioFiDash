@@ -23,7 +23,7 @@
             android:adjustViewBounds="true"
             android:scaleType="centerInside"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/jiofi6" />
+            app:srcCompat="@drawable/jiofi_other" />
 
         <TextView
             android:id="@+id/textView5"
@@ -32,17 +32,19 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
-            android:text="JioFi 6 (JMR815)"
+            android:text="Older JioFi devices"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageView6" />
 
         <TextView
             android:id="@+id/textView6"
             style="@style/TextAppearance.MaterialComponents.Body2"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="JioFi 6(JMR815) 4G wireless data card with 3000mah battery, WiFi and micro SD card support."
-            android:textColor="@color/colorTextCaption"
+            android:layout_marginEnd="8dp"
+            android:text="Sorry! We do not support older devices yet. You can open the web UI by clicking on the button."
+            android:textColor="@color/colorPrimaryRedLight"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/textView5"
             app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
@@ -52,10 +54,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:text="SELECT"
+            android:text="WEB UI"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView6" />
-
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
