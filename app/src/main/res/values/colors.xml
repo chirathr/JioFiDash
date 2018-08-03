@@ -36,6 +36,7 @@
     <color name="colorWhite">#ffffff</color>
     <color name="colorGrey">#eceff1</color>
     <color name="colorGreyDark">#c6c8b5</color>
+    <color name="colorTextCaption">#686868</color>
 
     <color name="colorAppBarIcon">#c6c8b5</color>
     <color name="dividerColor">#878787</color>
