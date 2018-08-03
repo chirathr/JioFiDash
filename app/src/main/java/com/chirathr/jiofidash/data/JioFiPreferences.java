@@ -96,12 +96,12 @@ public class JioFiPreferences {
                 context.getString(R.string.data_preference_file_key), Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
 
-        if (deviceId == NetworkUtils.DEVICE_6_ID || deviceId == NetworkUtils.DEVICE_OTHER_ID) {
+        if (deviceId == NetworkUtils.DEVICE_6_ID) {
             editor.putInt(context.getString(R.string.saved_device_key), NetworkUtils.DEVICE_6_ID);
             editor.apply();
-
-            currentDeviceId = deviceId;
+            currentDeviceId = NetworkUtils.DEVICE_6_ID;
         }
+
     }
 
     public int getDeviceId(Context context) {

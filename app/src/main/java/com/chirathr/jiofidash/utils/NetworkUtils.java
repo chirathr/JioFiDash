@@ -47,7 +47,7 @@ public class NetworkUtils {
 
     private static final String TAG = NetworkUtils.class.getSimpleName();
 
-    private static final String DEFAULT_HOST = "http://jiofi.local.html";
+    public static final String DEFAULT_HOST = "http://jiofi.local.html";
 
     // Instantiate the RequestQueue.
     private static RequestQueue requestQueue;

@@ -52,7 +52,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/select_button"
+            android:id="@+id/select_button_other_jiofi"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -65,7 +65,7 @@
             android:layout_height="1dp"
             android:layout_marginStart="8dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/select_button" />
+            app:layout_constraintTop_toBottomOf="@+id/select_button_jiofi_6" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
