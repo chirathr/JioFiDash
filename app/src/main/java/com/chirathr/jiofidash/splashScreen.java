@@ -54,7 +54,7 @@ public class splashScreen extends AppCompatActivity {
     private void launch() {
         if (!isFinishing()) {
             if (JioFiPreferences.currentDeviceId == NetworkUtils.DEVICE_NOT_SET_ID) {
-
+                startActivity(new Intent(this, OnBoarding.class));
             } else {
                 startActivity(new Intent(this, MainActivity.class));
             }

@@ -9,10 +9,18 @@
         <item name="android:textColor">@color/colorGrey</item>
         <item name="colorControlHighlight">#40ffffff</item>
         <item name="editTextColor">@color/colorGrey</item>
+        <item name="android:colorBackground">@color/colorBackground</item>
 
         <!-- specify enter and exit transitions -->
         <!--<item name="android:windowEnterTransition">@android:transition/fade</item>-->
         <!--<item name="android:windowExitTransition">@android:transition/fade</item>-->
+    </style>
+
+    <style name="OnBoardingTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="android:colorBackground">@color/colorBackground</item>
+        <item name="android:textColor">@color/colorGrey</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
