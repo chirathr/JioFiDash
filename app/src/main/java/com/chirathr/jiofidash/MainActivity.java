@@ -20,6 +20,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.chirathr.jiofidash.data.JioFiData;
+import com.chirathr.jiofidash.fragments.BottomSheetFragment;
 import com.chirathr.jiofidash.fragments.LoginDialog;
 import com.chirathr.jiofidash.progressBar.ColorArcProgressBar;
 import com.chirathr.jiofidash.utils.NetworkUtils;
@@ -59,10 +60,10 @@ public class MainActivity extends AppCompatActivity {
 
         handler.post(batteryUpdateRunnable);
 
-        FragmentManager fragmentManager = getSupportFragmentManager();
-
-        LoginDialog loginDialog = new LoginDialog();
-        loginDialog.show(fragmentManager, "LoginDialog");
+//        FragmentManager fragmentManager = getSupportFragmentManager();
+//
+//        LoginDialog loginDialog = new LoginDialog();
+//        loginDialog.show(fragmentManager, "LoginDialog");
     }
 
     @Override
@@ -92,8 +93,12 @@ public class MainActivity extends AppCompatActivity {
 
         int selectedItemId = item.getItemId();
 
-        if (selectedItemId == R.id.action_restart) {
-            NetworkUtils.changePowerSavingTimeOut(this, 10);
+//        if (selectedItemId == R.id.action_restart) {
+//            NetworkUtils.changePowerSavingTimeOut(this, 10);
+//            return true;
+//        }
+        if (selectedItemId == R.id.action_settings) {
+            showBottomSheetDialogFragment();
             return true;
         }
 
@@ -125,5 +130,10 @@ public class MainActivity extends AppCompatActivity {
         });
 
         VolleySingleton.getInstance(context).addToRequestQueue(jsonObjectRequest);
+    }
+
+    public void showBottomSheetDialogFragment() {
+        BottomSheetFragment bottomSheetFragment = new BottomSheetFragment();
+        bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
     }
 }
