@@ -18,8 +18,8 @@
         android:orientation="vertical">
 
         <TextView
-            style="@style/TextAppearance.MaterialComponents.Headline5"
-            android:layout_width="wrap_content"
+            style="@style/TextAppearance.MaterialComponents.Headline6"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clickable="true"
             android:drawableStart="@drawable/ic_round_refresh_24px"
@@ -32,8 +32,22 @@
             android:textColor="@color/colorTextCaption" />
 
         <TextView
-            style="@style/TextAppearance.MaterialComponents.Headline5"
-            android:layout_width="wrap_content"
+            style="@style/TextAppearance.MaterialComponents.Headline6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:drawableStart="@drawable/ic_round_wifi_24px"
+            android:drawablePadding="16dp"
+            android:drawableTint="@color/colorTextCaption"
+            android:focusable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:padding="16dp"
+            android:text="WiFi Settings"
+            android:textColor="@color/colorTextCaption" />
+
+        <TextView
+            style="@style/TextAppearance.MaterialComponents.Headline6"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clickable="true"
             android:drawableStart="@drawable/ic_round_settings_24px"
@@ -43,6 +57,20 @@
             android:foreground="?android:attr/selectableItemBackground"
             android:padding="16dp"
             android:text="Settings"
+            android:textColor="@color/colorTextCaption" />
+
+        <TextView
+            style="@style/TextAppearance.MaterialComponents.Headline6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:drawableStart="@drawable/ic_round_info_24px"
+            android:drawablePadding="16dp"
+            android:drawableTint="@color/colorTextCaption"
+            android:focusable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:padding="16dp"
+            android:text="About"
             android:textColor="@color/colorTextCaption" />
 
     </LinearLayout>
