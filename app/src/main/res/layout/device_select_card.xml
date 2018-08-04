@@ -44,6 +44,7 @@
             style="@style/TextAppearance.MaterialComponents.Body2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:text="JioFi 6(JMR815) 4G device with 3000mah battery, WiFi and micro SD card support."
             android:textColor="@color/colorTextCaption"

@@ -45,6 +45,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
+            android:layout_marginTop="8dp"
             android:text="Sorry! We do not support older devices yet. You can open the web UI by clicking on the button."
             android:textColor="@color/colorPrimaryRedLight"
             app:layout_constraintEnd_toEndOf="parent"
@@ -65,7 +66,7 @@
             android:layout_height="1dp"
             android:layout_marginStart="8dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/select_button_jiofi_6" />
+            app:layout_constraintTop_toBottomOf="@+id/select_button_other_jiofi" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
