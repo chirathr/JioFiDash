@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView
+    android:id="@+id/wifi_card_main"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="16dp"
+    android:layout_margin="@dimen/card_padding"
     android:background="@color/colorBackgroundCard"
     app:cardBackgroundColor="@color/colorBackgroundCard"
     app:cardCornerRadius="3dp"
-    app:cardElevation="@dimen/card_elevation">
+    app:cardElevation="@dimen/card_elevation"
+    android:clickable="true"
+    android:focusable="true">
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -38,7 +41,7 @@
                 app:srcCompat="@drawable/ic_round_wifi_orange_24px" />
 
             <TextView
-                android:id="@+id/tv_devices_label"
+                android:id="@+id/tv_wifi_label"
                 style="@style/TextAppearance.MaterialComponents.Headline6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -49,15 +52,15 @@
                 app:layout_constraintTop_toTopOf="@+id/wifi_icon" />
 
             <TextView
-                android:id="@+id/tv_devices_count"
+                android:id="@+id/tv_wifi_caption"
                 style="@style/TextAppearance.MaterialComponents.Caption"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="@string/users_default_text"
                 android:textColor="@color/colorWhite"
-                app:layout_constraintStart_toStartOf="@+id/tv_devices_label"
-                app:layout_constraintTop_toBottomOf="@+id/tv_devices_label" />
+                app:layout_constraintStart_toStartOf="@+id/tv_wifi_label"
+                app:layout_constraintTop_toBottomOf="@+id/tv_wifi_label" />
 
             <TextView
                 android:id="@+id/tv_wifi_ssid_label"

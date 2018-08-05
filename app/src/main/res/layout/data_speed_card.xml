@@ -35,7 +35,7 @@
                 app:srcCompat="@drawable/ic_round_public_24px" />
 
             <TextView
-                android:id="@+id/tv_devices_label"
+                android:id="@+id/tv_wifi_label"
                 style="@style/TextAppearance.MaterialComponents.Headline6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -53,8 +53,8 @@
                 android:layout_marginTop="8dp"
                 android:text="@string/download_and_upload_speeds_label"
                 android:textColor="@color/colorGreyDark"
-                app:layout_constraintStart_toStartOf="@+id/tv_devices_label"
-                app:layout_constraintTop_toBottomOf="@+id/tv_devices_label" />
+                app:layout_constraintStart_toStartOf="@+id/tv_wifi_label"
+                app:layout_constraintTop_toBottomOf="@+id/tv_wifi_label" />
 
             <ImageView
                 android:id="@+id/imageView"

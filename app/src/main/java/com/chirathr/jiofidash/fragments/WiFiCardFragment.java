@@ -1,6 +1,7 @@
 package com.chirathr.jiofidash.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -15,6 +16,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.chirathr.jiofidash.R;
+import com.chirathr.jiofidash.WiFiSettings;
 import com.chirathr.jiofidash.utils.NetworkUtils;
 import com.chirathr.jiofidash.utils.VolleySingleton;
 
@@ -69,8 +71,16 @@ public class WiFiCardFragment extends Fragment {
                 getResources().getColor(R.color.colorGrey), android.graphics.PorterDuff.Mode.MULTIPLY);
         devicesLayout = view.findViewById(R.id.wifi_layout);
         showLoading();
-        devicesCount = view.findViewById(R.id.tv_devices_count);
+        devicesCount = view.findViewById(R.id.tv_wifi_caption);
         ssidNameTextView = view.findViewById(R.id.tv_wifi_ssid);
+
+        view.findViewById(R.id.wifi_layout).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), WiFiSettings.class);
+                startActivity(intent);
+            }
+        });
 
         handler.postDelayed(devicesUpdateRunnable, START_DELAY);
 

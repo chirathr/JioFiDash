@@ -51,4 +51,6 @@
     <string name="ssid_name_label">SSID Name</string>
     <string name="wifi_label">WiFi</string>
     <string name="jiofi_ssid_name_default">JioFi SSID name</string>
+    <string name="wifi_caption_text">Change WiFi settings</string>
+    <string name="change_ssid_and_password_button">Change SSID and Password</string>
 </resources>

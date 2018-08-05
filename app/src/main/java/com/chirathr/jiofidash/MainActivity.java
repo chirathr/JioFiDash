@@ -3,6 +3,7 @@ package com.chirathr.jiofidash;
 import android.content.Context;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import android.content.Intent;
@@ -142,6 +143,12 @@ public class MainActivity extends AppCompatActivity implements BottomSheetFragme
                 bottomSheetFragment.dismiss();
                 loginIfNeeded();
                 restartJioFi();
+                break;
+            }
+            case BottomSheetFragment.OPTION_WIFI_SETTINGS_ID: {
+                bottomSheetFragment.dismiss();
+                Intent intent = new Intent(this, WiFiSettings.class);
+                startActivity(intent);
                 break;
             }
             case BottomSheetFragment.OPTION_ADMIN_WEB_UI: {

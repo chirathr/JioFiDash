@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,14 +8,157 @@
     tools:context=".WiFiSettings"
     android:background="@color/colorBackground">
 
-    <include
-        layout="@layout/devices_card"
-        android:layout_width="0dp"
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/wifi_card"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_margin="@dimen/card_padding"
+        android:background="@color/colorBackgroundCard"
+        app:cardBackgroundColor="@color/colorBackgroundCard"
+        app:cardCornerRadius="3dp"
+        app:cardElevation="@dimen/card_elevation"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/wifi_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:paddingBottom="8dp">
+
+            <ImageView
+                android:id="@+id/wifi_icon"
+                android:layout_width="@dimen/card_header_icon"
+                android:layout_height="@dimen/card_header_icon"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_round_wifi_orange_24px" />
+
+            <TextView
+                android:id="@+id/tv_wifi_label"
+                style="@style/TextAppearance.MaterialComponents.Headline6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="@string/wifi_label"
+                android:textColor="@color/colorWhite"
+                app:layout_constraintStart_toEndOf="@+id/wifi_icon"
+                app:layout_constraintTop_toTopOf="@+id/wifi_icon" />
+
+            <TextView
+                android:id="@+id/tv_wifi_caption"
+                style="@style/TextAppearance.MaterialComponents.Caption"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/wifi_caption_text"
+                android:textColor="@color/colorGreyDark"
+                app:layout_constraintStart_toStartOf="@+id/tv_wifi_label"
+                app:layout_constraintTop_toBottomOf="@+id/tv_wifi_label" />
+
+            <TextView
+                android:id="@+id/tv_wifi_ssid_label"
+                style="@style/TextAppearance.MaterialComponents.Caption"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/ssid_name_label"
+                android:textColor="@color/colorGreyDark"
+                app:layout_constraintEnd_toEndOf="@+id/tv_wifi_ssid"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_wifi_ssid"
+                style="@style/TextAppearance.MaterialComponents.Caption"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:text="@string/jiofi_ssid_name_default"
+                android:textColor="@color/colorWhite"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_wifi_ssid_label" />
+
+            <com.google.android.material.button.MaterialButton
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/change_ssid_and_password_button"
+                android:textColor="@color/colorWhite"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/wifi_icon" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/devices_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/card_padding"
+        android:background="@color/colorBackgroundCard"
+        app:cardBackgroundColor="@color/colorBackgroundCard"
+        app:cardCornerRadius="3dp"
+        app:cardElevation="@dimen/card_elevation"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/wifi_card">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/devices_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:paddingBottom="16dp">
+
+            <ImageView
+                android:id="@+id/devices_icon"
+                android:layout_width="@dimen/card_header_icon"
+                android:layout_height="@dimen/card_header_icon"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_round_devices_24px" />
+
+            <TextView
+                android:id="@+id/tv_devices_label"
+                style="@style/TextAppearance.MaterialComponents.Headline6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="@string/devices_label"
+                android:textColor="@color/colorWhite"
+                app:layout_constraintStart_toEndOf="@+id/devices_icon"
+                app:layout_constraintTop_toTopOf="@+id/devices_icon" />
+
+            <TextView
+                android:id="@+id/tv_devices_caption"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/users_default_text"
+                android:textColor="@color/colorWhite"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="@+id/tv_devices_label"
+                app:layout_constraintTop_toBottomOf="@+id/tv_devices_label" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/devices_card" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

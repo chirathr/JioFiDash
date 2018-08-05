@@ -65,6 +65,13 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
             }
         });
 
+        wifiSettingSTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mListener.onOptionSelected(OPTION_WIFI_SETTINGS_ID);
+            }
+        });
+
         return view;
     }
 
