@@ -95,6 +95,7 @@ public class NetworkUtils {
     // Login
 
     private static final String TOKEN_INPUT_CSS_SELECTOR = "input[name='token']";
+    private static final String POWER_SAVING_TIME_INPUT_CSS_SELECTOR = "input[name='Saving_Time'] option[selected]";
     private static final String VALUE_ATTRIBUTE_KEY = "value";
 
     private static String LOGIN_USERNAME_STRING_ID = "identify";
@@ -112,6 +113,9 @@ public class NetworkUtils {
     private static String SAVING_TIME_FORM_TYPE = "sleep_time";
 
     private static final String COOKIE_FORMAT_STRING = "ksession=%s";
+
+
+    public static final int CONNECTION_TIMEOUT = 3000;
 
 
     public static String getUrlString(int urlType) {
@@ -233,7 +237,7 @@ public class NetworkUtils {
         return builder.build().getEncodedQuery();
     }
 
-    public static String postRequest(URL url, Map<String, String> params) {
+    public static String postRequest(URL url, Map<String, String> params, Map<String, String> authHeaders) {
 
         HttpURLConnection connection = null;
         OutputStream outputStream = null;
@@ -243,8 +247,8 @@ public class NetworkUtils {
 
         try {
             connection = (HttpURLConnection) url.openConnection();
-            connection.setConnectTimeout(3000);
-            connection.setReadTimeout(3000);
+            connection.setConnectTimeout(CONNECTION_TIMEOUT);
+            connection.setReadTimeout(CONNECTION_TIMEOUT);
             connection.setRequestMethod("POST");
             connection.setDoInput(true);
             connection.setDoOutput(true);
@@ -253,7 +257,16 @@ public class NetworkUtils {
             outputStream = connection.getOutputStream();
             writer = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
 
-            writer.write(getPostParams(params));
+            if (params != null) {
+                writer.write(getPostParams(params));
+            }
+
+            if (authHeaders != null) {
+                for (Map.Entry<String, String> entry : authHeaders.entrySet()) {
+                    connection.setRequestProperty(entry.getKey(), entry.getValue());
+                }
+            }
+
             writer.flush();
             writer.close();
 
@@ -262,8 +275,8 @@ public class NetworkUtils {
 
             if (responseCode == HttpsURLConnection.HTTP_OK) {
                 String line;
-                BufferedReader br=new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                while ((line=br.readLine()) != null) {
+                BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                while ((line = br.readLine()) != null) {
                     result.append(line);
                 }
             }
@@ -284,6 +297,58 @@ public class NetworkUtils {
         return result.toString();
     }
 
+    public static String getRequest(URL url, Map<String, String> params, Map<String, String> authHeaders) {
+        HttpsURLConnection connection = null;
+        StringBuilder result = new StringBuilder();
+        OutputStream outputStream = null;
+        BufferedWriter writer = null;
+
+        try {
+            connection = (HttpsURLConnection) url.openConnection();
+            connection.setReadTimeout(CONNECTION_TIMEOUT);
+            connection.setConnectTimeout(CONNECTION_TIMEOUT);
+            connection.setRequestMethod("GET");
+            connection.setDoInput(true);
+
+            outputStream = connection.getOutputStream();
+            writer = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
+
+            if (params != null) {
+                writer.write(getPostParams(params));
+            }
+
+            if (authHeaders != null) {
+                for (Map.Entry<String, String> entry : authHeaders.entrySet()) {
+                    connection.setRequestProperty(entry.getKey(), entry.getValue());
+                }
+            }
+
+            connection.connect();
+            int responseCode = connection.getResponseCode();
+
+            if (responseCode == HttpsURLConnection.HTTP_OK) {
+                String line;
+                BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                while ((line = br.readLine()) != null) {
+                    result.append(line);
+                }
+            }
+
+        } catch (ProtocolException e) {
+            Log.v(TAG, "Get request error: " + e.getMessage());
+            return null;
+        } catch (IOException e) {
+            Log.v(TAG, "Get request error: " + e.getMessage());
+            return null;
+        } finally {
+            if (connection != null) {
+                connection.disconnect();
+            }
+        }
+
+        return result.toString();
+    }
+
     public static Map<String, String> getLoginParams(Context context, String csrfToken) {
         Map<String, String> userLoginData = JioFiPreferences.getInstance().getUserLoginData(context);
         Map<String, String> params = new HashMap<>();
@@ -297,13 +362,11 @@ public class NetworkUtils {
         return params;
     }
 
-
-    public static boolean login(final Context context) {
+    public static boolean isLoggedIn() {
 
         Calendar cal = Calendar.getInstance();
         Date dateTimeNow = cal.getTime();
 
-        // If logged in recently
         if (cookieString != null && loggedInAt != null) {
             long diffInTime = (long) ((dateTimeNow.getTime() - loggedInAt.getTime()) / (1000 * 60 * 60 * 24));
             long minutes = TimeUnit.MILLISECONDS.toMinutes(diffInTime);
@@ -311,6 +374,15 @@ public class NetworkUtils {
             if (minutes < LOGIN_TIMEOUT) {
                 return true;
             }
+        }
+
+        return false;
+    }
+
+    public static boolean login(final Context context) {
+
+        if (isLoggedIn()) {
+            return true;
         }
 
         String urlString = getUrlString(LOGIN_URL_ID);
@@ -329,7 +401,7 @@ public class NetworkUtils {
             }
 
             Map<String, String> params = getLoginParams(context, csrfToken);
-            response = postRequest(url, params);
+            response = postRequest(url, params, null);
 
             boolean loginSucess = response != null &&
                     !response.contains("Login Fail") &&
@@ -346,6 +418,9 @@ public class NetworkUtils {
                 Log.v(TAG, "cookie " + cookieString);
                 authenticationError = false;
 
+                Calendar cal = Calendar.getInstance();
+                loggedInAt = cal.getTime();
+
             } else {
                 Log.v(TAG, "Login Failed !");
                 return false;
@@ -359,62 +434,56 @@ public class NetworkUtils {
         }
     }
 
-    public static void changePowerSavingTimeOut(final Context context, final int powerSavingTimeOut) {
+    public static Map<String, String> getAuthHeaders() {
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("Content-Type", "application/x-www-form-urlencoded");
+        params.put("Cookie", getCookieString());
+        return params;
+    }
 
+    public static Map<String, String> getPowerSavingTimeOutParams(int powerSavingTimeOut) {
+        Map<String, String> params = new HashMap<>();
 
-        initRequestQueue(context);
+        params.put(CSRF_TOKEN_STRING_ID, csrfToken);
+        params.put(FORM_TYPE_STRING_ID, SAVING_TIME_FORM_TYPE);
+        params.put(SAVING_TIME_STRING_ID, String.valueOf(powerSavingTimeOut));
 
-        if (cookieString == null) {
-            Log.v(TAG, "Cookie not set, login required!");
-            return;
+        Log.v(TAG, csrfToken);
+
+        return params;
+    }
+
+    public static boolean changePowerSavingTimeOut(Context context, boolean restart, int powerSavingTimeout) {
+
+        if (!isLoggedIn()) {
+            login(context);
         }
 
-        Response.Listener<String> deviceSettingLister = new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                // Display the first 500 characters of the response string.
+        URL url = getURL(URL_DEVICE_SETTINGS_ID);
+        Map<String, String> authHeaders = getAuthHeaders();
+        String response = getRequest(url, null, authHeaders);
+        Document deviceSettingDocument = Jsoup.parse(response);
+        Elements tokenTags = deviceSettingDocument.select(TOKEN_INPUT_CSS_SELECTOR);
 
-                Document deviceSettingDocument = Jsoup.parse(response);
+        if (tokenTags.size() > 1) {
+            csrfToken = tokenTags.first().attr(VALUE_ATTRIBUTE_KEY);
+            // TODO change convert to Variable
+            Log.v(TAG, "changePowerSavingTimeOut csrf: " + csrfToken);
 
-//                Log.v(TAG, response);
-
-                Elements tokenTags = deviceSettingDocument.select(TOKEN_INPUT_CSS_SELECTOR);
-
-                if (tokenTags.size() > 1) {
-                    csrfToken = tokenTags.first().attr(VALUE_ATTRIBUTE_KEY);
-                    // TODO change convert to Variable
-                    Log.v(TAG, "changePowerSavingTimeOut csrf: " + csrfToken);
-                    postPowerSavingTimeOut(context, powerSavingTimeOut);
-                } else {
-                    Log.v(TAG, "Cookie error or login not successful");
-                    login(context);
-                }
+            if (restart) {
+                String selectedVal = deviceSettingDocument.select(POWER_SAVING_TIME_INPUT_CSS_SELECTOR).val();
+                powerSavingTimeout = Integer.parseInt(selectedVal);
             }
-        };
 
-        Response.ErrorListener deviceSettingErrorLister = new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.v(TAG, "Failed to get power save change csrf token: " + error.getMessage());
-            }
-        };
+            Map<String, String> params = getPowerSavingTimeOutParams(powerSavingTimeout);
+            response = postRequest(url, params, authHeaders);
 
+            return response != null;
 
-        String deviceSettingUrl = getUrlString(URL_DEVICE_SETTINGS_ID);
-
-        StringRequest stringRequest = new StringRequest(
-                Request.Method.GET, deviceSettingUrl, deviceSettingLister, deviceSettingErrorLister) {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<>();
-
-                params.put("Cookie", getCookieString());
-
-                return params;
-            }
-        };
-
-        requestQueue.add(stringRequest);
+        } else {
+            Log.v(TAG, "Cookie error or login not successful");
+        }
+        return false;
     }
 
 
