@@ -53,4 +53,9 @@
     <string name="jiofi_ssid_name_default">JioFi SSID name</string>
     <string name="wifi_caption_text">Change WiFi settings</string>
     <string name="change_ssid_and_password_button">Change SSID and Password</string>
+    <string name="devices_connected_text">Devices connected to WiFi</string>
+    <string name="connected_text">Connected</string>
+    <string name="ip_default_text">192.168.15.8</string>
+    <string name="default_mac_text">c4:8e:8f:01:5e:f5</string>
+    <string name="device_count_text">0</string>
 </resources>
