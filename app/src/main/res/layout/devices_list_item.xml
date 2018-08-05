@@ -29,61 +29,61 @@
 
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/tv_device_mac"
             style="@style/TextAppearance.MaterialComponents.Caption"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            android:text="c4:8e:8f:01:5e:f5"
+            android:text="@string/default_mac_text"
             android:textColor="@color/colorGreyDark"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/tv_device_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="chirath-HP-Pavilion-Notebook"
             style="@style/TextAppearance.MaterialComponents.Body2"
             android:textColor="@color/colorWhite"
-            app:layout_constraintStart_toStartOf="@+id/textView"
-            app:layout_constraintTop_toBottomOf="@+id/textView"
+            app:layout_constraintStart_toStartOf="@+id/tv_device_mac"
+            app:layout_constraintTop_toBottomOf="@+id/tv_device_mac"
             android:layout_marginBottom="16dp"/>
 
         <ImageView
-            android:id="@+id/imageView3"
+            android:id="@+id/cancel_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
-            app:layout_constraintBottom_toTopOf="@+id/textView2"
+            app:layout_constraintBottom_toTopOf="@+id/tv_device_name"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView2"
+            app:layout_constraintTop_toBottomOf="@+id/tv_device_name"
             app:srcCompat="@drawable/ic_round_block_24px" />
 
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/tv_device_is_connected"
             style="@style/TextAppearance.MaterialComponents.Caption"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="Connected:"
+            android:text="@string/connected_text"
             android:textColor="@color/colorPrimaryGreenLight"
-            app:layout_constraintStart_toStartOf="@+id/textView2"
-            app:layout_constraintTop_toBottomOf="@+id/textView2" />
+            app:layout_constraintStart_toStartOf="@+id/tv_device_name"
+            app:layout_constraintTop_toBottomOf="@+id/tv_device_name" />
 
         <TextView
-            android:id="@+id/textView4"
+            android:id="@+id/tv_device_ip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
-            android:text="192.168.15.8"
+            android:text="@string/ip_default_text"
             style="@style/TextAppearance.MaterialComponents.Caption"
             android:textColor="@color/colorGreyDark"
-            app:layout_constraintBottom_toTopOf="@+id/textView3"
-            app:layout_constraintStart_toEndOf="@+id/textView3"
-            app:layout_constraintTop_toBottomOf="@+id/textView3" />
+            app:layout_constraintBottom_toTopOf="@+id/tv_device_is_connected"
+            app:layout_constraintStart_toEndOf="@+id/tv_device_is_connected"
+            app:layout_constraintTop_toBottomOf="@+id/tv_device_is_connected" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
