@@ -34,6 +34,7 @@ import java.util.List;
 public class WiFiSettings extends AppCompatActivity {
 
     private static final String TAG = WiFiSettings.class.getSimpleName();
+    private static int DELAY_SSID = 5000;
     private static int DELAY = 1000;
 
     private TextView wiFiSSIDTextView;
@@ -45,12 +46,19 @@ public class WiFiSettings extends AppCompatActivity {
     private DeviceListAdapter mDeviceListAdapter;
 
     private Handler handler;
-    private Runnable loadWiFiDataRunnable = new Runnable() {
+    private Runnable loadDeviceListRunnable = new Runnable() {
+        @Override
+        public void run() {
+            loadDeviceList(WiFiSettings.this);
+            handler.postDelayed(loadDeviceListRunnable, DELAY);
+        }
+    };
+
+    private Runnable loadSSIDRunnable = new Runnable() {
         @Override
         public void run() {
             loadDevicesData(WiFiSettings.this);
-            loadDeviceList(WiFiSettings.this);
-            handler.postDelayed(loadWiFiDataRunnable, DELAY);
+            handler.postDelayed(loadSSIDRunnable, DELAY_SSID);
         }
     };
 
@@ -71,7 +79,8 @@ public class WiFiSettings extends AppCompatActivity {
 
         handler = new Handler();
 
-        handler.post(loadWiFiDataRunnable);
+        handler.post(loadDeviceListRunnable);
+        handler.post(loadSSIDRunnable);
     }
 
     public void loadDeviceList(Context context) {
@@ -83,11 +92,13 @@ public class WiFiSettings extends AppCompatActivity {
             public void onResponse(JSONObject response) {
                 deviceViewModels = new ArrayList<>();
                 try {
+                    wiFiDeviceCount.setText(response.getString(JioFiData.USER_COUNT));
                     String deviceListString = response.getString(JioFiData.USER_LIST);
                     String[] deviceList = deviceListString.split(";");
 
                     for (String deviceInfoString: deviceList) {
-                        deviceViewModels.add(new DeviceViewModel(deviceInfoString));
+                        if (!deviceInfoString.contains("Static"))
+                            deviceViewModels.add(new DeviceViewModel(deviceInfoString));
                     }
 
                     if (mDeviceListAdapter == null) {
@@ -121,10 +132,6 @@ public class WiFiSettings extends AppCompatActivity {
             public void onResponse(String response) {
                 Document lanInfoDocument = Jsoup.parse(response);
                 wiFiSSIDTextView.setText(lanInfoDocument.getElementById("ssid").text());
-
-                String noOfClients = lanInfoDocument.getElementById("noOfClient").text();
-                wiFiDeviceCount.setText(String.valueOf(noOfClients));
-
                 showData();
             }
         }, new Response.ErrorListener() {

@@ -1,5 +1,6 @@
 package com.chirathr.jiofidash.viewholders;
 
+import android.graphics.Color;
 import android.view.View;
 import android.widget.TextView;
 
@@ -25,10 +26,13 @@ public class DeviceViewHolder extends RecyclerView.ViewHolder {
         isConnectedTextView = itemView.findViewById(R.id.tv_device_is_connected);
     }
 
-    public void bindData(final DeviceViewModel viewModel) {
+    public void bindData(DeviceViewModel viewModel) {
         deviceNameTextView.setText(viewModel.getDeviceName());
         macAddressTextView.setText(viewModel.getMacAddress());
         ipAddressTextView.setText(viewModel.getIpAddress());
         isConnectedTextView.setText(viewModel.getIsConnectedString());
+        if (!viewModel.getIsConnected()) {
+            isConnectedTextView.setTextColor(Color.parseColor("#ff7539"));
+        }
     }
 }

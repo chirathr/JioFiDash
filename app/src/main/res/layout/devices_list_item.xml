@@ -15,18 +15,17 @@
         android:layout_height="wrap_content"
         android:paddingBottom="16dp">
 
-        <!--<ImageView-->
-        <!--android:id="@+id/devices_divided"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="0dp"-->
-        <!--android:layout_marginLeft="16dp"-->
-        <!--android:layout_marginRight="16dp"-->
-        <!--android:layout_marginTop="0dp"-->
-        <!--android:background="@color/dividerColor"-->
-        <!--app:layout_constraintStart_toStartOf="parent"-->
-        <!--app:layout_constraintTop_toTopOf="parent"-->
-        <!--app:srcCompat="?attr/dividerHorizontal" />-->
-
+        <ImageView
+        android:id="@+id/devices_divided"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="0dp"
+        android:background="@color/dividerColor"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="?attr/dividerHorizontal" />
 
         <TextView
             android:id="@+id/tv_device_mac"
@@ -45,7 +44,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="chirath-HP-Pavilion-Notebook"
+            android:text="@string/default_device_text"
             style="@style/TextAppearance.MaterialComponents.Body2"
             android:textColor="@color/colorWhite"
             app:layout_constraintStart_toStartOf="@+id/tv_device_mac"
@@ -85,6 +84,4 @@
             app:layout_constraintStart_toEndOf="@+id/tv_device_is_connected"
             app:layout_constraintTop_toBottomOf="@+id/tv_device_is_connected" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
 </com.google.android.material.card.MaterialCardView>

@@ -58,4 +58,5 @@
     <string name="ip_default_text">192.168.15.8</string>
     <string name="default_mac_text">c4:8e:8f:01:5e:f5</string>
     <string name="device_count_text">0</string>
+    <string name="default_device_text">chirath-HP-Pavilion-Notebook</string>
 </resources>
