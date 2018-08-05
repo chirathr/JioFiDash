@@ -480,7 +480,7 @@ public class NetworkUtils {
 
         if (tokenTags.size() > 1) {
             csrfToken = tokenTags.first().attr(VALUE_ATTRIBUTE_KEY);
-            // TODO change convert to Variable
+            // TODO convert to Variable
             Log.v(TAG, "changePowerSavingTimeOut csrf: " + csrfToken);
 
             if (restart) {

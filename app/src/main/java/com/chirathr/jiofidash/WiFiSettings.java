@@ -109,10 +109,6 @@ public class WiFiSettings extends AppCompatActivity {
                         mDeviceListAdapter.setDeviceViewModels(deviceViewModels);
                     }
 
-//                    for (DeviceViewModel viewModel: deviceViewModels) {
-//                        Log.v("ViewModel", viewModel.getDeviceName());
-//                    }
-
                 } catch (JSONException e) {
                     Log.v(TAG, "userlistinfo not found in json response or json error: " + e.getMessage());
                 }
@@ -149,6 +145,7 @@ public class WiFiSettings extends AppCompatActivity {
         VolleySingleton.getInstance(context).addToRequestQueue(lanInfoRequest);
     }
 
+    // TODO complete the progress bar
     private void showLoading() {
 //        loadingProgressBar.setVisibility(View.VISIBLE);
 //        devicesLayout.setAlpha(Float.parseFloat("0.2"));
@@ -158,4 +155,13 @@ public class WiFiSettings extends AppCompatActivity {
 //        loadingProgressBar.setVisibility(View.INVISIBLE);
 //        devicesLayout.setAlpha(Float.parseFloat("1.0"));
     }
+
+    // TODO AsyncTask to change SSID and password
+
+    // TODO AsyncTask to block a device
+    // TODO add blocked device to SQLite local storage
+    // TODO Show blocked device under the list of devices
+    // TODO AsyncTask to unblock a device and remove from sqlite storage
+
+    // TODO change the appbar name to WiFI Settings and add a back button
 }

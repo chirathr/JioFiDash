@@ -54,13 +54,11 @@ public class JioFiPreferences {
         this.password = password;
     }
 
-    // TODO load from shared preference
     public void saveUsernameAndPassword(Context context) {
 
         if (username == null || password == null) {
             return;
         }
-
         SharedPreferences sharedPref = context.getSharedPreferences(
                 context.getString(R.string.data_preference_file_key), Context.MODE_PRIVATE);
 
