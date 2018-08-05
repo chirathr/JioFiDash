@@ -39,5 +39,6 @@ public class DeviceListAdapter extends RecyclerView.Adapter<DeviceViewHolder> {
 
     public void setDeviceViewModels(List<DeviceViewModel> models) {
         viewModels = models;
+        notifyDataSetChanged();
     }
 }
