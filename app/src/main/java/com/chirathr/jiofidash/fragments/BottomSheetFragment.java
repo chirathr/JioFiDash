@@ -17,8 +17,9 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
 
     public static final int OPTION_RESTART_ID = 0;
     public static final int OPTION_WIFI_SETTINGS_ID = 1;
-    public static final int OPTION_SETTINGS_ID = 2;
-    public static final int OPTION_ABOUT_ID = 3;
+    public static final int OPTION_ADMIN_WEB_UI = 2;
+    public static final int OPTION_SETTINGS_ID = 3;
+    public static final int OPTION_ABOUT_ID = 4;
 
     private onOptionSelectedListener mListener;
 
@@ -33,6 +34,10 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
     }
 
     private TextView restartTextView;
+    private TextView wifiSettingSTextView;
+    private TextView adminTextView;
+    private TextView settingsTextView;
+    private TextView aboutTextView;
 
     @Nullable
     @Override
@@ -41,11 +46,22 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
         View view = inflater.inflate(R.layout.bottom_sheet_fragment_card, container, false);
 
         restartTextView = (TextView) view.findViewById(R.id.action_restart);
+        wifiSettingSTextView = (TextView) view.findViewById(R.id.action_wifi_settings);
+        adminTextView = (TextView) view.findViewById(R.id.action_open_admin_web_ui);
+        settingsTextView = (TextView) view.findViewById(R.id.action_settings);
+        aboutTextView = (TextView) view.findViewById(R.id.action_about);
 
         restartTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mListener.onOptionSelected(OPTION_RESTART_ID);
+            }
+        });
+
+        adminTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mListener.onOptionSelected(OPTION_ADMIN_WEB_UI);
             }
         });
 

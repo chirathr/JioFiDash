@@ -5,6 +5,8 @@ import android.content.Context;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -141,6 +143,17 @@ public class MainActivity extends AppCompatActivity implements BottomSheetFragme
                 loginIfNeeded();
                 restartJioFi();
                 break;
+            }
+            case BottomSheetFragment.OPTION_ADMIN_WEB_UI: {
+                bottomSheetFragment.dismiss();
+                Uri webpage = Uri.parse(NetworkUtils.DEFAULT_HOST);
+                Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
+                if (intent.resolveActivity(getPackageManager()) != null) {
+                    startActivity(intent);
+                } else{
+                    //Page not found
+                    Log.v(TAG, "page not found, open web page.");
+                }
             }
         }
     }
