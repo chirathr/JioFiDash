@@ -85,6 +85,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/tv_wifi_ssid_label" />
 
             <com.google.android.material.button.MaterialButton
+                android:id="@+id/change_ssid_password_button"
                 style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -144,11 +145,32 @@
                 android:id="@+id/tv_devices_caption"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/users_default_text"
+                android:text="@string/devices_connected_text"
                 android:textColor="@color/colorWhite"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="@+id/tv_devices_label"
                 app:layout_constraintTop_toBottomOf="@+id/tv_devices_label" />
+
+            <TextView
+                android:id="@+id/tv_device_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:text="@string/device_count_text"
+                style="@style/TextAppearance.MaterialComponents.Headline5"
+                android:textColor="@color/colorWhite"
+                app:layout_constraintBottom_toTopOf="@+id/devices_icon"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/devices_icon" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/users_list_recyler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:scrollbars="vertical"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/devices_icon" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
