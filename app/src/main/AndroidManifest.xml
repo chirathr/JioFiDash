@@ -26,8 +26,8 @@
         </activity>
         <activity
             android:name=".OnBoarding"
-            android:theme="@style/OnBoardingTheme">
-        </activity>
+            android:theme="@style/OnBoardingTheme"></activity>
+        <activity android:name=".WiFiSettings"></activity>
     </application>
 
 </manifest>

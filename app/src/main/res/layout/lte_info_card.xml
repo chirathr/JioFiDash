@@ -26,7 +26,7 @@
             android:focusable="true">
 
             <ImageView
-                android:id="@+id/lte_network_icon"
+                android:id="@+id/wifi_icon"
                 android:layout_width="@dimen/card_header_icon"
                 android:layout_height="@dimen/card_header_icon"
                 android:layout_marginStart="16dp"
@@ -43,8 +43,8 @@
                 android:layout_marginStart="16dp"
                 android:text="@string/network_label"
                 android:textColor="@color/colorWhite"
-                app:layout_constraintStart_toEndOf="@+id/lte_network_icon"
-                app:layout_constraintTop_toTopOf="@+id/lte_network_icon" />
+                app:layout_constraintStart_toEndOf="@+id/wifi_icon"
+                app:layout_constraintTop_toTopOf="@+id/wifi_icon" />
 
             <TextView
                 android:id="@+id/tv_lte_speed_text"
@@ -77,8 +77,8 @@
                 android:layout_marginTop="24dp"
                 android:text="@string/lte_band_label"
                 android:textColor="@color/colorGreyDark"
-                app:layout_constraintStart_toStartOf="@+id/lte_network_icon"
-                app:layout_constraintTop_toBottomOf="@+id/lte_network_icon" />
+                app:layout_constraintStart_toStartOf="@+id/wifi_icon"
+                app:layout_constraintTop_toBottomOf="@+id/wifi_icon" />
 
             <TextView
                 android:id="@+id/tv_lte_bandwidth"

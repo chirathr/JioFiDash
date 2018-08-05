@@ -64,7 +64,8 @@ public class NetworkUtils {
             "/performance_ajax.cgi",
             "/login.cgi",
             "/Device_setting.cgi",
-            "/Device_setting_sv.cgi"
+            "/Device_setting_sv.cgi",
+            "/LAN_info.cgi"
     };
 
     // Id to represent types of data from device urls
@@ -76,6 +77,7 @@ public class NetworkUtils {
     public static final int LOGIN_URL_ID = 5;
     public static final int URL_DEVICE_SETTINGS_ID = 6;
     public static final int URL_DEVICE_SETTINGS_POST_ID = 7;
+    public static final int LAN_INFO_PAGE_ID = 8;
 
     // Get device url based on type
     public static String[] getDeviceUrls(int deviceType) {

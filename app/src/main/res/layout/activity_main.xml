@@ -70,8 +70,8 @@
                 app:layout_constraintTop_toBottomOf="@+id/include" />
 
             <fragment
-                android:id="@+id/devices_fragment"
-                android:name="com.chirathr.jiofidash.fragments.DevicesCardFragment"
+                android:id="@+id/wifi_fragment"
+                android:name="com.chirathr.jiofidash.fragments.WiFiCardFragment"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
@@ -87,7 +87,7 @@
                 android:layout_height="1dp"
                 android:layout_marginStart="8dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/devices_fragment" />
+                app:layout_constraintTop_toBottomOf="@+id/wifi_fragment" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

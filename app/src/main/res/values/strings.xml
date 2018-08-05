@@ -22,7 +22,7 @@
     <string name="default_lte_cell_id_text">452</string>
     <string name="default_speed_text">0 Kbps</string>
     <string name="users_text_label">Users</string>
-    <string name="users_default_text">0</string>
+    <string name="users_default_text">0 devices</string>
     <string name="action_restart_jiofi">Restart JioFi</string>
     <string name="network_label">Network</string>
     <string name="lte_label">LTE:</string>
@@ -48,4 +48,7 @@
     <!-- JioFi restart -->
     <string name="restart_successful">Restart successful, please wait few minutes.</string>
     <string name="retry">Retry</string>
+    <string name="ssid_name_label">SSID Name</string>
+    <string name="wifi_label">WiFi</string>
+    <string name="jiofi_ssid_name_default">JioFi SSID name</string>
 </resources>

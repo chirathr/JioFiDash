@@ -1,6 +1,5 @@
 package com.chirathr.jiofidash.fragments;
 
-import android.accounts.NetworkErrorException;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
@@ -14,28 +13,29 @@ import android.widget.TextView;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.chirathr.jiofidash.R;
-import com.chirathr.jiofidash.data.JioFiData;
 import com.chirathr.jiofidash.utils.NetworkUtils;
 import com.chirathr.jiofidash.utils.VolleySingleton;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
-public class DevicesCardFragment extends Fragment {
+public class WiFiCardFragment extends Fragment {
 
-    public static final String TAG = DevicesCardFragment.class.getSimpleName();
+    public static final String TAG = WiFiCardFragment.class.getSimpleName();
 
     private static final int DELAY = 5000;
     private static final int START_DELAY = 1000;
 
     private TextView devicesCount;
+    private TextView ssidNameTextView;
     private ProgressBar loadingProgressBar;
     private ConstraintLayout devicesLayout;
 
@@ -62,14 +62,15 @@ public class DevicesCardFragment extends Fragment {
 
         handler = new Handler();
 
-        View view = inflater.inflate(R.layout.devices_card, container, false);
+        View view = inflater.inflate(R.layout.wifi_card, container, false);
 
-        loadingProgressBar = view.findViewById(R.id.devices_loading_progress_bar);
+        loadingProgressBar = view.findViewById(R.id.wifi_progress_bar);
         loadingProgressBar.getIndeterminateDrawable().setColorFilter(
                 getResources().getColor(R.color.colorGrey), android.graphics.PorterDuff.Mode.MULTIPLY);
-        devicesLayout = view.findViewById(R.id.devices_layout);
+        devicesLayout = view.findViewById(R.id.wifi_layout);
         showLoading();
         devicesCount = view.findViewById(R.id.tv_devices_count);
+        ssidNameTextView = view.findViewById(R.id.tv_wifi_ssid);
 
         handler.postDelayed(devicesUpdateRunnable, START_DELAY);
 
@@ -94,29 +95,35 @@ public class DevicesCardFragment extends Fragment {
 
     public void loadDevicesData(Context context) {
 
-        String urlString = NetworkUtils.getUrlString(NetworkUtils.LAN_INFO_ID);
+        String urlString = NetworkUtils.getUrlString(NetworkUtils.LAN_INFO_PAGE_ID);
 
-        final JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
-                Request.Method.GET, urlString, null, new Response.Listener<JSONObject>() {
+        StringRequest lanInfoRequest = new StringRequest(Request.Method.GET,
+                urlString, new Response.Listener<String>() {
             @Override
-            public void onResponse(JSONObject response) {
-                try {
-                    devicesCount.setText(response.getString(JioFiData.USER_COUNT));
-                    showDataUsage();
-                } catch (JSONException e) {
-                    Log.v(TAG, "JSONException: " + e.getMessage());
-                    showLoading();
+            public void onResponse(String response) {
+                Document lanInfoDocument = Jsoup.parse(response);
+                ssidNameTextView.setText(lanInfoDocument.getElementById("ssid").text());
+
+                String noOfClients = lanInfoDocument.getElementById("noOfClient").text();
+                String devicesFormatText;
+                if (noOfClients.equals("1")) {
+                    devicesFormatText = "%s device";
+                } else {
+                    devicesFormatText = "%s devices";
                 }
+                devicesCount.setText(String.format(devicesFormatText, noOfClients));
+
+                showData();
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.v(TAG, "Volley error: " + error.getMessage());
+                Log.v(TAG, "Volley string request error: " + error.getMessage());
                 showLoading();
             }
         });
 
-        VolleySingleton.getInstance(context).addToRequestQueue(jsonObjectRequest);
+        VolleySingleton.getInstance(context).addToRequestQueue(lanInfoRequest);
     }
 
     private void showLoading() {
@@ -124,7 +131,7 @@ public class DevicesCardFragment extends Fragment {
         devicesLayout.setAlpha(Float.parseFloat("0.2"));
     }
 
-    private void showDataUsage() {
+    private void showData() {
         loadingProgressBar.setVisibility(View.INVISIBLE);
         devicesLayout.setAlpha(Float.parseFloat("1.0"));
     }

@@ -19,7 +19,7 @@
         android:focusable="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/devices_layout"
+            android:id="@+id/wifi_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:paddingBottom="16dp"
@@ -35,7 +35,7 @@
                 android:layout_marginTop="16dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_round_devices_24px" />
+                app:srcCompat="@drawable/ic_round_wifi_orange_24px" />
 
             <TextView
                 android:id="@+id/tv_devices_label"
@@ -43,37 +43,49 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:text="@string/devices_label"
+                android:text="@string/wifi_label"
                 android:textColor="@color/colorWhite"
                 app:layout_constraintStart_toEndOf="@+id/wifi_icon"
                 app:layout_constraintTop_toTopOf="@+id/wifi_icon" />
 
             <TextView
-                android:id="@+id/tv_devices_label_caption"
+                android:id="@+id/tv_devices_count"
                 style="@style/TextAppearance.MaterialComponents.Caption"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:text="@string/connected_devices_caption_text"
-                android:textColor="@color/colorGreyDark"
-                app:layout_constraintBottom_toTopOf="@+id/tv_devices_count"
-                app:layout_constraintStart_toEndOf="@+id/tv_devices_count"
-                app:layout_constraintTop_toBottomOf="@+id/tv_devices_count" />
-
-            <TextView
-                android:id="@+id/tv_devices_count"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:text="@string/users_default_text"
                 android:textColor="@color/colorWhite"
-                android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="@+id/tv_devices_label"
                 app:layout_constraintTop_toBottomOf="@+id/tv_devices_label" />
+
+            <TextView
+                android:id="@+id/tv_wifi_ssid_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/ssid_name_label"
+                app:layout_constraintEnd_toEndOf="@+id/tv_wifi_ssid"
+                app:layout_constraintTop_toTopOf="parent"
+                style="@style/TextAppearance.MaterialComponents.Caption"
+                android:textColor="@color/colorGreyDark"/>
+
+            <TextView
+                android:id="@+id/tv_wifi_ssid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:text="@string/jiofi_ssid_name_default"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_wifi_ssid_label"
+                style="@style/TextAppearance.MaterialComponents.Caption"
+                android:textColor="@color/colorWhite"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <ProgressBar
-            android:id="@+id/devices_loading_progress_bar"
+            android:id="@+id/wifi_progress_bar"
             style="?android:attr/progressBarStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

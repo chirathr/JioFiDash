@@ -25,7 +25,7 @@
             android:id="@+id/data_speed_layout">
 
             <ImageView
-                android:id="@+id/lte_network_icon"
+                android:id="@+id/wifi_icon"
                 android:layout_width="@dimen/card_header_icon"
                 android:layout_height="@dimen/card_header_icon"
                 android:layout_marginStart="16dp"
@@ -42,8 +42,8 @@
                 android:layout_marginStart="16dp"
                 android:text="@string/data_speed_label"
                 android:textColor="@color/colorWhite"
-                app:layout_constraintStart_toEndOf="@+id/lte_network_icon"
-                app:layout_constraintTop_toTopOf="@+id/lte_network_icon" />
+                app:layout_constraintStart_toEndOf="@+id/wifi_icon"
+                app:layout_constraintTop_toTopOf="@+id/wifi_icon" />
 
             <TextView
                 android:id="@+id/tv_devices_label_caption"
@@ -62,8 +62,8 @@
                 android:layout_height="@dimen/data_speed_icon_size"
                 android:layout_marginStart="0dp"
                 android:layout_marginTop="24dp"
-                app:layout_constraintStart_toStartOf="@+id/lte_network_icon"
-                app:layout_constraintTop_toBottomOf="@+id/lte_network_icon"
+                app:layout_constraintStart_toStartOf="@+id/wifi_icon"
+                app:layout_constraintTop_toBottomOf="@+id/wifi_icon"
                 app:srcCompat="@drawable/ic_round_vertical_align_bottom_24px" />
 
             <ImageView

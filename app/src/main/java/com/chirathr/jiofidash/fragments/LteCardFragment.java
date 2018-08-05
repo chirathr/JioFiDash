@@ -92,7 +92,7 @@ public class LteCardFragment extends Fragment {
 
         showLoading();
 
-        lteNetworkIcon = (ImageView) view.findViewById(R.id.lte_network_icon);
+        lteNetworkIcon = (ImageView) view.findViewById(R.id.wifi_icon);
         lteSpeedTextView = (TextView) view.findViewById(R.id.tv_lte_speed_text);
         lteBandTextView = (TextView) view.findViewById(R.id.tv_lte_band);
         lteBandwidthTextView = (TextView) view.findViewById(R.id.tv_lte_bandwidth);
