@@ -43,4 +43,9 @@
     <string name="saved_device_key">device_id</string>
     <string name="title_activity_on_boarding">OnBoarding</string>
     <string name="section_format">Hello World from section: %1$d</string>
+
+
+    <!-- JioFi restart -->
+    <string name="restart_successful">Restart successful, please wait few minutes.</string>
+    <string name="retry">Retry</string>
 </resources>

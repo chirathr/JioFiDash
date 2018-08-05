@@ -54,8 +54,5 @@ public class OnBoarding extends AppCompatActivity {
                 }
             }
         });
-
     }
-
-
 }

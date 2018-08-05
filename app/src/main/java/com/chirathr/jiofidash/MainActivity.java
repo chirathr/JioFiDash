@@ -3,38 +3,41 @@ package com.chirathr.jiofidash;
 import android.content.Context;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.TextView;
+import android.view.View;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.chirathr.jiofidash.data.JioFiData;
+import com.chirathr.jiofidash.data.JioFiPreferences;
 import com.chirathr.jiofidash.fragments.BottomSheetFragment;
 import com.chirathr.jiofidash.fragments.LoginDialog;
 import com.chirathr.jiofidash.progressBar.ColorArcProgressBar;
 import com.chirathr.jiofidash.utils.NetworkUtils;
 import com.chirathr.jiofidash.utils.VolleySingleton;
+import com.google.android.material.snackbar.Snackbar;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import static java.lang.Thread.sleep;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements BottomSheetFragment.onOptionSelectedListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
     private static final int DELAY = 1000;
+
+    private View mainCordinateView;
 
     private ColorArcProgressBar batteryProgressBar;
     private boolean updateUI = true;
@@ -49,21 +52,20 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
+    private BottomSheetFragment bottomSheetFragment;
+    private RestartJioFiAsyncTask restartJioFiAsyncTask;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mainCordinateView = findViewById(R.id.main_layout);
 
         handler = new Handler();
-
         batteryProgressBar = (ColorArcProgressBar) findViewById(R.id.batteryProgressBar);
-
         handler.post(batteryUpdateRunnable);
 
-//        FragmentManager fragmentManager = getSupportFragmentManager();
-//
-//        LoginDialog loginDialog = new LoginDialog();
-//        loginDialog.show(fragmentManager, "LoginDialog");
+        bottomSheetFragment = new BottomSheetFragment();
     }
 
     @Override
@@ -90,13 +92,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         int selectedItemId = item.getItemId();
 
-//        if (selectedItemId == R.id.action_restart) {
-//            NetworkUtils.changePowerSavingTimeOut(this, 10);
-//            return true;
-//        }
         if (selectedItemId == R.id.action_settings) {
             showBottomSheetDialogFragment();
             return true;
@@ -133,7 +130,76 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void showBottomSheetDialogFragment() {
-        BottomSheetFragment bottomSheetFragment = new BottomSheetFragment();
         bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
+    }
+
+    @Override
+    public void onOptionSelected(int optionId) {
+        switch (optionId) {
+            case BottomSheetFragment.OPTION_RESTART_ID: {
+                bottomSheetFragment.dismiss();
+                loginIfNeeded();
+                restartJioFi();
+                break;
+            }
+        }
+    }
+
+    public void loginIfNeeded() {
+        if (!JioFiPreferences.getInstance().isLoginDataAvailable(this)) {
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            LoginDialog loginDialog = new LoginDialog();
+            loginDialog.show(fragmentManager, "LoginDialog");
+        }
+    }
+
+    public void restartJioFi() {
+        restartJioFiAsyncTask = new RestartJioFiAsyncTask();
+        restartJioFiAsyncTask.execute();
+    }
+
+    private class RestartJioFiAsyncTask extends AsyncTask<Void, Void, Void> {
+
+        private boolean restarted;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            restarted = false;
+
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            restarted = NetworkUtils.changePowerSavingTimeOut(getApplicationContext(), false, 10);
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+
+            if (restarted) {
+                Log.v(TAG, "Restart successful");
+
+                NetworkUtils.clearLogin();
+
+                Snackbar.make(mainCordinateView, R.string.restart_successful, Snackbar.LENGTH_LONG)
+                        .show();
+            }
+            else {
+                Log.v(TAG, "Restart failed");
+
+                Snackbar.make(mainCordinateView, "Restart failed!", Snackbar.LENGTH_LONG)
+                        .setAction(R.string.retry, new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        loginIfNeeded();
+                                        restartJioFi();
+                                    }
+                                })
+                        .show();
+            }
+        }
     }
 }

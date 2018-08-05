@@ -252,19 +252,18 @@ public class NetworkUtils {
             connection.setRequestMethod("POST");
             connection.setDoInput(true);
             connection.setDoOutput(true);
-            connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+
+            if (authHeaders != null) {
+                for (Map.Entry<String, String> entry : authHeaders.entrySet()) {
+                    connection.setRequestProperty(entry.getKey(), entry.getValue());
+                }
+            }
 
             outputStream = connection.getOutputStream();
             writer = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
 
             if (params != null) {
                 writer.write(getPostParams(params));
-            }
-
-            if (authHeaders != null) {
-                for (Map.Entry<String, String> entry : authHeaders.entrySet()) {
-                    connection.setRequestProperty(entry.getKey(), entry.getValue());
-                }
             }
 
             writer.flush();
@@ -298,23 +297,25 @@ public class NetworkUtils {
     }
 
     public static String getRequest(URL url, Map<String, String> params, Map<String, String> authHeaders) {
-        HttpsURLConnection connection = null;
+        HttpURLConnection connection = null;
         StringBuilder result = new StringBuilder();
         OutputStream outputStream = null;
         BufferedWriter writer = null;
 
         try {
-            connection = (HttpsURLConnection) url.openConnection();
+
+            Log.v(TAG, url.toString());
+
+            connection = (HttpURLConnection) url.openConnection();
             connection.setReadTimeout(CONNECTION_TIMEOUT);
             connection.setConnectTimeout(CONNECTION_TIMEOUT);
             connection.setRequestMethod("GET");
             connection.setDoInput(true);
 
-            outputStream = connection.getOutputStream();
-            writer = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
-
             if (params != null) {
-                writer.write(getPostParams(params));
+//                outputStream = connection.getOutputStream();
+//                writer = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
+//                writer.write(getPostParams(params));
             }
 
             if (authHeaders != null) {
@@ -377,6 +378,11 @@ public class NetworkUtils {
         }
 
         return false;
+    }
+
+    public static void clearLogin() {
+        cookieString = null;
+        loggedInAt = null;
     }
 
     public static boolean login(final Context context) {
@@ -462,6 +468,11 @@ public class NetworkUtils {
         URL url = getURL(URL_DEVICE_SETTINGS_ID);
         Map<String, String> authHeaders = getAuthHeaders();
         String response = getRequest(url, null, authHeaders);
+
+        if (response == null) {
+            return false;
+        }
+
         Document deviceSettingDocument = Jsoup.parse(response);
         Elements tokenTags = deviceSettingDocument.select(TOKEN_INPUT_CSS_SELECTOR);
 
@@ -476,6 +487,7 @@ public class NetworkUtils {
             }
 
             Map<String, String> params = getPowerSavingTimeOutParams(powerSavingTimeout);
+            url = getURL(URL_DEVICE_SETTINGS_POST_ID);
             response = postRequest(url, params, authHeaders);
 
             return response != null;
