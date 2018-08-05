@@ -69,6 +69,13 @@ public class JioFiPreferences {
         editor.apply();
     }
 
+    public boolean isLoginDataAvailable(Context context) {
+        if (username != null && password != null) {
+            return true;
+        }
+        return false;
+    }
+
     public boolean loadUsernameAndPassword(Context context) {
 
         if (username != null && password != null) {
