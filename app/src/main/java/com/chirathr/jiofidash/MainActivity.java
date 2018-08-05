@@ -36,7 +36,8 @@ import org.json.JSONObject;
 
 import static java.lang.Thread.sleep;
 
-public class MainActivity extends AppCompatActivity implements BottomSheetFragment.onOptionSelectedListener, LoginDialog.LoginCompleteListener {
+public class MainActivity extends AppCompatActivity
+        implements BottomSheetFragment.onOptionSelectedListener, LoginDialog.LoginCompleteListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
     private static final int DELAY = 1000;
@@ -144,7 +145,11 @@ public class MainActivity extends AppCompatActivity implements BottomSheetFragme
         switch (optionId) {
             case BottomSheetFragment.OPTION_RESTART_ID: {
                 bottomSheetFragment.dismiss();
-                loginIfNeeded(LOGIN_COMPLETE_ACTION_RESTART);
+                if (JioFiPreferences.getInstance().isLoginDataAvailable(this)) {
+                    restartJioFi();
+                } else {
+                    showLoginDialog(LOGIN_COMPLETE_ACTION_RESTART);
+                }
                 break;
             }
             case BottomSheetFragment.OPTION_WIFI_SETTINGS_ID: {
@@ -159,7 +164,7 @@ public class MainActivity extends AppCompatActivity implements BottomSheetFragme
                 Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
                 if (intent.resolveActivity(getPackageManager()) != null) {
                     startActivity(intent);
-                } else{
+                } else {
                     //Page not found
                     Log.v(TAG, "page not found, open web page.");
                 }
@@ -167,12 +172,10 @@ public class MainActivity extends AppCompatActivity implements BottomSheetFragme
         }
     }
 
-    public void loginIfNeeded(String action) {
-        if (!JioFiPreferences.getInstance().isLoginDataAvailable(this)) {
-            DialogFragment loginDialog = new LoginDialog();
-            ((LoginDialog) loginDialog).setActionAfterLogin(this, action);
-            loginDialog.show(getSupportFragmentManager(), "LoginDialog");
-        }
+    public void showLoginDialog(String action) {
+        DialogFragment loginDialog = new LoginDialog();
+        ((LoginDialog) loginDialog).setActionAfterLogin(this, action);
+        loginDialog.show(getSupportFragmentManager(), "LoginDialog");
     }
 
     public void restartJioFi() {
@@ -214,19 +217,20 @@ public class MainActivity extends AppCompatActivity implements BottomSheetFragme
 
                 Snackbar.make(mainCordinateView, R.string.restart_successful, Snackbar.LENGTH_LONG)
                         .show();
-            }
-            else {
+            } else {
                 Log.v(TAG, "Restart failed");
 
                 Snackbar.make(mainCordinateView, "Restart failed!", Snackbar.LENGTH_LONG)
                         .setAction(R.string.retry, new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View view) {
-                                        loginIfNeeded(LOGIN_COMPLETE_ACTION_RESTART);
-                                        restartJioFi();
-                                    }
-                                })
-                        .show();
+                            @Override
+                            public void onClick(View view) {
+                                if (JioFiPreferences.getInstance().isLoginDataAvailable(MainActivity.this)) {
+                                    restartJioFi();
+                                } else {
+                                    showLoginDialog(LOGIN_COMPLETE_ACTION_RESTART);
+                                }
+                            }
+                        }).show();
             }
         }
     }
