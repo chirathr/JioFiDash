@@ -109,6 +109,10 @@ public class WiFiSettings extends AppCompatActivity {
                         mDeviceListAdapter.setDeviceViewModels(deviceViewModels);
                     }
 
+//                    for (DeviceViewModel viewModel: deviceViewModels) {
+//                        Log.v("ViewModel", viewModel.getDeviceName());
+//                    }
+
                 } catch (JSONException e) {
                     Log.v(TAG, "userlistinfo not found in json response or json error: " + e.getMessage());
                 }

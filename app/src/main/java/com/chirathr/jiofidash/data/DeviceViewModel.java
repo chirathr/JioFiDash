@@ -7,8 +7,6 @@ public class DeviceViewModel {
     private String isConnectedString;
 
     public DeviceViewModel(String deviceInfoString) {
-        deviceInfoString = "chirath-HP-Pavilion-Notebook,66:fb:01:e8:d0:55,192.168.15.8,6:21:53:01,Connected";
-
         String[] deviceInfo = deviceInfoString.split(",");
         deviceName = deviceInfo[0].trim();
         macAddress = deviceInfo[1].trim();

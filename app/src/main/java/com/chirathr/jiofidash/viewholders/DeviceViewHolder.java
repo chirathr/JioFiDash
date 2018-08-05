@@ -31,7 +31,9 @@ public class DeviceViewHolder extends RecyclerView.ViewHolder {
         macAddressTextView.setText(viewModel.getMacAddress());
         ipAddressTextView.setText(viewModel.getIpAddress());
         isConnectedTextView.setText(viewModel.getIsConnectedString());
-        if (!viewModel.getIsConnected()) {
+        if (viewModel.getIsConnected()) {
+            isConnectedTextView.setTextColor(Color.parseColor("#9cff57"));
+        } else {
             isConnectedTextView.setTextColor(Color.parseColor("#ff7539"));
         }
     }
