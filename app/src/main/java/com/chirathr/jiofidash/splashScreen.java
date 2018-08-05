@@ -33,8 +33,9 @@ public class splashScreen extends AppCompatActivity {
         setContentView(R.layout.activity_splash_screen);
 
         // Initial setup
-        JioFiPreferences.getInstance().loadDeviceId(this);
-
+        JioFiPreferences jioFiPreferences = JioFiPreferences.getInstance();
+        jioFiPreferences.loadDeviceId(this);
+        jioFiPreferences.loadUsernameAndPassword(this);
 
         ImageView launcherIcon = (ImageView) findViewById(R.id.launcher_animated);
         launcherIcon.setBackgroundResource(R.drawable.ic_launcher_animated);
@@ -42,7 +43,7 @@ public class splashScreen extends AppCompatActivity {
 
         launcherAnimation.start();
 
-//        mHandler.postDelayed(mLauncher, SPLASH_DELAY);
+        mHandler.postDelayed(mLauncher, SPLASH_DELAY);
     }
 
     @Override
