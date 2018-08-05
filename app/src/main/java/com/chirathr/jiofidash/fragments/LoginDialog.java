@@ -29,6 +29,8 @@ public class LoginDialog extends DialogFragment {
     private EditText usernameEditText;
     private EditText passwordEditText;
 
+    private String actionToExcecuteAfterLogin = null;
+    private LoginCompleteListener mLoginCompleteListener;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -44,7 +46,8 @@ public class LoginDialog extends DialogFragment {
         passwordEditText = view.findViewById(R.id.password);
 
         JioFiPreferences preferences = JioFiPreferences.getInstance();
-        if (preferences.loadUsernameAndPassword(getContext())) {
+
+        if (preferences.isLoginDataAvailable(getContext())) {
             usernameEditText.setText(preferences.username);
             passwordEditText.setText(preferences.password);
         }
@@ -126,6 +129,7 @@ public class LoginDialog extends DialogFragment {
 
             if (loginSuccessfull) {
                 closeDialog();
+                mLoginCompleteListener.loginCompleteListener(actionToExcecuteAfterLogin);
             }
             else {
                 hideLoading();
@@ -148,5 +152,14 @@ public class LoginDialog extends DialogFragment {
         // TODO Make strings as constants
         usernameEditText.setError("Username or password wrong");
         passwordEditText.setError("Username or password wrong");
+    }
+
+    public void setActionAfterLogin(LoginCompleteListener context, String action) {
+        mLoginCompleteListener = context;
+        actionToExcecuteAfterLogin = action;
+    }
+
+    public interface LoginCompleteListener {
+        public void loginCompleteListener(String action);
     }
 }

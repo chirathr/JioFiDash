@@ -2,6 +2,7 @@ package com.chirathr.jiofidash.data;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import com.chirathr.jiofidash.R;
 import com.chirathr.jiofidash.utils.NetworkUtils;
@@ -10,6 +11,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class JioFiPreferences {
+
+    private static String TAG = JioFiPreferences.class.getSimpleName();
 
     private static JioFiPreferences mInstance;
 
@@ -72,6 +75,13 @@ public class JioFiPreferences {
     public boolean isLoginDataAvailable(Context context) {
         if (username != null && password != null) {
             return true;
+        } else {
+            SharedPreferences sharedPref = context.getSharedPreferences(
+                    context.getString(R.string.data_preference_file_key), Context.MODE_PRIVATE);
+            if (sharedPref.contains(context.getString(R.string.saved_user_name_key))
+                    && sharedPref.contains(context.getString(R.string.saved_password_key))) {
+                return true;
+            }
         }
         return false;
     }

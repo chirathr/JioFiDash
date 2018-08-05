@@ -3,6 +3,7 @@ package com.chirathr.jiofidash;
 import android.content.Context;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
@@ -35,12 +36,14 @@ import org.json.JSONObject;
 
 import static java.lang.Thread.sleep;
 
-public class MainActivity extends AppCompatActivity implements BottomSheetFragment.onOptionSelectedListener {
+public class MainActivity extends AppCompatActivity implements BottomSheetFragment.onOptionSelectedListener, LoginDialog.LoginCompleteListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
     private static final int DELAY = 1000;
 
     private View mainCordinateView;
+
+    public static final String LOGIN_COMPLETE_ACTION_RESTART = "restart";
 
     private ColorArcProgressBar batteryProgressBar;
     private boolean updateUI = true;
@@ -141,8 +144,7 @@ public class MainActivity extends AppCompatActivity implements BottomSheetFragme
         switch (optionId) {
             case BottomSheetFragment.OPTION_RESTART_ID: {
                 bottomSheetFragment.dismiss();
-                loginIfNeeded();
-                restartJioFi();
+                loginIfNeeded(LOGIN_COMPLETE_ACTION_RESTART);
                 break;
             }
             case BottomSheetFragment.OPTION_WIFI_SETTINGS_ID: {
@@ -165,11 +167,11 @@ public class MainActivity extends AppCompatActivity implements BottomSheetFragme
         }
     }
 
-    public void loginIfNeeded() {
+    public void loginIfNeeded(String action) {
         if (!JioFiPreferences.getInstance().isLoginDataAvailable(this)) {
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            LoginDialog loginDialog = new LoginDialog();
-            loginDialog.show(fragmentManager, "LoginDialog");
+            DialogFragment loginDialog = new LoginDialog();
+            ((LoginDialog) loginDialog).setActionAfterLogin(this, action);
+            loginDialog.show(getSupportFragmentManager(), "LoginDialog");
         }
     }
 
@@ -178,15 +180,21 @@ public class MainActivity extends AppCompatActivity implements BottomSheetFragme
         restartJioFiAsyncTask.execute();
     }
 
+    @Override
+    public void loginCompleteListener(String action) {
+        if (action.equals(LOGIN_COMPLETE_ACTION_RESTART)) {
+            restartJioFi();
+        }
+    }
+
     private class RestartJioFiAsyncTask extends AsyncTask<Void, Void, Void> {
 
         private boolean restarted;
 
         @Override
         protected void onPreExecute() {
-            super.onPreExecute();
             restarted = false;
-
+            super.onPreExecute();
         }
 
         @Override
@@ -214,7 +222,7 @@ public class MainActivity extends AppCompatActivity implements BottomSheetFragme
                         .setAction(R.string.retry, new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {
-                                        loginIfNeeded();
+                                        loginIfNeeded(LOGIN_COMPLETE_ACTION_RESTART);
                                         restartJioFi();
                                     }
                                 })
