@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -65,12 +66,25 @@ public class ChangeSSIDPasswordDialogFragment extends DialogFragment {
     public void onStart() {
         super.onStart();
 
+        AlertDialog alertDialog = (AlertDialog) getDialog();
 
+        if (alertDialog != null) {
+            Button positiveButton = alertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
+            positiveButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    new SetSSIDPasswordTask().execute();
+                }
+            });
+        }
+    }
 
+    @Override
+    public void onResume() {
+        super.onResume();
         loadSSIDPasswordTask = new LoadSSIDPasswordTask();
         loadSSIDPasswordTask.execute();
     }
-
 
     private class LoadSSIDPasswordTask extends AsyncTask<Void, Void, Void> {
 
@@ -99,6 +113,39 @@ public class ChangeSSIDPasswordDialogFragment extends DialogFragment {
             hideLoading();
             Log.v(TAG, "Done");
             Log.v(TAG, isSuccessful + "");
+        }
+    }
+
+    private class SetSSIDPasswordTask extends AsyncTask<Void, Void, Void> {
+
+        private boolean isSuccessful;
+        private String SSIDName;
+        private String password;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            SSIDName = ssidEditText.getText().toString();
+            password = passwordEditText.getText().toString();
+            showLoading();
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            isSuccessful = NetworkUtils.changeSSIDAndPassword(getActivity(), SSIDName, password);
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            hideLoading();
+            if (isSuccessful) {
+                Log.v(TAG, "" + isSuccessful);
+                dismiss();
+            } else {
+                Log.v(TAG, "Failed to save ssid and password");
+            }
         }
     }
 

@@ -117,8 +117,7 @@ public class DataSpeedCardFragment extends Fragment {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.v(TAG, error.getMessage());
-                Log.v(TAG, error.toString());
+                Log.v(TAG, "Error");
 
                 showLoading();
             }

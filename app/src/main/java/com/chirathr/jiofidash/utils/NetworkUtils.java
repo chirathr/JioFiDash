@@ -281,11 +281,7 @@ public class NetworkUtils {
             connection.setRequestMethod("GET");
             connection.setDoInput(true);
 
-            if (params != null) {
-//                outputStream = connection.getOutputStream();
-//                writer = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
-//                writer.write(getPostParams(params));
-            }
+            if (params != null) { }
 
             if (authHeaders != null) {
                 for (Map.Entry<String, String> entry : authHeaders.entrySet()) {
@@ -298,6 +294,9 @@ public class NetworkUtils {
 
             if (responseCode == HttpsURLConnection.HTTP_OK) {
                 response = readAll(connection.getInputStream());
+                Log.v(TAG, response);
+            } else {
+                Log.v(TAG, "Response code: " + responseCode);
             }
 
         } catch (ProtocolException e) {
@@ -378,8 +377,17 @@ public class NetworkUtils {
                     !response.contains("Login Fail") &&
                     !response.contains("User already logged in !");
 
-            if (response != null && response.contains("Login Fail")) {
-                authenticationError = true;
+            if (response != null) {
+                if (response.contains("Login Fail")) {
+                    authenticationError = true;
+                    Log.v(TAG, "Login Failed !");
+                }
+                if (response.contains("User already logged in !")) {
+                    authenticationError = true;
+                    Log.v(TAG, "User already logged in !");
+                    login(context);
+                    return true;
+                }
             }
 
             if (loginSucess) {
@@ -495,6 +503,7 @@ public class NetworkUtils {
     public static boolean loadCurrentSSIDAndPassword(Context context) {
         // 1. Login
         if (!isLoggedIn()) {
+            Log.v(TAG, "Is not logged in");
             login(context);
         }
         // 2. Make a get request to http://jiofi.local.html/Security_Mode.cgi
@@ -505,12 +514,11 @@ public class NetworkUtils {
         if (response == null) {
             return false;
         }
+
         Document wifiSettingPageDocument = Jsoup.parse(response);
         // 4. Set it to the static variables in NetworkUitls
         wiFiSSID = wifiSettingPageDocument.select(SSID_INPUT_CSS_SELECTOR).val();
         wiFiPassword = wifiSettingPageDocument.select(PASSWORD_WPA2_INPUT_CSS_SELECTOR).val();
-
-        Log.v(TAG, wiFiSSID);
 
         return true;
     }
