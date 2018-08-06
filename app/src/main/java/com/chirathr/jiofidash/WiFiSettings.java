@@ -1,6 +1,7 @@
 package com.chirathr.jiofidash;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -23,6 +24,7 @@ import com.chirathr.jiofidash.data.DeviceViewModel;
 import com.chirathr.jiofidash.data.JioFiData;
 import com.chirathr.jiofidash.utils.NetworkUtils;
 import com.chirathr.jiofidash.utils.VolleySingleton;
+import com.google.android.material.card.MaterialCardView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -42,6 +44,9 @@ public class WiFiSettings extends AppCompatActivity {
     private TextView wiFiDeviceCount;
     private Button changeSSIDPasswordButton;
     private ProgressBar loadingProgressBar;
+    private ConstraintLayout wifiLayoutView;
+    private ConstraintLayout devicesLayoutView;
+
     private List<DeviceViewModel> deviceViewModels;
 
     private RecyclerView mRecyclerView;
@@ -73,6 +78,8 @@ public class WiFiSettings extends AppCompatActivity {
         changeSSIDPasswordButton = findViewById(R.id.change_ssid_password_button);
         wiFiDeviceCount = findViewById(R.id.tv_device_count);
         loadingProgressBar = findViewById(R.id.progress_bar_wifi_settings);
+        wifiLayoutView = findViewById(R.id.wifi_layout);
+        devicesLayoutView = findViewById(R.id.devices_layout);
 
         mRecyclerView = findViewById(R.id.users_list_recyler_view);
         mRecyclerView.setHasFixedSize(true);
@@ -81,7 +88,7 @@ public class WiFiSettings extends AppCompatActivity {
         mRecyclerView.setLayoutManager(layoutManager);
 
         handler = new Handler();
-
+        showLoading();
         handler.post(loadDeviceListRunnable);
         handler.post(loadSSIDRunnable);
     }
@@ -111,15 +118,17 @@ public class WiFiSettings extends AppCompatActivity {
                     } else {
                         mDeviceListAdapter.setDeviceViewModels(deviceViewModels);
                     }
+                    showData();
 
                 } catch (JSONException e) {
                     Log.v(TAG, "userlistinfo not found in json response or json error: " + e.getMessage());
+                    showLoading();
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-
+                showLoading();
             }
         });
 
@@ -148,15 +157,16 @@ public class WiFiSettings extends AppCompatActivity {
         VolleySingleton.getInstance(context).addToRequestQueue(lanInfoRequest);
     }
 
-    // TODO complete the progress bar
     private void showLoading() {
-//        loadingProgressBar.setVisibility(View.VISIBLE);
-//        devicesLayout.setAlpha(Float.parseFloat("0.2"));
+        loadingProgressBar.setVisibility(View.VISIBLE);
+        wifiLayoutView.setAlpha(Float.parseFloat("0.2"));
+        devicesLayoutView.setAlpha(Float.parseFloat("0.2"));
     }
 
     private void showData() {
-//        loadingProgressBar.setVisibility(View.INVISIBLE);
-//        devicesLayout.setAlpha(Float.parseFloat("1.0"));
+        loadingProgressBar.setVisibility(View.INVISIBLE);
+        wifiLayoutView.setAlpha(Float.parseFloat("1.0"));
+        devicesLayoutView.setAlpha(Float.parseFloat("1.0"));
     }
 
     // TODO AsyncTask to change SSID and password
