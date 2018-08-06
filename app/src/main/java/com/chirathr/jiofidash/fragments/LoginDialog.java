@@ -42,8 +42,8 @@ public class LoginDialog extends DialogFragment {
         View view = inflater.inflate(R.layout.login_card, null);
 
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
-        usernameEditText = view.findViewById(R.id.username);
-        passwordEditText = view.findViewById(R.id.password);
+        usernameEditText = view.findViewById(R.id.ssid_input);
+        passwordEditText = view.findViewById(R.id.password_input);
 
         JioFiPreferences preferences = JioFiPreferences.getInstance();
 

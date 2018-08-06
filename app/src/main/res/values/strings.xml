@@ -59,4 +59,7 @@
     <string name="default_mac_text">c4:8e:8f:01:5e:f5</string>
     <string name="device_count_text">0</string>
     <string name="default_device_text">chirath-HP-Pavilion-Notebook</string>
+    <string name="change_ssid_pass_caption_text">Change SSID and password</string>
+    <string name="password_text">Password</string>
+    <string name="ssid_text">SSID</string>
 </resources>
