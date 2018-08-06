@@ -10,6 +10,7 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -40,6 +41,7 @@ public class WiFiSettings extends AppCompatActivity {
     private TextView wiFiSSIDTextView;
     private TextView wiFiDeviceCount;
     private Button changeSSIDPasswordButton;
+    private ProgressBar loadingProgressBar;
     private List<DeviceViewModel> deviceViewModels;
 
     private RecyclerView mRecyclerView;
@@ -70,6 +72,7 @@ public class WiFiSettings extends AppCompatActivity {
         wiFiSSIDTextView = findViewById(R.id.tv_wifi_ssid);
         changeSSIDPasswordButton = findViewById(R.id.change_ssid_password_button);
         wiFiDeviceCount = findViewById(R.id.tv_device_count);
+        loadingProgressBar = findViewById(R.id.progress_bar_wifi_settings);
 
         mRecyclerView = findViewById(R.id.users_list_recyler_view);
         mRecyclerView.setHasFixedSize(true);

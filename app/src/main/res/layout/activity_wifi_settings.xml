@@ -8,6 +8,25 @@
     tools:context=".WiFiSettings"
     android:background="@color/colorBackground">
 
+    <ProgressBar
+        android:id="@+id/progress_bar_wifi_settings"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="0dp"
+        android:paddingTop="-4dp"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/guideline"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/guideline"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="4dp" />
+
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/wifi_card"
         android:layout_width="match_parent"
@@ -181,6 +200,8 @@
         android:layout_marginStart="8dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/devices_card" />
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
