@@ -15,9 +15,11 @@ import org.jsoup.select.Elements;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.io.Reader;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -107,7 +109,7 @@ public class NetworkUtils {
     private static final String COOKIE_FORMAT_STRING = "ksession=%s";
 
 
-    public static final int CONNECTION_TIMEOUT = 3000;
+    public static final int CONNECTION_TIMEOUT = 50000;
 
 
     public static String getUrlString(int urlType) {
@@ -196,13 +198,25 @@ public class NetworkUtils {
         return builder.build().getEncodedQuery();
     }
 
+    public static String readAll(InputStream stream) throws IOException {
+        Reader reader = new InputStreamReader(stream, "UTF-8");
+        char[] buffer = new char[10000];
+        StringBuilder builder = new StringBuilder();
+        int len = reader.read(buffer);
+        while (len > 0) {
+            builder.append(buffer, 0, len);
+            len = reader.read(buffer);
+        }
+        return builder.toString();
+    }
+
     public static String postRequest(URL url, Map<String, String> params, Map<String, String> authHeaders) {
 
         HttpURLConnection connection = null;
         OutputStream outputStream = null;
         BufferedWriter writer = null;
         int responseCode;
-        StringBuilder result = new StringBuilder();
+        String response = null;
 
         try {
             connection = (HttpURLConnection) url.openConnection();
@@ -232,11 +246,7 @@ public class NetworkUtils {
             responseCode = connection.getResponseCode();
 
             if (responseCode == HttpsURLConnection.HTTP_OK) {
-                String line;
-                BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                while ((line = br.readLine()) != null) {
-                    result.append(line);
-                }
+                response = readAll(connection.getInputStream());
             }
 
         } catch (UnsupportedEncodingException e) {
@@ -252,12 +262,12 @@ public class NetworkUtils {
             if (connection != null)
                 connection.disconnect();
         }
-        return result.toString();
+        return response;
     }
 
     public static String getRequest(URL url, Map<String, String> params, Map<String, String> authHeaders) {
         HttpURLConnection connection = null;
-        StringBuilder result = new StringBuilder();
+        String response = null;
         OutputStream outputStream = null;
         BufferedWriter writer = null;
 
@@ -287,11 +297,7 @@ public class NetworkUtils {
             int responseCode = connection.getResponseCode();
 
             if (responseCode == HttpsURLConnection.HTTP_OK) {
-                String line;
-                BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                while ((line = br.readLine()) != null) {
-                    result.append(line);
-                }
+                response = readAll(connection.getInputStream());
             }
 
         } catch (ProtocolException e) {
@@ -306,7 +312,7 @@ public class NetworkUtils {
             }
         }
 
-        return result.toString();
+        return response;
     }
 
     public static Map<String, String> getLoginParams(Context context, String csrfToken) {
@@ -461,13 +467,13 @@ public class NetworkUtils {
     public static String wiFiSSID = null;
     public static String wiFiPassword = null;
 
-    private static final String SSID_INPUT_CSS_SELECTOR = "name='SSID_text'";
+    private static final String SSID_INPUT_CSS_SELECTOR = "input[name='SSID_text']";
     private static final String WIFI_CHANNEL_INPUT_CSS_SELECTOR = "input[name='channel'] option[selected]";
     private static final String WIFI_MODE_INPUT_CSS_SELECTOR = "input[name='technology'] option[selected]";
     private static final String WIFI_WMM_INPUT_CSS_SELECTOR = "input[name='WMM_config'] option[selected]";
     private static final String WIFI_BROADCASTING_INPUT_CSS_SELECTOR = "input[name='HSSID_config'] option[selected]";
     private static final String WIFI_SECURITY_MODE_INPUT_CSS_SELECTOR = "input[name='Se_Encryption'] option[selected]";
-    private static final String PASSWORD_WPA2_INPUT_CSS_SELECTOR = "name='wpa2_key'";
+    private static final String PASSWORD_WPA2_INPUT_CSS_SELECTOR = "input[name='wpa2_key']";
 
     private static final String WIFI_SETTING_FORM_TYPE = "wifi_set";
     private static final String POST_SSID_ID = "SSID_text";
@@ -491,7 +497,6 @@ public class NetworkUtils {
         if (!isLoggedIn()) {
             login(context);
         }
-
         // 2. Make a get request to http://jiofi.local.html/Security_Mode.cgi
         URL url = getURL(WIFI_SETTINGS_GET_ID);
         String response = getRequest(url, null, getAuthHeaders());
@@ -502,8 +507,10 @@ public class NetworkUtils {
         }
         Document wifiSettingPageDocument = Jsoup.parse(response);
         // 4. Set it to the static variables in NetworkUitls
-        wiFiSSID = wifiSettingPageDocument.select(SSID_INPUT_CSS_SELECTOR).text();
-        wiFiPassword = wifiSettingPageDocument.select(PASSWORD_WPA2_INPUT_CSS_SELECTOR).text();
+        wiFiSSID = wifiSettingPageDocument.select(SSID_INPUT_CSS_SELECTOR).val();
+        wiFiPassword = wifiSettingPageDocument.select(PASSWORD_WPA2_INPUT_CSS_SELECTOR).val();
+
+        Log.v(TAG, wiFiSSID);
 
         return true;
     }
@@ -525,12 +532,12 @@ public class NetworkUtils {
         Document wifiSettingPageDocument = Jsoup.parse(response);
 
         // Get all the other parameter values
-        String csrfToken = wifiSettingPageDocument.select(TOKEN_INPUT_CSS_SELECTOR).text();
-        String wifiChannel = wifiSettingPageDocument.select(WIFI_CHANNEL_INPUT_CSS_SELECTOR).text();
-        String wifiMode = wifiSettingPageDocument.select(WIFI_MODE_INPUT_CSS_SELECTOR).text();
-        String wifiWMM = wifiSettingPageDocument.select(WIFI_WMM_INPUT_CSS_SELECTOR).text();
-        String wifiBroadcasting = wifiSettingPageDocument.select(WIFI_BROADCASTING_INPUT_CSS_SELECTOR).text();
-        String wifiSecurity = wifiSettingPageDocument.select(WIFI_SECURITY_MODE_INPUT_CSS_SELECTOR).text();
+        String csrfToken = wifiSettingPageDocument.select(TOKEN_INPUT_CSS_SELECTOR).val();
+        String wifiChannel = wifiSettingPageDocument.select(WIFI_CHANNEL_INPUT_CSS_SELECTOR).val();
+        String wifiMode = wifiSettingPageDocument.select(WIFI_MODE_INPUT_CSS_SELECTOR).val();
+        String wifiWMM = wifiSettingPageDocument.select(WIFI_WMM_INPUT_CSS_SELECTOR).val();
+        String wifiBroadcasting = wifiSettingPageDocument.select(WIFI_BROADCASTING_INPUT_CSS_SELECTOR).val();
+        String wifiSecurity = wifiSettingPageDocument.select(WIFI_SECURITY_MODE_INPUT_CSS_SELECTOR).val();
 
         // 3. Create the post params
         Map<String, String> postParams = new HashMap<>();

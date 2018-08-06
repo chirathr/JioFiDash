@@ -3,12 +3,17 @@ package com.chirathr.jiofidash.fragments;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.chirathr.jiofidash.R;
+import com.chirathr.jiofidash.utils.NetworkUtils;
+import com.google.android.material.textfield.TextInputEditText;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,8 +21,13 @@ import androidx.fragment.app.DialogFragment;
 
 public class ChangeSSIDPasswordDialogFragment extends DialogFragment {
 
-    private TextView ssidTextView;
-    private TextView passwordTextView;
+    private static final String TAG = ChangeSSIDPasswordDialogFragment.class.getSimpleName();
+
+    private TextInputEditText ssidEditText;
+    private TextInputEditText passwordEditText;
+    private ProgressBar loadingProgressBar;
+
+    private LoadSSIDPasswordTask loadSSIDPasswordTask;
 
     public static final String FRGAMENT_TAG = "change-ssid-password-fragment";
 
@@ -29,6 +39,10 @@ public class ChangeSSIDPasswordDialogFragment extends DialogFragment {
         LayoutInflater inflater = getActivity().getLayoutInflater();
 
         View view = inflater.inflate(R.layout.change_ssid_password_dialog, null);
+
+        ssidEditText = view.findViewById(R.id.ssid_input);
+        passwordEditText = view.findViewById(R.id.password_input);
+        loadingProgressBar = view.findViewById(R.id.progressBar);
 
         builder.setView(view)
                 .setPositiveButton(R.string.change, new DialogInterface.OnClickListener() {
@@ -52,5 +66,47 @@ public class ChangeSSIDPasswordDialogFragment extends DialogFragment {
         super.onStart();
 
 
+
+        loadSSIDPasswordTask = new LoadSSIDPasswordTask();
+        loadSSIDPasswordTask.execute();
+    }
+
+
+    private class LoadSSIDPasswordTask extends AsyncTask<Void, Void, Void> {
+
+        private boolean isSuccessful;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            Log.v(TAG, "Loading");
+            showLoading();
+            isSuccessful = false;
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            isSuccessful = NetworkUtils.loadCurrentSSIDAndPassword(getActivity());
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            ssidEditText.setText(NetworkUtils.wiFiSSID);
+            passwordEditText.setText(NetworkUtils.wiFiPassword);
+            Log.v(TAG, NetworkUtils.wiFiPassword);
+            hideLoading();
+            Log.v(TAG, "Done");
+            Log.v(TAG, isSuccessful + "");
+        }
+    }
+
+    public void showLoading() {
+        loadingProgressBar.setVisibility(View.VISIBLE);
+    }
+
+    public void hideLoading() {
+        loadingProgressBar.setVisibility(View.INVISIBLE);
     }
 }
