@@ -39,6 +39,4 @@
                     app:total_engle="270"/>
         </FrameLayout>
 
-
-
 </com.google.android.material.card.MaterialCardView>

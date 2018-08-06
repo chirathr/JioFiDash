@@ -38,5 +38,11 @@
         <item name="android:background">@android:color/black</item>
     </style>
 
+    <style name="EditButtonTheme" parent="ThemeOverlay.AppCompat.Light">
+        <item name="colorAccent">@color/colorPrimaryYellowDark</item>
+        <item name="colorButtonNormal">@color/colorPrimaryGreenLight</item>
+        <item name="colorControlHighlight">@color/colorGrey</item>
+    </style>
+
 
 </resources>

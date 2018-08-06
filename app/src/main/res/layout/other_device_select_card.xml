@@ -69,5 +69,4 @@
             app:layout_constraintTop_toBottomOf="@+id/select_button_other_jiofi" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </com.google.android.material.card.MaterialCardView>

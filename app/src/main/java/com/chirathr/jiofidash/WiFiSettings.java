@@ -12,6 +12,7 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -26,7 +27,6 @@ import com.chirathr.jiofidash.data.JioFiData;
 import com.chirathr.jiofidash.fragments.ChangeSSIDPasswordDialogFragment;
 import com.chirathr.jiofidash.utils.NetworkUtils;
 import com.chirathr.jiofidash.utils.VolleySingleton;
-import com.google.android.material.card.MaterialCardView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -44,7 +44,6 @@ public class WiFiSettings extends AppCompatActivity {
 
     private TextView wiFiSSIDTextView;
     private TextView wiFiDeviceCount;
-    private Button changeSSIDPasswordButton;
     private ProgressBar loadingProgressBar;
     private ConstraintLayout wifiLayoutView;
     private ConstraintLayout devicesLayoutView;
@@ -77,7 +76,6 @@ public class WiFiSettings extends AppCompatActivity {
         setContentView(R.layout.activity_wifi_settings);
 
         wiFiSSIDTextView = findViewById(R.id.tv_wifi_ssid);
-        changeSSIDPasswordButton = findViewById(R.id.change_ssid_password_button);
         wiFiDeviceCount = findViewById(R.id.tv_device_count);
         loadingProgressBar = findViewById(R.id.progress_bar_wifi_settings);
         wifiLayoutView = findViewById(R.id.wifi_layout);
@@ -94,7 +92,7 @@ public class WiFiSettings extends AppCompatActivity {
         handler.post(loadDeviceListRunnable);
         handler.post(loadSSIDRunnable);
 
-        changeSSIDPasswordButton.setOnClickListener(new View.OnClickListener() {
+        wifiLayoutView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 showChangeSSIDPassDialog();
