@@ -4,19 +4,10 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
-import android.net.wifi.WifiManager;
 import android.util.Log;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.chirathr.jiofidash.data.JioFiPreferences;
 
-import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -24,7 +15,6 @@ import org.jsoup.select.Elements;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
@@ -33,12 +23,10 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
-import java.net.URLEncoder;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -48,9 +36,6 @@ public class NetworkUtils {
     private static final String TAG = NetworkUtils.class.getSimpleName();
 
     public static final String DEFAULT_HOST = "http://jiofi.local.html";
-
-    // Instantiate the RequestQueue.
-    private static RequestQueue requestQueue;
 
     // JioFI 6
     public static final int DEVICE_6_ID = 6;
@@ -65,7 +50,9 @@ public class NetworkUtils {
             "/login.cgi",
             "/Device_setting.cgi",
             "/Device_setting_sv.cgi",
-            "/LAN_info.cgi"
+            "/LAN_info.cgi",
+            "/Security_Mode.cgi",
+            "/Security_Mode_sv.cgi"
     };
 
     // Id to represent types of data from device urls
@@ -75,9 +62,12 @@ public class NetworkUtils {
     public static final int DEVICE_INFO_ID = 3;
     public static final int PERFORMANCE_INFO_ID = 4;
     public static final int LOGIN_URL_ID = 5;
-    public static final int URL_DEVICE_SETTINGS_ID = 6;
+    public static final int URL_DEVICE_SETTINGS_GET_ID = 6;
     public static final int URL_DEVICE_SETTINGS_POST_ID = 7;
     public static final int LAN_INFO_PAGE_ID = 8;
+    public static final int WIFI_SETTINGS_GET_ID = 9;
+    public static final int WIFI_SETTINGS_POST_ID = 10;
+
 
     // Get device url based on type
     public static String[] getDeviceUrls(int deviceType) {
@@ -147,34 +137,6 @@ public class NetworkUtils {
         return url;
     }
 
-    public static String getJsonData(Context context, int urlType, int deviceType) {
-        String response = null;
-        HttpURLConnection urlConnection = null;
-        URL url = getURL(urlType);
-
-        if (url == null) return null;
-
-        try {
-            urlConnection = (HttpURLConnection) url.openConnection();
-            InputStream in = urlConnection.getInputStream();
-
-            Scanner scanner = new Scanner(in);
-            scanner.useDelimiter("\\A");
-            boolean hasInput = scanner.hasNext();
-
-            if (hasInput)
-                response = scanner.next();
-            scanner.close();
-        } catch (IOException e) {
-            Log.v(TAG, ": Connection error: " + e.getMessage());
-            response = null;
-        } finally {
-            if (urlConnection != null)
-                urlConnection.disconnect();
-        }
-        return response;
-    }
-
     public static boolean isOnline(Context context) {
         ConnectivityManager connMgr = (ConnectivityManager)
                 context.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -215,11 +177,6 @@ public class NetworkUtils {
     }
 
     // Authenticated URLS
-
-    public static void initRequestQueue(Context context) {
-        if (requestQueue == null)
-            requestQueue = Volley.newRequestQueue(context);
-    }
 
     public static String getCookieString() {
         if (cookieString != null)
@@ -467,7 +424,7 @@ public class NetworkUtils {
             login(context);
         }
 
-        URL url = getURL(URL_DEVICE_SETTINGS_ID);
+        URL url = getURL(URL_DEVICE_SETTINGS_GET_ID);
         Map<String, String> authHeaders = getAuthHeaders();
         String response = getRequest(url, null, authHeaders);
 
@@ -480,7 +437,6 @@ public class NetworkUtils {
 
         if (tokenTags.size() > 1) {
             csrfToken = tokenTags.first().attr(VALUE_ATTRIBUTE_KEY);
-            // TODO convert to Variable
             Log.v(TAG, "changePowerSavingTimeOut csrf: " + csrfToken);
 
             if (restart) {
@@ -499,4 +455,76 @@ public class NetworkUtils {
         }
         return false;
     }
+
+    // ----------- SSID and Password ------------------------
+
+    public static String wiFiSSID = null;
+    public static String wiFiPassword = null;
+
+    private static final String SSID_INPUT_CSS_SELECTOR = "name='SSID_text'";
+    private static final String WIFI_CHANNEL_INPUT_CSS_SELECTOR = "input[name='channel'] option[selected]";
+    private static final String WIFI_MODE_INPUT_CSS_SELECTOR = "input[name='technology'] option[selected]";
+    private static final String WIFI_WMM_INPUT_CSS_SELECTOR = "input[name='WMM_config'] option[selected]";
+    private static final String WIFI_BROADCASTING_INPUT_CSS_SELECTOR = "input[name='HSSID_config'] option[selected]";
+    private static final String WIFI_SECURITY_MODE_INPUT_CSS_SELECTOR = "input[name='Se_Encryption'] option[selected]";
+    private static final String PASSWORD_WPA2_INPUT_CSS_SELECTOR = "name='wpa2_key'";
+
+    private static final String WIFI_SETTING_FORM_TYPE = "wifi_set";
+    private static final String POST_SSID_ID = "SSID_text";
+    private static final String POST_WIFI_CHANNEL_ID = "channel";
+    private static final String POST_WIFI_MODE_ID = "technology";
+    private static final String POST_WIFI_WMM_ID = "WMM_config";
+    private static final String POST_WIFI_BROADCASTING_ID = "HSSID_config";
+    private static final String POST_WIFI_SECURITY_MODE_ID = "Se_Encryption";
+    private static final String POST_WIFI_WPA_ID = "wpa_key";
+    private static final String POST_WIFI_WPA2_ID = "wpa2_key";
+    private static final String POST_WIFI_WPA_MIXED_ID = "wpa_mixed_key";
+
+    public static boolean SSIDPasswordIsLoaded() {
+        if (wiFiSSID != null && wiFiPassword != null)
+            return true;
+        return false;
+    }
+
+    public static boolean loadCurrentSSIDAndPassword(Context context) {
+        // 1. Login
+        if (!isLoggedIn()) {
+            login(context);
+        }
+
+        // 2. Make a get request to http://jiofi.local.html/Security_Mode.cgi
+        URL url = getURL(WIFI_SETTINGS_GET_ID);
+        String response = getRequest(url, null, getAuthHeaders());
+
+        // 3. Get the current SSID and Password
+        if (response == null) {
+            return false;
+        }
+        Document wifiSettingPageDocument = Jsoup.parse(response);
+        // 4. Set it to the static variables in NetworkUitls
+        wiFiSSID = wifiSettingPageDocument.select(SSID_INPUT_CSS_SELECTOR).text();
+        wiFiPassword = wifiSettingPageDocument.select(PASSWORD_WPA2_INPUT_CSS_SELECTOR).text();
+
+        return true;
+    }
+
+    public static Map<String, String> getWiFiSettingsPostParams() {
+        Map<String, String> postParams = new HashMap<>();
+
+        return postParams;
+    }
+
+    public static boolean changeSSIDAndPassword(Context context, String username, String password) {
+
+        // 1. Login
+        if (!isLoggedIn()) {
+            login(context);
+        }
+
+
+
+        // 4.
+        return false;
+    }
+
 }

@@ -15,7 +15,8 @@ All these require cookie from the login.
 
 #### SSID and password change form
 
-Request URL: http://jiofi.local.html/Security_Mode_sv.cgi
+GET URL: http://jiofi.local.html/Security_Mode.cgi
+POST URL: http://jiofi.local.html/Security_Mode_sv.cgi
 
 Request Method: POST
 
