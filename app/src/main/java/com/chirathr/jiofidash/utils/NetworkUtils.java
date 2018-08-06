@@ -508,23 +508,56 @@ public class NetworkUtils {
         return true;
     }
 
-    public static Map<String, String> getWiFiSettingsPostParams() {
-        Map<String, String> postParams = new HashMap<>();
-
-        return postParams;
-    }
-
-    public static boolean changeSSIDAndPassword(Context context, String username, String password) {
+    public static boolean changeSSIDAndPassword(Context context, String SSIDString, String password) {
 
         // 1. Login
         if (!isLoggedIn()) {
             login(context);
         }
 
+        // 2. Make a get request
+        URL url = getURL(WIFI_SETTINGS_GET_ID);
+        String response = getRequest(url, null, getAuthHeaders());
+        if (response == null) {
+            return false;
+        }
 
+        Document wifiSettingPageDocument = Jsoup.parse(response);
 
-        // 4.
-        return false;
+        // Get all the other parameter values
+        String csrfToken = wifiSettingPageDocument.select(TOKEN_INPUT_CSS_SELECTOR).text();
+        String wifiChannel = wifiSettingPageDocument.select(WIFI_CHANNEL_INPUT_CSS_SELECTOR).text();
+        String wifiMode = wifiSettingPageDocument.select(WIFI_MODE_INPUT_CSS_SELECTOR).text();
+        String wifiWMM = wifiSettingPageDocument.select(WIFI_WMM_INPUT_CSS_SELECTOR).text();
+        String wifiBroadcasting = wifiSettingPageDocument.select(WIFI_BROADCASTING_INPUT_CSS_SELECTOR).text();
+        String wifiSecurity = wifiSettingPageDocument.select(WIFI_SECURITY_MODE_INPUT_CSS_SELECTOR).text();
+
+        // 3. Create the post params
+        Map<String, String> postParams = new HashMap<>();
+
+        postParams.put(FORM_TYPE_STRING_ID, WIFI_SETTING_FORM_TYPE);
+        postParams.put(CSRF_TOKEN_STRING_ID, csrfToken);
+        postParams.put(POST_SSID_ID, SSIDString);
+        postParams.put(POST_WIFI_CHANNEL_ID, wifiChannel);
+        postParams.put(POST_WIFI_MODE_ID, wifiMode);
+        postParams.put(POST_WIFI_WMM_ID, wifiWMM);
+        postParams.put(POST_WIFI_BROADCASTING_ID, wifiBroadcasting);
+        postParams.put(POST_WIFI_SECURITY_MODE_ID, wifiSecurity);
+        postParams.put(POST_WIFI_WPA_ID, password);
+        postParams.put(POST_WIFI_WPA2_ID, password);
+        postParams.put(POST_WIFI_WPA_MIXED_ID, password);
+
+        // 4. Make the post request
+        url = getURL(WIFI_SETTINGS_POST_ID);
+        response = postRequest(url, postParams, getAuthHeaders());
+
+        if (response == null) {
+            return false;
+        }
+
+        // 5. Clear login data since JioFi restarts
+        clearLogin();
+        return true;
     }
 
 }
