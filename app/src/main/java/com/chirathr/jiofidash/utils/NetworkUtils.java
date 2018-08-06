@@ -1,11 +1,13 @@
 package com.chirathr.jiofidash.utils;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.util.Log;
 
+import com.chirathr.jiofidash.R;
 import com.chirathr.jiofidash.data.JioFiPreferences;
 
 import org.jsoup.Jsoup;
@@ -294,7 +296,6 @@ public class NetworkUtils {
 
             if (responseCode == HttpsURLConnection.HTTP_OK) {
                 response = readAll(connection.getInputStream());
-                Log.v(TAG, response);
             } else {
                 Log.v(TAG, "Response code: " + responseCode);
             }
@@ -349,10 +350,18 @@ public class NetworkUtils {
         loggedInAt = null;
     }
 
+    private static int loginCount = 0;
+
     public static boolean login(final Context context) {
 
         if (isLoggedIn()) {
             return true;
+        }
+
+        loginCount++;
+
+        if (loginCount > 4) {
+            return false;
         }
 
         String urlString = getUrlString(LOGIN_URL_ID);
@@ -373,7 +382,7 @@ public class NetworkUtils {
             Map<String, String> params = getLoginParams(context, csrfToken);
             response = postRequest(url, params, null);
 
-            boolean loginSucess = response != null &&
+            boolean loginSuccess = response != null &&
                     !response.contains("Login Fail") &&
                     !response.contains("User already logged in !");
 
@@ -385,12 +394,16 @@ public class NetworkUtils {
                 if (response.contains("User already logged in !")) {
                     authenticationError = true;
                     Log.v(TAG, "User already logged in !");
-                    login(context);
-                    return true;
+                    return login(context);
+                }
+                if (response.contains("function init_index()")) {
+                    authenticationError = true;
+                    Log.v(TAG, "User already logged in !");
+                    return login(context);
                 }
             }
 
-            if (loginSucess) {
+            if (loginSuccess) {
                 int startIndex = response.lastIndexOf("ksession") + 12;
                 cookieString = response.substring(startIndex, startIndex + 32);
 
