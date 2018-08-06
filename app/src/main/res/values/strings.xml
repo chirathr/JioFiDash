@@ -62,4 +62,8 @@
     <string name="change_ssid_pass_caption_text">Change SSID and password</string>
     <string name="password_text">Password</string>
     <string name="ssid_text">SSID</string>
+
+
+    <string name="change">Change</string>
+    <string name="cancel">Cancel</string>
 </resources>

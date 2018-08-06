@@ -2,6 +2,7 @@ package com.chirathr.jiofidash;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,6 +23,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.chirathr.jiofidash.adapters.DeviceListAdapter;
 import com.chirathr.jiofidash.data.DeviceViewModel;
 import com.chirathr.jiofidash.data.JioFiData;
+import com.chirathr.jiofidash.fragments.ChangeSSIDPasswordDialogFragment;
 import com.chirathr.jiofidash.utils.NetworkUtils;
 import com.chirathr.jiofidash.utils.VolleySingleton;
 import com.google.android.material.card.MaterialCardView;
@@ -91,6 +93,13 @@ public class WiFiSettings extends AppCompatActivity {
         showLoading();
         handler.post(loadDeviceListRunnable);
         handler.post(loadSSIDRunnable);
+
+        changeSSIDPasswordButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showChangeSSIDPassDialog();
+            }
+        });
     }
 
     public void loadDeviceList(Context context) {
@@ -170,6 +179,11 @@ public class WiFiSettings extends AppCompatActivity {
     }
 
     // TODO AsyncTask to change SSID and password
+    public void showChangeSSIDPassDialog() {
+        DialogFragment changeSSIDPassFragment = new ChangeSSIDPasswordDialogFragment();
+        changeSSIDPassFragment.show(
+                getSupportFragmentManager(), ChangeSSIDPasswordDialogFragment.FRGAMENT_TAG);
+    }
 
     // TODO AsyncTask to block a device
     // TODO add blocked device to SQLite local storage
