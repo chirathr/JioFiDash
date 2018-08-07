@@ -5,6 +5,7 @@ public class DeviceViewModel {
     private String deviceName;
     private String ipAddress;
     private String isConnectedString;
+    private boolean isBlocked;
 
     public DeviceViewModel(String deviceInfoString) {
         String[] deviceInfo = deviceInfoString.split(",");
@@ -48,5 +49,13 @@ public class DeviceViewModel {
 
     public boolean getIsConnected() {
         return isConnectedString.equals("Connected");
+    }
+
+    public boolean getIsBlocked() {
+        return isBlocked;
+    }
+
+    public void setIsBlocked(boolean isBlocked) {
+        this.isBlocked = isBlocked;
     }
 }

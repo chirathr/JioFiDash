@@ -119,7 +119,7 @@
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:layout_marginEnd="16dp"
-                app:layout_constraintBottom_toBottomOf="@+id/textView2"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_password"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/tv_password_label"
                 app:srcCompat="@drawable/ic_round_edit_24px" />
@@ -155,16 +155,17 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
 
-    <com.google.android.material.card.MaterialCardView
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/devices_card"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_margin="@dimen/card_padding"
+        android:layout_marginBottom="8dp"
         android:background="@color/colorBackgroundCard"
         app:cardBackgroundColor="@color/colorBackgroundCard"
         app:cardCornerRadius="3dp"
         app:cardElevation="@dimen/card_elevation"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/wifi_card">
 
@@ -210,11 +211,11 @@
 
             <TextView
                 android:id="@+id/tv_device_count"
+                style="@style/TextAppearance.MaterialComponents.Headline5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
                 android:text="@string/device_count_text"
-                style="@style/TextAppearance.MaterialComponents.Headline5"
                 android:textColor="@color/colorWhite"
                 app:layout_constraintBottom_toTopOf="@+id/devices_icon"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -223,23 +224,15 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/users_list_recyler_view"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:layout_marginTop="16dp"
+                android:layout_marginBottom="8dp"
                 android:scrollbars="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/devices_icon" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginStart="8dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/devices_card" />
-
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -17,6 +17,16 @@ import androidx.recyclerview.widget.RecyclerView;
 public class DeviceListAdapter extends RecyclerView.Adapter<DeviceViewHolder> {
 
     private List<DeviceViewModel> viewModels;
+    public interface OnClickListener {
+        void onClickBlockListener(int itemId);
+        void onClickUnBlockListener(int itemId);
+    }
+
+    private OnClickListener mListener;
+
+    public DeviceListAdapter(OnClickListener listener) {
+        mListener = listener;
+    }
 
     @NonNull
     @Override
@@ -28,7 +38,7 @@ public class DeviceListAdapter extends RecyclerView.Adapter<DeviceViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull DeviceViewHolder holder, int position) {
-        holder.bindData(viewModels.get(position));
+        holder.bindData(viewModels.get(position), position, mListener);
     }
 
     @Override

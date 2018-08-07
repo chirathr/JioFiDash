@@ -37,7 +37,9 @@ import org.jsoup.nodes.Document;
 import java.util.ArrayList;
 import java.util.List;
 
-public class WiFiSettings extends AppCompatActivity implements ChangeSSIDPasswordDialogFragment.OnChangeSSIDCompleteListener {
+public class WiFiSettings extends AppCompatActivity
+        implements ChangeSSIDPasswordDialogFragment.OnChangeSSIDCompleteListener,
+        DeviceListAdapter.OnClickListener{
 
     private static final String TAG = WiFiSettings.class.getSimpleName();
     private static int DELAY_SSID = 5000;
@@ -110,6 +112,8 @@ public class WiFiSettings extends AppCompatActivity implements ChangeSSIDPasswor
                 urlString, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
+
+                // TODO create a string request of AsyncTask that loads the list of blocked devices
                 deviceViewModels = new ArrayList<>();
                 try {
                     wiFiDeviceCount.setText(response.getString(JioFiData.USER_COUNT));
@@ -122,7 +126,7 @@ public class WiFiSettings extends AppCompatActivity implements ChangeSSIDPasswor
                     }
 
                     if (mDeviceListAdapter == null) {
-                        mDeviceListAdapter = new DeviceListAdapter();
+                        mDeviceListAdapter = new DeviceListAdapter(WiFiSettings.this);
                         mDeviceListAdapter.setDeviceViewModels(deviceViewModels);
                         mRecyclerView.setAdapter(mDeviceListAdapter);
                     } else {
@@ -199,6 +203,23 @@ public class WiFiSettings extends AppCompatActivity implements ChangeSSIDPasswor
                         showChangeSSIDPassDialog();
                     }
                 }).show();
+    }
+
+    @Override
+    public void onClickBlockListener(int itemId) {
+
+
+        // TODO setUp an AsyncTask to block and save this item to the database
+        DeviceViewModel temp = deviceViewModels.remove(itemId);
+        temp.setIsBlocked(true);
+        Snackbar.make(wifiSettingsLayout, temp.getDeviceName() , Snackbar.LENGTH_LONG).show();
+        deviceViewModels.add(temp);
+        mDeviceListAdapter.setDeviceViewModels(deviceViewModels);
+    }
+
+    @Override
+    public void onClickUnBlockListener(int itemId) {
+        Snackbar.make(wifiSettingsLayout, itemId + " Unblocked", Snackbar.LENGTH_LONG).show();
     }
 
     // TODO AsyncTask to block a device
