@@ -48,7 +48,7 @@ public class DeviceViewHolder extends RecyclerView.ViewHolder {
         isBlocked = viewModel.getIsBlocked();
         if (isBlocked) {
             isConnectedTextView.setText("Blocked");
-            isConnectedTextView.setTextColor(Color.parseColor("#c43c00"));
+            isConnectedTextView.setTextColor(Color.parseColor("#c30000"));
             ipAddressTextView.setText("");
             blockButton.setImageResource(R.drawable.ic_round_unblock_24px);
         } else {
