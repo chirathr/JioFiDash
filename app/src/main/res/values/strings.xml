@@ -67,4 +67,5 @@
     <string name="change">Change</string>
     <string name="cancel">Cancel</string>
     <string name="password_hidden">***********</string>
+    <string name="error_too_many_attempts">Saving failed, try again later. Too many attempts.</string>
 </resources>

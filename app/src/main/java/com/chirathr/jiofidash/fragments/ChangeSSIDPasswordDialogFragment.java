@@ -28,6 +28,7 @@ public class ChangeSSIDPasswordDialogFragment extends DialogFragment {
     private TextInputEditText ssidEditText;
     private TextInputEditText passwordEditText;
     private ProgressBar loadingProgressBar;
+    private TextView tooManyAttemptsTextView;
 
     private LoadSSIDPasswordTask loadSSIDPasswordTask;
 
@@ -47,6 +48,7 @@ public class ChangeSSIDPasswordDialogFragment extends DialogFragment {
         ssidEditText = view.findViewById(R.id.ssid_input);
         passwordEditText = view.findViewById(R.id.password_input);
         loadingProgressBar = view.findViewById(R.id.progressBar);
+        tooManyAttemptsTextView = view.findViewById(R.id.tv_error_too_many_attempts);
 
         builder.setView(view)
                 .setPositiveButton(R.string.change, new DialogInterface.OnClickListener() {
@@ -76,6 +78,7 @@ public class ChangeSSIDPasswordDialogFragment extends DialogFragment {
             positiveButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    tooManyAttemptsTextView.setVisibility(View.GONE);
                     new SetSSIDPasswordTask().execute();
                 }
             });
@@ -87,6 +90,7 @@ public class ChangeSSIDPasswordDialogFragment extends DialogFragment {
         super.onResume();
         loadSSIDPasswordTask = new LoadSSIDPasswordTask();
         loadSSIDPasswordTask.execute();
+        tooManyAttemptsTextView.setVisibility(View.GONE);
     }
 
     @Override
@@ -161,7 +165,7 @@ public class ChangeSSIDPasswordDialogFragment extends DialogFragment {
                 mListener.onChangeSSIDCompleteListener();
                 dismiss();
             } else {
-
+                tooManyAttemptsTextView.setVisibility(View.VISIBLE);
             }
         }
     }
