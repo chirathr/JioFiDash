@@ -300,7 +300,7 @@ public class WiFiSettings extends AppCompatActivity
     public void onClickBlockListener(int itemId) {
 
 
-        // TODO setUp an AsyncTask to block and save this item to the database
+        // TODO setUp an AsyncTask to block
         DeviceViewModel temp = deviceViewModels.remove(itemId);
         temp.setIsBlocked(true);
         Snackbar.make(wifiSettingsLayout, temp.getDeviceName() , Snackbar.LENGTH_LONG).show();
@@ -311,12 +311,8 @@ public class WiFiSettings extends AppCompatActivity
     @Override
     public void onClickUnBlockListener(int itemId) {
         Snackbar.make(wifiSettingsLayout, itemId + " Unblocked", Snackbar.LENGTH_LONG).show();
+        // TODO AsyncTask to unblock a device
     }
-
-    // TODO AsyncTask to block a device
-    // TODO add blocked device to SQLite local storage
-    // TODO Show blocked device under the list of devices
-    // TODO AsyncTask to unblock a device and remove from sqlite storage
 
     // TODO change the appbar name to WiFI Settings and add a back button
 }

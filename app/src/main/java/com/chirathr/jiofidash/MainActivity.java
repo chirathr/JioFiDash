@@ -190,6 +190,8 @@ public class MainActivity extends AppCompatActivity
                 startActivity(new Intent(this, About.class));
                 break;
             }
+
+            // TODO option to turn on wps button
         }
     }
 
