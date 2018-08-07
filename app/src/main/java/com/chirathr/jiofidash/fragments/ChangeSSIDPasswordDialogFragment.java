@@ -2,6 +2,7 @@ package com.chirathr.jiofidash.fragments;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -29,6 +30,8 @@ public class ChangeSSIDPasswordDialogFragment extends DialogFragment {
     private ProgressBar loadingProgressBar;
 
     private LoadSSIDPasswordTask loadSSIDPasswordTask;
+
+    private OnChangeSSIDCompleteListener mListener;
 
     public static final String FRGAMENT_TAG = "change-ssid-password-fragment";
 
@@ -86,6 +89,17 @@ public class ChangeSSIDPasswordDialogFragment extends DialogFragment {
         loadSSIDPasswordTask.execute();
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try {
+            mListener = (OnChangeSSIDCompleteListener) context;
+        }
+        catch (ClassCastException e) {
+            throw new ClassCastException(context.toString() + "Must implement OnChangeSSIDCompleteListener.");
+        }
+    }
+
     private class LoadSSIDPasswordTask extends AsyncTask<Void, Void, Void> {
 
         private boolean isSuccessful;
@@ -109,10 +123,13 @@ public class ChangeSSIDPasswordDialogFragment extends DialogFragment {
             super.onPostExecute(aVoid);
             ssidEditText.setText(NetworkUtils.wiFiSSID);
             passwordEditText.setText(NetworkUtils.wiFiPassword);
-            Log.v(TAG, NetworkUtils.wiFiPassword);
             hideLoading();
-            Log.v(TAG, "Done");
-            Log.v(TAG, isSuccessful + "");
+
+            if (!isSuccessful) {
+                mListener.onLoadSSIDFailedListener();
+                dismiss();
+            }
+
         }
     }
 
@@ -141,10 +158,10 @@ public class ChangeSSIDPasswordDialogFragment extends DialogFragment {
             super.onPostExecute(aVoid);
             hideLoading();
             if (isSuccessful) {
-                Log.v(TAG, "" + isSuccessful);
+                mListener.onChangeSSIDCompleteListener();
                 dismiss();
             } else {
-                Log.v(TAG, "Failed to save ssid and password");
+
             }
         }
     }
@@ -155,5 +172,10 @@ public class ChangeSSIDPasswordDialogFragment extends DialogFragment {
 
     public void hideLoading() {
         loadingProgressBar.setVisibility(View.INVISIBLE);
+    }
+
+    public interface OnChangeSSIDCompleteListener {
+        void onLoadSSIDFailedListener();
+        void onChangeSSIDCompleteListener();
     }
 }

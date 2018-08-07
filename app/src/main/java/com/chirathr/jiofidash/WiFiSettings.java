@@ -27,6 +27,7 @@ import com.chirathr.jiofidash.data.JioFiData;
 import com.chirathr.jiofidash.fragments.ChangeSSIDPasswordDialogFragment;
 import com.chirathr.jiofidash.utils.NetworkUtils;
 import com.chirathr.jiofidash.utils.VolleySingleton;
+import com.google.android.material.snackbar.Snackbar;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -36,7 +37,7 @@ import org.jsoup.nodes.Document;
 import java.util.ArrayList;
 import java.util.List;
 
-public class WiFiSettings extends AppCompatActivity {
+public class WiFiSettings extends AppCompatActivity implements ChangeSSIDPasswordDialogFragment.OnChangeSSIDCompleteListener {
 
     private static final String TAG = WiFiSettings.class.getSimpleName();
     private static int DELAY_SSID = 5000;
@@ -45,6 +46,7 @@ public class WiFiSettings extends AppCompatActivity {
     private TextView wiFiSSIDTextView;
     private TextView wiFiDeviceCount;
     private ProgressBar loadingProgressBar;
+    private ConstraintLayout wifiSettingsLayout;
     private ConstraintLayout wifiLayoutView;
     private ConstraintLayout devicesLayoutView;
 
@@ -80,6 +82,7 @@ public class WiFiSettings extends AppCompatActivity {
         loadingProgressBar = findViewById(R.id.progress_bar_wifi_settings);
         wifiLayoutView = findViewById(R.id.wifi_layout);
         devicesLayoutView = findViewById(R.id.devices_layout);
+        wifiSettingsLayout = findViewById(R.id.wifi_settings_layout);
 
         mRecyclerView = findViewById(R.id.users_list_recyler_view);
         mRecyclerView.setHasFixedSize(true);
@@ -176,11 +179,26 @@ public class WiFiSettings extends AppCompatActivity {
         devicesLayoutView.setAlpha(Float.parseFloat("1.0"));
     }
 
-    // TODO AsyncTask to change SSID and password
     public void showChangeSSIDPassDialog() {
         DialogFragment changeSSIDPassFragment = new ChangeSSIDPasswordDialogFragment();
         changeSSIDPassFragment.show(
                 getSupportFragmentManager(), ChangeSSIDPasswordDialogFragment.FRGAMENT_TAG);
+    }
+
+    @Override
+    public void onChangeSSIDCompleteListener() {
+        Snackbar.make(wifiSettingsLayout, "SSID and Password changed.", Snackbar.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onLoadSSIDFailedListener() {
+        Snackbar.make(wifiSettingsLayout, "Loading password failed!", Snackbar.LENGTH_INDEFINITE)
+                .setAction("Retry", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        showChangeSSIDPassDialog();
+                    }
+                }).show();
     }
 
     // TODO AsyncTask to block a device
