@@ -95,3 +95,20 @@ deny_1_mac: c4:8e:8f:01:5e:f6
 deny_1_dis: another
 deny_1_enable: checked
 deny_1_key: 
+
+
+#### WPS button
+
+There seems to be an issue when you do this, as the wps does not turn off. So better to do this once.
+
+Request URL: http://jiofi.local.html/wps_sv.cgi
+Request Method: POST
+Status Code: 200 OK
+Remote Address: 192.168.15.1:80
+Referrer Policy: no-referrer-when-downgrade
+
+cookie
+ 
+form_type: push_pbs
+token: 54515213
+
