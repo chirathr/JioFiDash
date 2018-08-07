@@ -56,7 +56,9 @@ public class NetworkUtils {
             "/Device_setting_sv.cgi",
             "/LAN_info.cgi",
             "/Security_Mode.cgi",
-            "/Security_Mode_sv.cgi"
+            "/Security_Mode_sv.cgi",
+            "/MAC_Filter.cgi",
+            ""
     };
 
     // Id to represent types of data from device urls
@@ -71,6 +73,7 @@ public class NetworkUtils {
     public static final int LAN_INFO_PAGE_ID = 8;
     public static final int WIFI_SETTINGS_GET_ID = 9;
     public static final int WIFI_SETTINGS_POST_ID = 10;
+    public static final int WIFI_MAC_GET_ID = 11;
 
 
     // Get device url based on type

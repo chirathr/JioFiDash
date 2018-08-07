@@ -15,6 +15,14 @@ public class DeviceViewModel {
         isConnectedString = deviceInfo[4].trim();
     }
 
+    public DeviceViewModel(String name, String mac) {
+        deviceName = name;
+        macAddress = mac;
+        ipAddress = "";
+        isConnectedString = "Blocked";
+        isBlocked = true;
+    }
+
     public String getMacAddress() {
         return macAddress;
     }

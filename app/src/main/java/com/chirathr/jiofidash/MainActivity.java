@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity
     private View mainCordinateView;
 
     public static final String LOGIN_COMPLETE_ACTION_RESTART = "restart";
+    public static final String LOGIN_COMPLETE_ACTION_OPEN_WIFI_SETTINGS = "wifi-settings";
 
     private ColorArcProgressBar batteryProgressBar;
     private boolean updateUI = true;
@@ -73,6 +74,17 @@ public class MainActivity extends AppCompatActivity
         handler.post(batteryUpdateRunnable);
 
         bottomSheetFragment = new BottomSheetFragment();
+
+        findViewById(R.id.wifi_fragment).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (JioFiPreferences.getInstance().isLoginDataAvailable(MainActivity.this)) {
+                    startActivity(new Intent(MainActivity.this, WiFiSettings.class));
+                } else {
+                    showLoginDialog(LOGIN_COMPLETE_ACTION_OPEN_WIFI_SETTINGS);
+                }
+            }
+        });
     }
 
     @Override
@@ -154,8 +166,11 @@ public class MainActivity extends AppCompatActivity
             }
             case BottomSheetFragment.OPTION_WIFI_SETTINGS_ID: {
                 bottomSheetFragment.dismiss();
-                Intent intent = new Intent(this, WiFiSettings.class);
-                startActivity(intent);
+                if (JioFiPreferences.getInstance().isLoginDataAvailable(this)) {
+                    startActivity(new Intent(this, WiFiSettings.class));
+                } else {
+                    showLoginDialog(LOGIN_COMPLETE_ACTION_OPEN_WIFI_SETTINGS);
+                }
                 break;
             }
             case BottomSheetFragment.OPTION_ADMIN_WEB_UI: {
@@ -191,8 +206,16 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void loginCompleteListener(String action) {
-        if (action.equals(LOGIN_COMPLETE_ACTION_RESTART)) {
-            restartJioFi();
+        switch (action) {
+            case LOGIN_COMPLETE_ACTION_RESTART: {
+                restartJioFi();
+                break;
+            }
+            case LOGIN_COMPLETE_ACTION_OPEN_WIFI_SETTINGS: {
+                Intent intent = new Intent(this, WiFiSettings.class);
+                startActivity(intent);
+                break;
+            }
         }
     }
 

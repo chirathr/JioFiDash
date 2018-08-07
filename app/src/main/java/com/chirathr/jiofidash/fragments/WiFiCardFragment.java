@@ -74,14 +74,6 @@ public class WiFiCardFragment extends Fragment {
         devicesCount = view.findViewById(R.id.tv_wifi_caption);
         ssidNameTextView = view.findViewById(R.id.tv_wifi_ssid);
 
-        view.findViewById(R.id.wifi_layout).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), WiFiSettings.class);
-                startActivity(intent);
-            }
-        });
-
         handler.postDelayed(devicesUpdateRunnable, START_DELAY);
 
         return view;

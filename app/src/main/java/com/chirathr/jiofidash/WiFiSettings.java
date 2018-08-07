@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -16,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -33,9 +35,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class WiFiSettings extends AppCompatActivity
         implements ChangeSSIDPasswordDialogFragment.OnChangeSSIDCompleteListener,
@@ -43,7 +48,7 @@ public class WiFiSettings extends AppCompatActivity
 
     private static final String TAG = WiFiSettings.class.getSimpleName();
     private static int DELAY_SSID = 5000;
-    private static int DELAY = 1000;
+    private static int DELAY = 3000;
 
     private static boolean updateUi = true;
 
@@ -109,6 +114,8 @@ public class WiFiSettings extends AppCompatActivity
                 showChangeSSIDPassDialog();
             }
         });
+
+        updateUi = false;
     }
 
     @Override
@@ -116,8 +123,33 @@ public class WiFiSettings extends AppCompatActivity
         super.onResume();
         if (!updateUi) {
             updateUi = true;
-            handler.post(loadDeviceListRunnable);
-            handler.post(loadSSIDRunnable);
+            new loginAsyncTask().execute();
+        }
+    }
+
+    public class loginAsyncTask extends AsyncTask<Void, Void, Void> {
+
+        private boolean isSuccessful = true;
+        @Override
+        protected Void doInBackground(Void... voids) {
+            if (!NetworkUtils.isLoggedIn()) {
+                if (!NetworkUtils.login(WiFiSettings.this))
+                     isSuccessful = false;
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            if (isSuccessful) {
+                handler.post(loadDeviceListRunnable);
+                handler.post(loadSSIDRunnable);
+            } else {
+                updateUi = false;
+            }
+
+            Snackbar.make(wifiSettingsLayout, "Login failed, try again later", Snackbar.LENGTH_LONG);
         }
     }
 
@@ -127,15 +159,15 @@ public class WiFiSettings extends AppCompatActivity
         updateUi = false;
     }
 
-    public void loadDeviceList(Context context) {
+    private static final String CSS_SELECTOR_BLOCKED_ITEM_LIST = "table[id='active_deny_list'] td[class='text_list']";
+
+    public void loadDeviceList(final Context context) {
         String urlString = NetworkUtils.getUrlString(NetworkUtils.LAN_INFO_ID);
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,
                 urlString, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-
-                // TODO create a string request of AsyncTask that loads the list of blocked devices
                 deviceViewModels = new ArrayList<>();
                 try {
                     wiFiDeviceCount.setText(response.getString(JioFiData.USER_COUNT));
@@ -147,14 +179,7 @@ public class WiFiSettings extends AppCompatActivity
                             deviceViewModels.add(new DeviceViewModel(deviceInfoString));
                     }
 
-                    if (mDeviceListAdapter == null) {
-                        mDeviceListAdapter = new DeviceListAdapter(WiFiSettings.this);
-                        mDeviceListAdapter.setDeviceViewModels(deviceViewModels);
-                        mRecyclerView.setAdapter(mDeviceListAdapter);
-                    } else {
-                        mDeviceListAdapter.setDeviceViewModels(deviceViewModels);
-                    }
-                    showData();
+                    loadAndUpdateBlockedDevices(context);
 
                 } catch (JSONException e) {
                     Log.v(TAG, "userlistinfo not found in json response or json error: " + e.getMessage());
@@ -169,6 +194,50 @@ public class WiFiSettings extends AppCompatActivity
         });
 
         VolleySingleton.getInstance(context).addToRequestQueue(jsonObjectRequest);
+    }
+
+    public void loadAndUpdateBlockedDevices(Context context) {
+
+        String urlString = NetworkUtils.getUrlString(NetworkUtils.WIFI_MAC_GET_ID);
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, urlString,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        // Load the blocked List
+                        Document wiFiMacDocument = Jsoup.parse(response);
+                        Elements elementList = wiFiMacDocument.select(CSS_SELECTOR_BLOCKED_ITEM_LIST);
+
+                        for (int i = 0; i < elementList.size(); i += 2) {
+                            String macAddress = elementList.get(i).text().trim();
+                            String name = elementList.get(i + 1).text().trim();
+                            DeviceViewModel deviceViewModel = new DeviceViewModel(name, macAddress);
+                            deviceViewModels.add(deviceViewModel);
+                        }
+
+                        // Update the UI
+                        if (mDeviceListAdapter == null) {
+                            mDeviceListAdapter = new DeviceListAdapter(WiFiSettings.this);
+                            mDeviceListAdapter.setDeviceViewModels(deviceViewModels);
+                            mRecyclerView.setAdapter(mDeviceListAdapter);
+                        } else {
+                            mDeviceListAdapter.setDeviceViewModels(deviceViewModels);
+                        }
+                        showData();
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                showLoading();
+            }
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                return NetworkUtils.getAuthHeaders();
+            }
+        };
+
+        VolleySingleton.getInstance(context).addToRequestQueue(stringRequest);
     }
 
     public void loadDevicesData(Context context) {
