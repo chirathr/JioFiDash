@@ -45,6 +45,8 @@ public class WiFiSettings extends AppCompatActivity
     private static int DELAY_SSID = 5000;
     private static int DELAY = 1000;
 
+    private static boolean updateUi = true;
+
     private TextView wiFiSSIDTextView;
     private TextView wiFiDeviceCount;
     private ProgressBar loadingProgressBar;
@@ -62,7 +64,9 @@ public class WiFiSettings extends AppCompatActivity
         @Override
         public void run() {
             loadDeviceList(WiFiSettings.this);
-            handler.postDelayed(loadDeviceListRunnable, DELAY);
+            if (updateUi) {
+                handler.postDelayed(loadDeviceListRunnable, DELAY);
+            }
         }
     };
 
@@ -70,7 +74,9 @@ public class WiFiSettings extends AppCompatActivity
         @Override
         public void run() {
             loadDevicesData(WiFiSettings.this);
-            handler.postDelayed(loadSSIDRunnable, DELAY_SSID);
+            if (updateUi) {
+                handler.postDelayed(loadSSIDRunnable, DELAY_SSID);
+            }
         }
     };
 
@@ -97,9 +103,6 @@ public class WiFiSettings extends AppCompatActivity
 
         handler = new Handler();
         showLoading();
-        handler.post(loadDeviceListRunnable);
-        handler.post(loadSSIDRunnable);
-
         wifiLayoutView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -108,15 +111,20 @@ public class WiFiSettings extends AppCompatActivity
         });
     }
 
-    // TODO stop and restart the runnable
     @Override
     protected void onResume() {
         super.onResume();
+        if (!updateUi) {
+            updateUi = true;
+            handler.post(loadDeviceListRunnable);
+            handler.post(loadSSIDRunnable);
+        }
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+        updateUi = false;
     }
 
     public void loadDeviceList(Context context) {
