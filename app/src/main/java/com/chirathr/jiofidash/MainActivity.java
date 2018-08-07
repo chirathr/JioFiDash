@@ -168,6 +168,12 @@ public class MainActivity extends AppCompatActivity
                     //Page not found
                     Log.v(TAG, "page not found, open web page.");
                 }
+                break;
+            }
+            case BottomSheetFragment.OPTION_ABOUT_ID: {
+
+                startActivity(new Intent(this, About.class));
+                break;
             }
         }
     }

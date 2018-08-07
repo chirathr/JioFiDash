@@ -72,6 +72,14 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
             }
         });
 
+
+        aboutTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mListener.onOptionSelected(OPTION_ABOUT_ID);
+            }
+        });
+
         return view;
     }
 

@@ -79,6 +79,9 @@ public class WiFiSettings extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wifi_settings);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+
         wiFiSSIDTextView = findViewById(R.id.tv_wifi_ssid);
         wiFiDeviceCount = findViewById(R.id.tv_device_count);
         loadingProgressBar = findViewById(R.id.progress_bar_wifi_settings);

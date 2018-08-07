@@ -14,21 +14,47 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".MainActivity" />
+
+        <activity android:name=".MainActivity">
+
+        </activity>
+
         <activity
             android:name=".splashScreen"
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+            <intent-filter android:label="JioFi">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <!-- Accepts URIs that begin with "http://www.example.com/gizmos” -->
+                <data android:scheme="http"
+                    android:host="jiofi.local.html"
+                    android:pathPrefix="/" />
+            </intent-filter>
         </activity>
+
         <activity
             android:name=".OnBoarding"
-            android:theme="@style/OnBoardingTheme" />
-        <activity android:name=".WiFiSettings" />
-        <activity android:name=".About"></activity>
+            android:theme="@style/OnBoardingTheme"/>
+
+        <activity android:name=".WiFiSettings"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+
+        <activity android:name=".About"
+            android:parentActivityName=".MainActivity">
+                <meta-data
+                    android:name="android.support.PARENT_ACTIVITY"
+                    android:value=".MainActivity" />
+        </activity>
     </application>
 
 </manifest>
