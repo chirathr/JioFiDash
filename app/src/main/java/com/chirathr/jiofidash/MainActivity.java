@@ -85,6 +85,9 @@ public class MainActivity extends AppCompatActivity
                 }
             }
         });
+
+        // TODO check for WiFi and pause all fragments and tasks
+        // TODO set up a dynamic intent to listen to wifi and start all the tasks
     }
 
     @Override
