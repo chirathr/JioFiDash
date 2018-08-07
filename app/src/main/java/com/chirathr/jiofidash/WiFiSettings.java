@@ -105,6 +105,17 @@ public class WiFiSettings extends AppCompatActivity
         });
     }
 
+    // TODO stop and restart the runnable
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
+
     public void loadDeviceList(Context context) {
         String urlString = NetworkUtils.getUrlString(NetworkUtils.LAN_INFO_ID);
 
