@@ -396,11 +396,6 @@ public class NetworkUtils {
                     Log.v(TAG, "User already logged in !");
                     return login(context);
                 }
-                if (response.contains("function init_index()")) {
-                    authenticationError = true;
-                    Log.v(TAG, "User already logged in !");
-                    return login(context);
-                }
             }
 
             if (loginSuccess) {
@@ -448,7 +443,8 @@ public class NetworkUtils {
     public static boolean changePowerSavingTimeOut(Context context, boolean restart, int powerSavingTimeout) {
 
         if (!isLoggedIn()) {
-            login(context);
+            if (!login(context))
+                return false;
         }
 
         URL url = getURL(URL_DEVICE_SETTINGS_GET_ID);
@@ -516,8 +512,8 @@ public class NetworkUtils {
     public static boolean loadCurrentSSIDAndPassword(Context context) {
         // 1. Login
         if (!isLoggedIn()) {
-            Log.v(TAG, "Is not logged in");
-            login(context);
+            if (!login(context))
+                return false;
         }
         // 2. Make a get request to http://jiofi.local.html/Security_Mode.cgi
         URL url = getURL(WIFI_SETTINGS_GET_ID);
@@ -540,7 +536,8 @@ public class NetworkUtils {
 
         // 1. Login
         if (!isLoggedIn()) {
-            login(context);
+            if (!login(context))
+                return false;
         }
 
         // 2. Make a get request
@@ -570,7 +567,7 @@ public class NetworkUtils {
         postParams.put(POST_WIFI_MODE_ID, wifiMode);
         postParams.put(POST_WIFI_WMM_ID, wifiWMM);
         postParams.put(POST_WIFI_BROADCASTING_ID, wifiBroadcasting);
-        postParams.put(POST_WIFI_SECURITY_MODE_ID, wifiSecurity);
+        postParams.put(POST_WIFI_SECURITY_MODE_ID, "wpa2");
         postParams.put(POST_WIFI_WPA_ID, password);
         postParams.put(POST_WIFI_WPA2_ID, password);
         postParams.put(POST_WIFI_WPA_MIXED_ID, password);
