@@ -101,6 +101,8 @@ deny_1_key:
 
 There seems to be an issue when you do this, as the wps does not turn off. So better to do this once.
 
+GET: http://jiofi.local.html/WPS.cgi
+
 Request URL: http://jiofi.local.html/wps_sv.cgi
 Request Method: POST
 Status Code: 200 OK

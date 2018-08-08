@@ -29,6 +29,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Handler;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -55,7 +56,9 @@ public class NetworkUtils {
             "/Security_Mode.cgi",
             "/Security_Mode_sv.cgi",
             "/MAC_Filter.cgi",
-            ""
+            "",
+            "/WPS.cgi",
+            "/wps_sv.cgi"
     };
 
     // Id to represent types of data from device urls
@@ -71,6 +74,9 @@ public class NetworkUtils {
     public static final int WIFI_SETTINGS_GET_ID = 9;
     public static final int WIFI_SETTINGS_POST_ID = 10;
     public static final int WIFI_MAC_GET_ID = 11;
+    public static final int WIFI_MAC_POST_ID = 12;
+    public static final int WPS_GET_ID = 13;
+    public static final int WPS_POST_ID = 14;
 
 
     // Get device url based on type
@@ -587,6 +593,36 @@ public class NetworkUtils {
     }
 
     public static boolean pushWPSButton(Context context) {
+        // 1. Login
+        if (!isLoggedIn()) {
+            if (!login(context))
+                return false;
+        }
+
+        // 2. Make a get request
+        URL url = getURL(WPS_GET_ID);
+        String response = getRequest(url, null, getAuthHeaders());
+        if (response == null) {
+            return false;
+        }
+
+        // Get the CSRF token
+        Document pushButtonDocument = Jsoup.parse(response);
+        String csrfToken = pushButtonDocument.select(TOKEN_INPUT_CSS_SELECTOR).last().val();
+
+        Map<String, String> postParams = new HashMap<>();
+        postParams.put(CSRF_TOKEN_STRING_ID, csrfToken);
+        postParams.put(FORM_TYPE_STRING_ID, "push_pbs");
+
+
+        // 4. Make the post request
+        url = getURL(WPS_POST_ID);
+        response = postRequest(url, postParams, getAuthHeaders());
+
+        if (response == null) {
+            return false;
+        }
+
         return true;
     }
 }
