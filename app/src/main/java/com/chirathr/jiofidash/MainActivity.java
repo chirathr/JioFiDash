@@ -18,8 +18,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.android.volley.NoConnectionError;
 import com.android.volley.Request;
 import com.android.volley.Response;
+import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.chirathr.jiofidash.data.JioFiData;
@@ -29,6 +31,7 @@ import com.chirathr.jiofidash.fragments.LoginDialog;
 import com.chirathr.jiofidash.progressBar.ColorArcProgressBar;
 import com.chirathr.jiofidash.utils.NetworkUtils;
 import com.chirathr.jiofidash.utils.VolleySingleton;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import org.json.JSONException;
@@ -48,7 +51,6 @@ public class MainActivity extends AppCompatActivity
     public static final String LOGIN_COMPLETE_ACTION_OPEN_WIFI_SETTINGS = "wifi-settings";
 
     private ColorArcProgressBar batteryProgressBar;
-    private boolean updateUI = true;
     private Handler handler;
     private Runnable batteryUpdateRunnable = new Runnable() {
         @Override
@@ -62,6 +64,9 @@ public class MainActivity extends AppCompatActivity
 
     private BottomSheetFragment bottomSheetFragment;
     private RestartJioFiAsyncTask restartJioFiAsyncTask;
+
+    public static boolean updateUI = true;
+    private Snackbar noJioFiSnackBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,8 +91,8 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        // TODO check for WiFi and pause all fragments and tasks
-        // TODO set up a dynamic intent to listen to wifi and start all the tasks
+        noJioFiSnackBar = Snackbar.make(
+                mainCordinateView, "JioFi not found, check your WiFi.", Snackbar.LENGTH_INDEFINITE);
     }
 
     @Override
@@ -103,6 +108,16 @@ public class MainActivity extends AppCompatActivity
     protected void onPause() {
         super.onPause();
         updateUI = false;
+    }
+
+    private void showJioFiNotFoundSnackBar() {
+        if (!noJioFiSnackBar.isShown())
+            noJioFiSnackBar.show();
+    }
+
+    private void hideJioFiNotFoundSnackBar() {
+        if (noJioFiSnackBar.isShown())
+            noJioFiSnackBar.dismiss();
     }
 
     @Override
@@ -140,11 +155,13 @@ public class MainActivity extends AppCompatActivity
                 } catch (JSONException e) {
                     Log.v(TAG, "JSONException: " + e.getMessage());
                 }
+
+                hideJioFiNotFoundSnackBar();
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-
+                showJioFiNotFoundSnackBar();
             }
         });
 

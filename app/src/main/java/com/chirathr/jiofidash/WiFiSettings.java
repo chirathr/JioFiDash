@@ -37,7 +37,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
@@ -93,6 +92,8 @@ public class WiFiSettings extends AppCompatActivity
         }
     };
 
+    private Snackbar noJioFiSnackBar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -114,6 +115,9 @@ public class WiFiSettings extends AppCompatActivity
         wifiSettingsLayout = findViewById(R.id.wifi_settings_layout);
         changeSSIDPasswordButton = findViewById(R.id.button_change_ssid_password);
         showPasswordIcon = findViewById(R.id.show_password);
+
+        noJioFiSnackBar = Snackbar.make(
+                wifiSettingsLayout, "JioFi not found, check your WiFi.", Snackbar.LENGTH_INDEFINITE);
 
         mRecyclerView = findViewById(R.id.users_list_recyler_view);
         mRecyclerView.setHasFixedSize(true);
@@ -222,6 +226,7 @@ public class WiFiSettings extends AppCompatActivity
                     }
 
                     loadAndUpdateBlockedDevices(context);
+                    hideJioFiNotFoundSnackBar();
 
                 } catch (JSONException e) {
                     Log.v(TAG, "userlistinfo not found in json response or json error: " + e.getMessage());
@@ -232,6 +237,7 @@ public class WiFiSettings extends AppCompatActivity
             @Override
             public void onErrorResponse(VolleyError error) {
                 showLoading();
+                showJioFiNotFoundSnackBar();
             }
         });
 
@@ -374,4 +380,14 @@ public class WiFiSettings extends AppCompatActivity
     }
 
     // TODO change the appbar name to WiFI Settings and add a back button
+
+    private void showJioFiNotFoundSnackBar() {
+        if (!noJioFiSnackBar.isShown())
+            noJioFiSnackBar.show();
+    }
+
+    private void hideJioFiNotFoundSnackBar() {
+        if (noJioFiSnackBar.isShown())
+            noJioFiSnackBar.dismiss();
+    }
 }
