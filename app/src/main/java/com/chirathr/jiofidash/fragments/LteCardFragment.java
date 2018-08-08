@@ -31,7 +31,7 @@ import androidx.fragment.app.Fragment;
 public class LteCardFragment extends Fragment {
 
     private static final int DELAY = 1000;
-    private static final int START_DELAY = 1000;
+    private static final int START_DELAY = 1500;
 
     private static final String TAG = LteCardFragment.class.getSimpleName();
 
@@ -71,9 +71,10 @@ public class LteCardFragment extends Fragment {
     private Runnable lteInfoRunnable = new Runnable() {
         @Override
         public void run() {
-            loadLteData(getContext());
-            if (updateUI)
+            if (updateUI) {
+                loadLteData(getContext());
                 handler.postDelayed(lteInfoRunnable, DELAY);
+            }
         }
     };
 
@@ -192,21 +193,17 @@ public class LteCardFragment extends Fragment {
 
             if (rsrp < LTE_RSRP_POOR) {
                 icon = LTE_NETWORK_ICON_0_BARS;
-            }
-            else if (rsrp < LTE_RSRP_FAIR) {
+            } else if (rsrp < LTE_RSRP_FAIR) {
                 icon = LTE_NETWORK_ICON_1_BARS;
-            }
-            else if (rsrp < LTE_RSRP_MEDIUM) {
+            } else if (rsrp < LTE_RSRP_MEDIUM) {
                 icon = LTE_NETWORK_ICON_2_BARS;
-            }
-            else if (rsrp < LTE_RSRP_GOOD) {
+            } else if (rsrp < LTE_RSRP_GOOD) {
                 icon = LTE_NETWORK_ICON_3_BARS;
             } else {
                 icon = LTE_NETWORK_ICON_4_BARS;
             }
 
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             text = LTE_NO_NETWORK_STRING;
             icon = LTE_NETWORK_ICON_NO_SIGNAL;
             textColor = R.color.colorPrimaryRedLight;

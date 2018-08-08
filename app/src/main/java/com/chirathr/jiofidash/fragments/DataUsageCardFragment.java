@@ -30,7 +30,7 @@ import androidx.fragment.app.Fragment;
 public class DataUsageCardFragment extends Fragment {
 
     private static final int DELAY = 5000;
-    private static final int START_DELAY = 1000;
+    private static final int START_DELAY = 1500;
 
     private static final String TAG = DataUsageCardFragment.class.getSimpleName();
 
@@ -47,11 +47,9 @@ public class DataUsageCardFragment extends Fragment {
     private Runnable dataUsageUpdateRunnable = new Runnable() {
         @Override
         public void run() {
-            loadUsageData(getContext());
             if (updateUI) {
+                loadUsageData(getContext());
                 handler.postDelayed(dataUsageUpdateRunnable, DELAY);
-            } else {
-                Log.v(TAG, "Stopped");
             }
         }
     };

@@ -4,8 +4,6 @@ import android.content.Context;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -18,10 +16,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.android.volley.NoConnectionError;
 import com.android.volley.Request;
 import com.android.volley.Response;
-import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.chirathr.jiofidash.data.JioFiData;
@@ -31,7 +27,6 @@ import com.chirathr.jiofidash.fragments.LoginDialog;
 import com.chirathr.jiofidash.progressBar.ColorArcProgressBar;
 import com.chirathr.jiofidash.utils.NetworkUtils;
 import com.chirathr.jiofidash.utils.VolleySingleton;
-import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import org.json.JSONException;
@@ -45,7 +40,7 @@ public class MainActivity extends AppCompatActivity
     private static final String TAG = MainActivity.class.getSimpleName();
     private static final int DELAY = 1000;
 
-    private View mainCordinateView;
+    private View mainConstrainView;
 
     public static final String LOGIN_COMPLETE_ACTION_RESTART = "restart";
     public static final String LOGIN_COMPLETE_ACTION_OPEN_WIFI_SETTINGS = "wifi-settings";
@@ -73,7 +68,7 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mainCordinateView = findViewById(R.id.main_layout);
+        mainConstrainView = findViewById(R.id.main_layout);
 
         handler = new Handler();
         batteryProgressBar = (ColorArcProgressBar) findViewById(R.id.batteryProgressBar);
@@ -93,7 +88,7 @@ public class MainActivity extends AppCompatActivity
         });
 
         noJioFiSnackBar = Snackbar.make(
-                mainCordinateView, "JioFi not found, check your WiFi.", Snackbar.LENGTH_INDEFINITE);
+                mainConstrainView, "JioFi not found, check your WiFi.", Snackbar.LENGTH_INDEFINITE);
     }
 
     @Override
@@ -272,12 +267,12 @@ public class MainActivity extends AppCompatActivity
 
                 NetworkUtils.clearLogin();
 
-                Snackbar.make(mainCordinateView, R.string.restart_successful, Snackbar.LENGTH_LONG)
+                Snackbar.make(mainConstrainView, R.string.restart_successful, Snackbar.LENGTH_LONG)
                         .show();
             } else {
                 Log.v(TAG, "Restart failed");
 
-                Snackbar.make(mainCordinateView, "Restart failed!", Snackbar.LENGTH_LONG)
+                Snackbar.make(mainConstrainView, "Restart failed!", Snackbar.LENGTH_LONG)
                         .setAction(R.string.retry, new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
@@ -317,9 +312,9 @@ public class MainActivity extends AppCompatActivity
             super.onPostExecute(aVoid);
 
             if (isSuccessful) {
-                Snackbar.make(mainCordinateView, "WPS button pressed, connect your device", Snackbar.LENGTH_LONG).show();
+                Snackbar.make(mainConstrainView, "WPS button pressed, connect your device", Snackbar.LENGTH_LONG).show();
             } else {
-                Snackbar.make(mainCordinateView, "WPS button error, please try after sometime.", Snackbar.LENGTH_LONG)
+                Snackbar.make(mainConstrainView, "WPS button error, please try after sometime.", Snackbar.LENGTH_LONG)
                         .setAction("RETRY", new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {

@@ -18,6 +18,7 @@
             android:focusable="true">
                 <com.chirathr.jiofidash.progressBar.ColorArcProgressBar
                     android:id="@+id/batteryProgressBar"
+                    app:current_value="91"
                     android:layout_width="match_parent"
                     android:layout_height="300dp"
                     android:layout_gravity="center_horizontal"
@@ -31,11 +32,11 @@
                     app:front_color3="@color/colorPrimaryGreen"
                     app:front_width="10dp"
                     app:is_need_content="true"
-                    app:string_title="1Hour 5min"
+                    app:string_title="5 hours 10 min"
                     app:is_need_title="true"
                     app:is_need_unit="true"
                     app:max_value="100"
-                    app:string_unit="Charging"
+                    app:string_unit="Discharging"
                     app:total_engle="270"/>
         </FrameLayout>
 

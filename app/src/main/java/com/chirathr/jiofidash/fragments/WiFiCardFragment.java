@@ -34,7 +34,7 @@ public class WiFiCardFragment extends Fragment {
     public static final String TAG = WiFiCardFragment.class.getSimpleName();
 
     private static final int DELAY = 5000;
-    private static final int START_DELAY = 1000;
+    private static final int START_DELAY = 1500;
 
     private TextView devicesCount;
     private TextView ssidNameTextView;
@@ -48,11 +48,9 @@ public class WiFiCardFragment extends Fragment {
     private Runnable devicesUpdateRunnable = new Runnable() {
         @Override
         public void run() {
-            loadDevicesData(getContext());
             if (updateUI) {
+                loadDevicesData(getContext());
                 handler.postDelayed(devicesUpdateRunnable, DELAY);
-            } else {
-                Log.v(TAG, "Stopped");
             }
         }
     };

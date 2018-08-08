@@ -32,14 +32,14 @@ public class DataSpeedCardFragment extends Fragment {
     private static final String TAG = DataSpeedCardFragment.class.getSimpleName();
 
     private static final int DELAY = 1000;
-    private static final int START_DELAY = 1000;
+    private static final int START_DELAY = 1500;
 
     private TextView uploadSpeedTextView;
     private TextView uploadSpeedMaxTextView;
     private TextView downloadSpeedTextView;
     private TextView downloadSpeedMaxTextView;
     private ProgressBar loadingProgressBar;
-    private ConstraintLayout dataSpeedContrainLayout;
+    private ConstraintLayout dataSpeedConstrainLayout;
 
     private Handler handler;
 
@@ -48,8 +48,8 @@ public class DataSpeedCardFragment extends Fragment {
     private Runnable dataSpeedUpdateRunnable = new Runnable() {
         @Override
         public void run() {
-            loadDataSpeed(getContext());
             if (updateUI) {
+                loadDataSpeed(getContext());
                 handler.postDelayed(dataSpeedUpdateRunnable, DELAY);
             }
         }
@@ -67,7 +67,7 @@ public class DataSpeedCardFragment extends Fragment {
         loadingProgressBar = (ProgressBar) dataSpeedCardView.findViewById(R.id.date_speed_loading_progress_bar);
         loadingProgressBar.getIndeterminateDrawable().setColorFilter(
                 getResources().getColor(R.color.colorGrey), android.graphics.PorterDuff.Mode.MULTIPLY);
-        dataSpeedContrainLayout = (ConstraintLayout) dataSpeedCardView.findViewById(R.id.data_speed_layout);
+        dataSpeedConstrainLayout = (ConstraintLayout) dataSpeedCardView.findViewById(R.id.data_speed_layout);
         showLoading();
 
         uploadSpeedTextView = (TextView)  dataSpeedCardView.findViewById(R.id.tv_upload_speed);
@@ -127,11 +127,11 @@ public class DataSpeedCardFragment extends Fragment {
 
     private void showLoading() {
         loadingProgressBar.setVisibility(View.VISIBLE);
-        dataSpeedContrainLayout.setAlpha(Float.parseFloat("0.2"));
+        dataSpeedConstrainLayout.setAlpha(Float.parseFloat("0.2"));
     }
 
     private void showDataSpeed() {
         loadingProgressBar.setVisibility(View.INVISIBLE);
-        dataSpeedContrainLayout.setAlpha(Float.parseFloat("1.0"));
+        dataSpeedConstrainLayout.setAlpha(Float.parseFloat("1.0"));
     }
 }
