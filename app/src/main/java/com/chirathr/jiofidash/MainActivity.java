@@ -320,7 +320,13 @@ public class MainActivity extends AppCompatActivity
             if (isSuccessful) {
                 Snackbar.make(mainCordinateView, "WPS button pressed, connect your device", Snackbar.LENGTH_LONG).show();
             } else {
-                Snackbar.make(mainCordinateView, "WPS button error, please try after sometime.", Snackbar.LENGTH_LONG).show();
+                Snackbar.make(mainCordinateView, "WPS button error, please try after sometime.", Snackbar.LENGTH_LONG)
+                        .setAction("RETRY", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                pushWPSButton();
+                            }
+                        }).show();
             }
         }
     }
