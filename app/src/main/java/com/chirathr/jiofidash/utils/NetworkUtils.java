@@ -60,7 +60,9 @@ public class NetworkUtils {
             "/MAC_Filter.cgi",
             "/MAC_Filter_ajax.cgi",
             "/WPS.cgi",
-            "/wps_sv.cgi"
+            "/wps_sv.cgi",
+            "/top.cgi",
+            "/logout_btn.cgi"
     };
 
     // Id to represent types of data from device urls
@@ -79,6 +81,8 @@ public class NetworkUtils {
     public static final int WIFI_MAC_POST_ID = 12;
     public static final int WPS_GET_ID = 13;
     public static final int WPS_POST_ID = 14;
+    public static final int LOGOUT_PAGE_ID = 15;
+    public static final int LOGOUT_GET_ID = 16;
 
 
     // Get device url based on type
@@ -428,6 +432,36 @@ public class NetworkUtils {
             csrfToken = null;
             return false;
         }
+    }
+
+    public static boolean logout(final Context context) {
+        if (!isLoggedIn()) {
+            return false;
+        }
+
+        // Get the page http://jiofi.local.html/top.cgi
+        URL url = getURL(LOGOUT_PAGE_ID);
+        String response = getRequest(url, null, getAuthHeaders());
+        if (response == null) {
+            return false;
+        }
+
+        // Get the CSRF token
+        Document logoutDocument = Jsoup.parse(response);
+        String csrfToken = logoutDocument.select(TOKEN_INPUT_CSS_SELECTOR).last().val();
+
+        // Get request to the logout page http://jiofi.local.html/logout_btn.cgi?token=3813511738
+
+        String urlString = String.format("%s?=?token%s", getUrlString(LOGOUT_GET_ID), csrfToken);
+
+        try {
+            url = new URL(urlString);
+        } catch (MalformedURLException e) {
+            Log.e(TAG, "Error parsing urlString logout");
+        }
+
+        response = getRequest(url, null, getAuthHeaders());
+        return response != null;
     }
 
     public static Map<String, String> getAuthHeaders() {
