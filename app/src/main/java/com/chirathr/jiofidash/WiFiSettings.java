@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
+import android.net.wifi.aware.WifiAwareManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -63,7 +64,8 @@ public class WiFiSettings extends AppCompatActivity
     private Button changeSSIDPasswordButton;
     private ImageView showPasswordIcon;
     private boolean passwordShown = false;
-    private String password = null;
+    public static String SSID = null;
+    public static String password = null;
 
     private List<DeviceViewModel> deviceViewModels;
 
@@ -84,7 +86,7 @@ public class WiFiSettings extends AppCompatActivity
     private Runnable loadSSIDRunnable = new Runnable() {
         @Override
         public void run() {
-            loadDevicesData(WiFiSettings.this);
+            loadDevicesData();
             if (updateUi) {
                 handler.postDelayed(loadSSIDRunnable, DELAY_SSID);
             }
@@ -134,18 +136,26 @@ public class WiFiSettings extends AppCompatActivity
             public void onClick(View view) {
                 if (passwordShown) {
                     // Hide the password and change icon
-                    String passAsteriks = password.replace("", "*");
-                    wiFiPasswordTextView.setText(passAsteriks);
+                    wiFiPasswordTextView.setText(generateHiddenPassword(password));
                     showPasswordIcon.setImageResource(R.drawable.ic_round_visibility_24px);
                 } {
                     // Show password and change the icon
                     wiFiPasswordTextView.setText(password);
                     showPasswordIcon.setImageResource(R.drawable.ic_round_visibility_24px);
                 }
+                passwordShown = !passwordShown;
             }
         });
 
         updateUi = false;
+    }
+
+    private String generateHiddenPassword(String password) {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0; i < password.length(); i++) {
+            stringBuilder.append("*");
+        }
+        return stringBuilder.toString();
     }
 
     @Override
@@ -270,26 +280,43 @@ public class WiFiSettings extends AppCompatActivity
         VolleySingleton.getInstance(context).addToRequestQueue(stringRequest);
     }
 
-    public void loadDevicesData(Context context) {
-        String urlString = NetworkUtils.getUrlString(NetworkUtils.LAN_INFO_PAGE_ID);
+    public void loadDevicesData() {
+        new LoadSSIDPasswordTask().execute();
+    }
 
-        StringRequest lanInfoRequest = new StringRequest(Request.Method.GET,
-                urlString, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                Document lanInfoDocument = Jsoup.parse(response);
-                wiFiSSIDTextView.setText(lanInfoDocument.getElementById("ssid").text());
+    private class LoadSSIDPasswordTask extends AsyncTask<Void, Void, Void> {
+
+        private boolean isSuccessful;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            isSuccessful = false;
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            isSuccessful = NetworkUtils.loadCurrentSSIDAndPassword(WiFiSettings.this);
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            if (isSuccessful) {
+                SSID = NetworkUtils.wiFiSSID;
+                wiFiSSIDTextView.setText(SSID);
+                password = NetworkUtils.wiFiPassword;
+                if (passwordShown) {
+                    wiFiPasswordTextView.setText(password);
+                } else {
+                    wiFiPasswordTextView.setText(generateHiddenPassword(password));
+                }
                 showData();
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.v(TAG, "Volley string request error: " + error.getMessage());
+            } else {
                 showLoading();
             }
-        });
-
-        VolleySingleton.getInstance(context).addToRequestQueue(lanInfoRequest);
+        }
     }
 
     private void showLoading() {
