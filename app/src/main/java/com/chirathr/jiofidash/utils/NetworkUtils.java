@@ -444,7 +444,7 @@ public class NetworkUtils {
         // Get the page http://jiofi.local.html/top.cgi
         URL url = getURL(LOGOUT_PAGE_ID);
 
-
+        // TODO Fix this
         String response = getRequest(url, null, getAuthHeaders());
         if (response == null) {
             return false;
@@ -454,13 +454,10 @@ public class NetworkUtils {
         Document logoutDocument = Jsoup.parse(response);
 
         Log.v(TAG, response);
-        Log.v(TAG, getCookieString());
         String csrfToken = logoutDocument.select(TOKEN_INPUT_CSS_SELECTOR).val();
 
         if (csrfToken.isEmpty()) {
-            response = getRequest(url, null, getAuthHeaders());
-            csrfToken = logoutDocument.select(TOKEN_INPUT_CSS_SELECTOR).val();
-            Log.v(TAG, response);
+            return false;
         }
 
         // Get request to the logout page http://jiofi.local.html/logout_btn.cgi?token=3813511738

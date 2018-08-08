@@ -56,8 +56,8 @@ public class MainActivity extends AppCompatActivity
     private Runnable batteryUpdateRunnable = new Runnable() {
         @Override
         public void run() {
-            loadBatteryInfo(getApplicationContext());
             if (updateUI) {
+                loadBatteryInfo(getApplicationContext());
                 handler.postDelayed(batteryUpdateRunnable, DELAY);
             }
         }
@@ -98,10 +98,8 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void onResume() {
-        if (!updateUI) {
-            updateUI = true;
-            handler.post(batteryUpdateRunnable);
-        }
+        updateUI = true;
+        handler.post(batteryUpdateRunnable);
         super.onResume();
     }
 
@@ -109,7 +107,6 @@ public class MainActivity extends AppCompatActivity
     protected void onPause() {
         super.onPause();
         updateUI = false;
-        // TODO Fix this
         // new LogOutTask().execute();
     }
 

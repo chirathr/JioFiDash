@@ -208,7 +208,6 @@ public class WiFiSettings extends AppCompatActivity
     protected void onPause() {
         super.onPause();
         updateUi = false;
-        // TODO fix this
         // new LogOutTask().execute();
     }
 
@@ -420,6 +419,7 @@ public class WiFiSettings extends AppCompatActivity
         tempDevice.setIsBlocked(true);
         Snackbar.make(wifiSettingsLayout, "Blocking " + tempDevice.getDeviceName() , Snackbar.LENGTH_LONG).show();
         deviceViewModelListToSave.add(tempDevice);
+        mDeviceListAdapter.setDeviceViewModels(deviceViewModelListToSave);
 
         blockDeviceSnackBarText = "blocked ";
         new BlockDeviceAsyncTask().execute();
@@ -430,6 +430,7 @@ public class WiFiSettings extends AppCompatActivity
         deviceViewModelListToSave = new ArrayList<DeviceViewModel>(deviceViewModels);
         tempDevice = deviceViewModelListToSave.remove(itemId);
         Snackbar.make(wifiSettingsLayout, "Unblocking " + tempDevice.getDeviceName(), Snackbar.LENGTH_LONG).show();
+        mDeviceListAdapter.setDeviceViewModels(deviceViewModelListToSave);
 
         blockDeviceSnackBarText = "unblocked ";
         new BlockDeviceAsyncTask().execute();
