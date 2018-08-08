@@ -6,6 +6,7 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.util.Log;
 
+import com.chirathr.jiofidash.data.DeviceViewModel;
 import com.chirathr.jiofidash.data.JioFiPreferences;
 
 import org.jsoup.Jsoup;
@@ -27,6 +28,7 @@ import java.net.URL;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Handler;
@@ -56,7 +58,7 @@ public class NetworkUtils {
             "/Security_Mode.cgi",
             "/Security_Mode_sv.cgi",
             "/MAC_Filter.cgi",
-            "",
+            "/MAC_Filter_ajax.cgi",
             "/WPS.cgi",
             "/wps_sv.cgi"
     };
@@ -622,7 +624,66 @@ public class NetworkUtils {
         if (response == null) {
             return false;
         }
-
         return true;
+    }
+
+    private static final String POST_WIFI_MAC_MODE = "mode";
+    private static final String POST_WIFI_MAC_DENY_COUNT = "deny_cnt";
+    private static final String POST_WIFI_MAC_DENY_MAC_FORMAT_STRING = "deny_%d_mac";
+    private static final String POST_WIFI_MAC_DENY_DISC_FORMAT_STRING = "deny_%d_dis";
+    private static final String POST_WIFI_MAC_DENY_ENABLE_FORMAT_STRING = "deny_%d_enable";
+    private static final String POST_WIFI_MAC_DENY_KEY_FORMAT_STRING = "deny_%d_key";
+
+    public static boolean setBlockedDevices(Context context, List<DeviceViewModel> viewModels) {
+        // 1. Login
+        if (!isLoggedIn()) {
+            if (!login(context))
+                return false;
+        }
+
+        // 2. Make a get request
+        URL url = getURL(WIFI_MAC_GET_ID);
+
+        String response = getRequest(url, null, getAuthHeaders());
+        if (response == null) {
+            return false;
+        }
+
+        // Get the CSRF token
+        Document pushButtonDocument = Jsoup.parse(response);
+        String csrfToken = pushButtonDocument.select(TOKEN_INPUT_CSS_SELECTOR).last().val();
+
+        Map<String, String> postParams = new HashMap<>();
+
+        postParams.put(CSRF_TOKEN_STRING_ID, csrfToken);
+        postParams.put(POST_WIFI_MAC_MODE, "2");
+
+        int count = 0;
+
+        for (DeviceViewModel viewModel: viewModels) {
+            if (viewModel.getIsBlocked()) {
+                postParams.put(String.format(POST_WIFI_MAC_DENY_MAC_FORMAT_STRING, count), viewModel.getMacAddress());
+                postParams.put(String.format(POST_WIFI_MAC_DENY_DISC_FORMAT_STRING, count), viewModel.getDeviceName());
+                postParams.put(String.format(POST_WIFI_MAC_DENY_ENABLE_FORMAT_STRING, count), "checked");
+                postParams.put(String.format(POST_WIFI_MAC_DENY_KEY_FORMAT_STRING, count), "");
+                count++;
+            }
+        }
+
+        postParams.put(POST_WIFI_MAC_DENY_COUNT, String.valueOf(count));
+
+        String urlString = String.format("%s?%s", getUrlString(WIFI_MAC_POST_ID), new Date().getTime());
+
+        Log.v(TAG, "URL " + urlString);
+
+        try {
+            url = new URL(urlString);
+        } catch (MalformedURLException e) {
+            Log.e(TAG, "Malformed URL for wifi mac post");
+        }
+
+        response = postRequest(url, postParams, getAuthHeaders());
+
+        return response != null;
     }
 }
