@@ -8,6 +8,8 @@ import android.widget.TextView;
 import com.chirathr.jiofidash.R;
 import com.chirathr.jiofidash.adapters.DeviceListAdapter;
 import com.chirathr.jiofidash.data.DeviceViewModel;
+import com.chirathr.jiofidash.data.JioFiPreferences;
+import com.chirathr.jiofidash.utils.NetworkUtils;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -53,6 +55,10 @@ public class DeviceViewHolder extends RecyclerView.ViewHolder {
             blockButton.setImageResource(R.drawable.ic_round_unblock_24px);
         } else {
             blockButton.setImageResource(R.drawable.ic_round_block_24px);
+        }
+
+        if (viewModel.getIpAddress().equals(JioFiPreferences.ipAddressString)) {
+            blockButton.setVisibility(View.INVISIBLE);
         }
 
         mListener = onClickListener;

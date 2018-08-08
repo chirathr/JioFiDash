@@ -36,7 +36,6 @@ public class splashScreen extends AppCompatActivity {
         JioFiPreferences jioFiPreferences = JioFiPreferences.getInstance();
         jioFiPreferences.loadDeviceId(this);
         jioFiPreferences.loadUsernameAndPassword(this);
-        jioFiPreferences.loadWiFiIpAddress(this);
 
         ImageView launcherIcon = (ImageView) findViewById(R.id.launcher_animated);
         launcherIcon.setBackgroundResource(R.drawable.ic_launcher_animated);

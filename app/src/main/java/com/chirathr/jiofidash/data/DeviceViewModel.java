@@ -11,7 +11,7 @@ public class DeviceViewModel {
         String[] deviceInfo = deviceInfoString.split(",");
         deviceName = deviceInfo[0].trim();
         macAddress = deviceInfo[1].trim();
-        ipAddress = deviceInfo[3].trim();
+        ipAddress = deviceInfo[2].trim();
         isConnectedString = deviceInfo[4].trim();
     }
 
