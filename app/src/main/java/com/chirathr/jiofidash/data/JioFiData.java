@@ -59,7 +59,7 @@ public class JioFiData {
     public static String calculateRemainingTimeString(Context context, int batteryPercentage) {
 
         int batteryRemaining;
-        // TODO Calculate battery time left based on rate of change
+        // TODO Final release: Calculate battery time left based on rate of change
 
         if (batteryPercentage == 0) {
             return String.format(batteryTimeFormatString, 0, 0);

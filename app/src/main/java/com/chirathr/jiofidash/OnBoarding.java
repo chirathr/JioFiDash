@@ -11,9 +11,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.chirathr.jiofidash.data.JioFiPreferences;
-import com.chirathr.jiofidash.utils.ActionUtils;
 import com.chirathr.jiofidash.utils.NetworkUtils;
-import com.google.android.material.card.MaterialCardView;
 
 public class OnBoarding extends AppCompatActivity {
 
