@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
-import android.net.wifi.aware.WifiAwareManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -362,19 +361,9 @@ public class WiFiSettings extends AppCompatActivity
                 }).show();
     }
 
-    @Override
-    public void onClickBlockListener(int itemId) {
-        deviceViewModelListToSave = new ArrayList<DeviceViewModel>(deviceViewModels);
-        deviceToBlock = deviceViewModelListToSave.remove(itemId);
-        deviceToBlock.setIsBlocked(true);
-        Snackbar.make(wifiSettingsLayout, "Blocking " + deviceToBlock.getDeviceName() , Snackbar.LENGTH_LONG).show();
-        deviceViewModelListToSave.add(deviceToBlock);
-
-        new BlockDeviceAsyncTask().execute();
-    }
-
     private List<DeviceViewModel> deviceViewModelListToSave = null;
-    private DeviceViewModel deviceToBlock = null;
+    private DeviceViewModel tempDevice = null;
+    private String blockDeviceSnackBarText = null;
 
     private class BlockDeviceAsyncTask extends AsyncTask<Void, Void, Void> {
 
@@ -389,27 +378,46 @@ public class WiFiSettings extends AppCompatActivity
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             if (isSuccessful) {
-                Snackbar.make(wifiSettingsLayout, "Blocking " + deviceToBlock.getDeviceName() , Snackbar.LENGTH_LONG).show();
-                deviceToBlock = null;
+                Snackbar.make(wifiSettingsLayout,
+                        "Successfully " + blockDeviceSnackBarText + tempDevice.getDeviceName(),
+                        Snackbar.LENGTH_LONG).show();
+                tempDevice = null;
                 deviceViewModelListToSave = null;
             } else {
-                Snackbar.make(wifiSettingsLayout, "Blocking " + deviceToBlock.getDeviceName() , Snackbar.LENGTH_LONG)
-                        .setAction("RETRY", new View.OnClickListener() {
+                Snackbar.make(wifiSettingsLayout,
+                        "Failed to " + blockDeviceSnackBarText.replace("ed", "") + tempDevice.getDeviceName(),
+                        Snackbar.LENGTH_LONG).setAction("RETRY", new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
                                 new BlockDeviceAsyncTask().execute();
                             }
-                        })
-                        .show();
+                        }).show();
             }
         }
     }
 
     @Override
-    public void onClickUnBlockListener(int itemId) {
-        Snackbar.make(wifiSettingsLayout, itemId + " Unblocked", Snackbar.LENGTH_LONG).show();
-        // TODO AsyncTask to unblock a device
+    public void onClickBlockListener(int itemId) {
+        deviceViewModelListToSave = new ArrayList<DeviceViewModel>(deviceViewModels);
+        tempDevice = deviceViewModelListToSave.remove(itemId);
+        tempDevice.setIsBlocked(true);
+        Snackbar.make(wifiSettingsLayout, "Blocking " + tempDevice.getDeviceName() , Snackbar.LENGTH_LONG).show();
+        deviceViewModelListToSave.add(tempDevice);
+
+        blockDeviceSnackBarText = "blocked ";
+        new BlockDeviceAsyncTask().execute();
     }
+
+    @Override
+    public void onClickUnBlockListener(int itemId) {
+        deviceViewModelListToSave = new ArrayList<DeviceViewModel>(deviceViewModels);
+        tempDevice = deviceViewModelListToSave.remove(itemId);
+        Snackbar.make(wifiSettingsLayout, "Unblocking " + tempDevice.getDeviceName(), Snackbar.LENGTH_LONG).show();
+
+        blockDeviceSnackBarText = "unblocked ";
+        new BlockDeviceAsyncTask().execute();
+    }
+
 
     private void showJioFiNotFoundSnackBar() {
         if (!noJioFiSnackBar.isShown())
