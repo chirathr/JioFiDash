@@ -101,6 +101,7 @@ public class WiFiSettings extends AppCompatActivity
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setTitle("WiFi Settings");
 
         if (JioFiPreferences.ipAddressString == null) {
             JioFiPreferences.getInstance().loadWiFiIpAddress(this);
@@ -378,8 +379,6 @@ public class WiFiSettings extends AppCompatActivity
         Snackbar.make(wifiSettingsLayout, itemId + " Unblocked", Snackbar.LENGTH_LONG).show();
         // TODO AsyncTask to unblock a device
     }
-
-    // TODO change the appbar name to WiFI Settings and add a back button
 
     private void showJioFiNotFoundSnackBar() {
         if (!noJioFiSnackBar.isShown())

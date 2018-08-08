@@ -17,5 +17,6 @@ public class About extends AppCompatActivity {
         // Enable the Up button
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setTitle("About");
     }
 }
