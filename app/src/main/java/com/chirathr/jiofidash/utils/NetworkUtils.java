@@ -427,10 +427,6 @@ public class NetworkUtils {
                 return false;
             }
 
-            url = getURL(LOGOUT_PAGE_ID);
-            response = getRequest(url, null, getAuthHeaders());
-            Log.v(TAG, response);
-
             return true;
         } catch (IOException e) {
             Log.v(TAG, "IOException, Jsoup connect: " + e.getMessage());

@@ -122,7 +122,12 @@ public class WiFiSettings extends AppCompatActivity
         mRecyclerView = findViewById(R.id.users_list_recyler_view);
         mRecyclerView.setHasFixedSize(true);
 
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this) {
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        };
         mRecyclerView.setLayoutManager(layoutManager);
 
         handler = new Handler();
