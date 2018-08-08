@@ -38,7 +38,7 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
     private TextView wifiSettingSTextView;
     private TextView pushWpsTextView;
     private TextView adminTextView;
-    private TextView settingsTextView;
+//    private TextView settingsTextView;
     private TextView aboutTextView;
 
     @Nullable
@@ -51,7 +51,7 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
         wifiSettingSTextView = view.findViewById(R.id.action_wifi_settings);
         pushWpsTextView = view.findViewById(R.id.action_push_wps_button);
         adminTextView = view.findViewById(R.id.action_open_admin_web_ui);
-        settingsTextView = view.findViewById(R.id.action_settings);
+//        settingsTextView = view.findViewById(R.id.action_settings);
         aboutTextView = view.findViewById(R.id.action_about);
 
         restartTextView.setOnClickListener(new View.OnClickListener() {
@@ -75,12 +75,12 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
             }
         });
 
-        settingsTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mListener.onOptionSelected(OPTION_SETTINGS_ID);
-            }
-        });
+//        settingsTextView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                mListener.onOptionSelected(OPTION_SETTINGS_ID);
+//            }
+//        });
 
         adminTextView.setOnClickListener(new View.OnClickListener() {
             @Override
