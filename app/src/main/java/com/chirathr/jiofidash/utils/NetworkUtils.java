@@ -1,20 +1,17 @@
 package com.chirathr.jiofidash.utils;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.util.Log;
 
-import com.chirathr.jiofidash.R;
 import com.chirathr.jiofidash.data.JioFiPreferences;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
@@ -286,7 +283,8 @@ public class NetworkUtils {
             connection.setRequestMethod("GET");
             connection.setDoInput(true);
 
-            if (params != null) { }
+            if (params != null) {
+            }
 
             if (authHeaders != null) {
                 for (Map.Entry<String, String> entry : authHeaders.entrySet()) {

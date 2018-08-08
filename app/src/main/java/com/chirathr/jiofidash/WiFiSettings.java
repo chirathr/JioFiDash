@@ -26,6 +26,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.chirathr.jiofidash.adapters.DeviceListAdapter;
 import com.chirathr.jiofidash.data.DeviceViewModel;
 import com.chirathr.jiofidash.data.JioFiData;
+import com.chirathr.jiofidash.data.JioFiPreferences;
 import com.chirathr.jiofidash.fragments.ChangeSSIDPasswordDialogFragment;
 import com.chirathr.jiofidash.utils.NetworkUtils;
 import com.chirathr.jiofidash.utils.VolleySingleton;
@@ -92,6 +93,10 @@ public class WiFiSettings extends AppCompatActivity
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
+
+        if (JioFiPreferences.ipAddressString == null) {
+            JioFiPreferences.getInstance().loadWiFiIpAddress(this);
+        }
 
         wiFiSSIDTextView = findViewById(R.id.tv_wifi_ssid);
         wiFiDeviceCount = findViewById(R.id.tv_device_count);
