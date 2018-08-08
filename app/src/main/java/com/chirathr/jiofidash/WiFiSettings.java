@@ -136,14 +136,16 @@ public class WiFiSettings extends AppCompatActivity
             public void onClick(View view) {
                 if (passwordShown) {
                     // Hide the password and change icon
+                    passwordShown = false;
                     wiFiPasswordTextView.setText(generateHiddenPassword(password));
                     showPasswordIcon.setImageResource(R.drawable.ic_round_visibility_24px);
-                } {
+                }
+                else {
                     // Show password and change the icon
+                    passwordShown = true;
                     wiFiPasswordTextView.setText(password);
                     showPasswordIcon.setImageResource(R.drawable.ic_round_visibility_24px);
                 }
-                passwordShown = !passwordShown;
             }
         });
 
