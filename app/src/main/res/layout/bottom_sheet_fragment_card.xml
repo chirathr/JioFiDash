@@ -59,7 +59,7 @@
             android:focusable="true"
             android:foreground="?android:attr/selectableItemBackground"
             android:padding="16dp"
-            android:text="Admin Web Ui"
+            android:text="Push WPS button"
             android:textColor="@color/colorTextCaption" />
 
         <TextView

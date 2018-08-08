@@ -195,8 +195,9 @@ public class MainActivity extends AppCompatActivity
                 break;
             }
             case BottomSheetFragment.OPTION_PUSH_WPS_BUTTON: {
+                bottomSheetFragment.dismiss();
                 if (JioFiPreferences.getInstance().isLoginDataAvailable(this)) {
-                    restartJioFi();
+                    pushWPSButton();
                 } else {
                     showLoginDialog(LOGIN_COMPLETE_ACTION_WPS_BUTTON);
                 }
@@ -241,7 +242,7 @@ public class MainActivity extends AppCompatActivity
                 break;
             }
             case LOGIN_COMPLETE_ACTION_WPS_BUTTON: {
-                pressWPSButton();
+                pushWPSButton();
                 break;
             }
         }
@@ -292,13 +293,11 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    // TODO WPS button
-
     public void restartJioFi() {
         new RestartJioFiAsyncTask().execute();
     }
 
-    private void pressWPSButton() {
+    private void pushWPSButton() {
         new WPSButtonAsyncTask().execute();
     }
 
@@ -308,6 +307,9 @@ public class MainActivity extends AppCompatActivity
 
         @Override
         protected Void doInBackground(Void... voids) {
+
+            isSuccessful = NetworkUtils.pushWPSButton(MainActivity.this);
+
             return null;
         }
 
@@ -316,9 +318,9 @@ public class MainActivity extends AppCompatActivity
             super.onPostExecute(aVoid);
 
             if (isSuccessful) {
-                Snackbar.make(mainCordinateView, "WPS button pressed, connect your device", Snackbar.LENGTH_LONG);
+                Snackbar.make(mainCordinateView, "WPS button pressed, connect your device", Snackbar.LENGTH_LONG).show();
             } else {
-                Snackbar.make(mainCordinateView, "WPS button error, please try after sometime.", Snackbar.LENGTH_LONG);
+                Snackbar.make(mainCordinateView, "WPS button error, please try after sometime.", Snackbar.LENGTH_LONG).show();
             }
         }
     }

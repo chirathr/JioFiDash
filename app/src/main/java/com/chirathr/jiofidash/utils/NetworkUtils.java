@@ -586,4 +586,7 @@ public class NetworkUtils {
         return true;
     }
 
+    public static boolean pushWPSButton(Context context) {
+        return true;
+    }
 }
