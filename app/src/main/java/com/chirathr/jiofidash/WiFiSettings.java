@@ -144,7 +144,7 @@ public class WiFiSettings extends AppCompatActivity
                     // Show password and change the icon
                     passwordShown = true;
                     wiFiPasswordTextView.setText(password);
-                    showPasswordIcon.setImageResource(R.drawable.ic_round_visibility_24px);
+                    showPasswordIcon.setImageResource(R.drawable.ic_round_visibility_off_24px);
                 }
             }
         });
