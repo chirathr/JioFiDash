@@ -54,11 +54,16 @@ public class WiFiSettings extends AppCompatActivity
     private static boolean updateUi = true;
 
     private TextView wiFiSSIDTextView;
+    private TextView wiFiPasswordTextView;
     private TextView wiFiDeviceCount;
     private ProgressBar loadingProgressBar;
     private ConstraintLayout wifiSettingsLayout;
     private ConstraintLayout wifiLayoutView;
     private ConstraintLayout devicesLayoutView;
+    private Button changeSSIDPasswordButton;
+    private ImageView showPasswordIcon;
+    private boolean passwordShown = false;
+    private String password = null;
 
     private List<DeviceViewModel> deviceViewModels;
 
@@ -99,11 +104,14 @@ public class WiFiSettings extends AppCompatActivity
         }
 
         wiFiSSIDTextView = findViewById(R.id.tv_wifi_ssid);
+        wiFiPasswordTextView = findViewById(R.id.tv_password);
         wiFiDeviceCount = findViewById(R.id.tv_device_count);
         loadingProgressBar = findViewById(R.id.progress_bar_wifi_settings);
         wifiLayoutView = findViewById(R.id.wifi_layout);
         devicesLayoutView = findViewById(R.id.devices_layout);
         wifiSettingsLayout = findViewById(R.id.wifi_settings_layout);
+        changeSSIDPasswordButton = findViewById(R.id.button_change_ssid_password);
+        showPasswordIcon = findViewById(R.id.show_password);
 
         mRecyclerView = findViewById(R.id.users_list_recyler_view);
         mRecyclerView.setHasFixedSize(true);
@@ -113,10 +121,27 @@ public class WiFiSettings extends AppCompatActivity
 
         handler = new Handler();
         showLoading();
-        wifiLayoutView.setOnClickListener(new View.OnClickListener() {
+
+        changeSSIDPasswordButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 showChangeSSIDPassDialog();
+            }
+        });
+
+        showPasswordIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (passwordShown) {
+                    // Hide the password and change icon
+                    String passAsteriks = password.replace("", "*");
+                    wiFiPasswordTextView.setText(passAsteriks);
+                    showPasswordIcon.setImageResource(R.drawable.ic_round_visibility_24px);
+                } {
+                    // Show password and change the icon
+                    wiFiPasswordTextView.setText(password);
+                    showPasswordIcon.setImageResource(R.drawable.ic_round_visibility_24px);
+                }
             }
         });
 

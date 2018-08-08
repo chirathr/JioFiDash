@@ -38,7 +38,6 @@ public class WiFiCardFragment extends Fragment {
 
     private TextView devicesCount;
     private TextView ssidNameTextView;
-    // TODO update that password
     private ProgressBar loadingProgressBar;
     private ConstraintLayout devicesLayout;
 

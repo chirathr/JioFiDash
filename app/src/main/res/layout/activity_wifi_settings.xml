@@ -115,14 +115,14 @@
                 app:layout_constraintTop_toBottomOf="@+id/tv_wifi_ssid_label" />
 
             <ImageView
-                android:id="@+id/change_ssid_password_image"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:layout_marginEnd="16dp"
-                app:layout_constraintBottom_toBottomOf="@+id/tv_password"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/tv_password_label"
-                app:srcCompat="@drawable/ic_round_edit_24px" />
+                android:id="@+id/show_password"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                app:layout_constraintBottom_toTopOf="@+id/tv_password"
+                app:layout_constraintStart_toEndOf="@+id/tv_password"
+                app:layout_constraintTop_toBottomOf="@+id/tv_password"
+                app:srcCompat="@drawable/ic_round_visibility_24px" />
 
             <TextView
                 android:id="@+id/tv_password_label"
@@ -145,12 +145,22 @@
                 app:layout_constraintStart_toStartOf="@+id/tv_password_label"
                 app:layout_constraintTop_toBottomOf="@+id/tv_password_label" />
 
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/button_change_ssid_password"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="CHANGE"
+                android:textColor="@color/colorPrimaryGreen"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_password" />
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginStart="8dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_password" />
+                app:layout_constraintTop_toBottomOf="@+id/button_change_ssid_password" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
