@@ -109,7 +109,8 @@ public class MainActivity extends AppCompatActivity
     protected void onPause() {
         super.onPause();
         updateUI = false;
-        new LogOutTask().execute();
+        // TODO Fix this
+        // new LogOutTask().execute();
     }
 
     private void showJioFiNotFoundSnackBar() {
@@ -336,8 +337,7 @@ public class MainActivity extends AppCompatActivity
 
         @Override
         protected Void doInBackground(Void... voids) {
-            NetworkUtils.logout(MainActivity.this);
-            NetworkUtils.clearLogin();
+            NetworkUtils.logout();
             return null;
         }
     }

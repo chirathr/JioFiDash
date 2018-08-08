@@ -374,6 +374,7 @@ public class NetworkUtils {
         loginCount++;
 
         if (loginCount > 4) {
+            loginCount = 0;
             return false;
         }
 
@@ -426,6 +427,10 @@ public class NetworkUtils {
                 return false;
             }
 
+            url = getURL(LOGOUT_PAGE_ID);
+            response = getRequest(url, null, getAuthHeaders());
+            Log.v(TAG, response);
+
             return true;
         } catch (IOException e) {
             Log.v(TAG, "IOException, Jsoup connect: " + e.getMessage());
@@ -434,13 +439,16 @@ public class NetworkUtils {
         }
     }
 
-    public static boolean logout(final Context context) {
+
+    public static boolean logout() {
         if (!isLoggedIn()) {
             return false;
         }
 
         // Get the page http://jiofi.local.html/top.cgi
         URL url = getURL(LOGOUT_PAGE_ID);
+
+
         String response = getRequest(url, null, getAuthHeaders());
         if (response == null) {
             return false;
@@ -448,11 +456,21 @@ public class NetworkUtils {
 
         // Get the CSRF token
         Document logoutDocument = Jsoup.parse(response);
-        String csrfToken = logoutDocument.select(TOKEN_INPUT_CSS_SELECTOR).last().val();
+
+        Log.v(TAG, response);
+        Log.v(TAG, getCookieString());
+        String csrfToken = logoutDocument.select(TOKEN_INPUT_CSS_SELECTOR).val();
+
+        if (csrfToken.isEmpty()) {
+            response = getRequest(url, null, getAuthHeaders());
+            csrfToken = logoutDocument.select(TOKEN_INPUT_CSS_SELECTOR).val();
+            Log.v(TAG, response);
+        }
 
         // Get request to the logout page http://jiofi.local.html/logout_btn.cgi?token=3813511738
+        String urlString = String.format("%s?token=%s", getUrlString(LOGOUT_GET_ID), String.valueOf(csrfToken));
 
-        String urlString = String.format("%s?=?token%s", getUrlString(LOGOUT_GET_ID), csrfToken);
+        Log.v(TAG, urlString);
 
         try {
             url = new URL(urlString);
@@ -461,7 +479,14 @@ public class NetworkUtils {
         }
 
         response = getRequest(url, null, getAuthHeaders());
-        return response != null;
+
+        Log.v(TAG, "Logout");
+        if (response == null) {
+            return false;
+        }
+
+        clearLogin();
+        return true;
     }
 
     public static Map<String, String> getAuthHeaders() {

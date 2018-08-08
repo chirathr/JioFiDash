@@ -74,8 +74,8 @@ public class WiFiSettings extends AppCompatActivity
     private Runnable loadDeviceListRunnable = new Runnable() {
         @Override
         public void run() {
-            loadDeviceList(WiFiSettings.this);
             if (updateUi) {
+                loadDeviceList(WiFiSettings.this);
                 handler.postDelayed(loadDeviceListRunnable, DELAY);
             }
         }
@@ -84,8 +84,8 @@ public class WiFiSettings extends AppCompatActivity
     private Runnable loadSSIDRunnable = new Runnable() {
         @Override
         public void run() {
-            loadDevicesData();
             if (updateUi) {
+                loadDevicesData();
                 handler.postDelayed(loadSSIDRunnable, DELAY_SSID);
             }
         }
@@ -203,15 +203,16 @@ public class WiFiSettings extends AppCompatActivity
     protected void onPause() {
         super.onPause();
         updateUi = false;
-        new LogOutTask().execute();
+        // TODO fix this
+        // new LogOutTask().execute();
     }
 
     private class LogOutTask extends AsyncTask<Void, Void, Void> {
 
         @Override
         protected Void doInBackground(Void... voids) {
-            NetworkUtils.logout(WiFiSettings.this);
-            NetworkUtils.clearLogin();
+            boolean isSuccessful = NetworkUtils.logout();
+            Log.v(TAG, "Logout " + isSuccessful);
             return null;
         }
     }
