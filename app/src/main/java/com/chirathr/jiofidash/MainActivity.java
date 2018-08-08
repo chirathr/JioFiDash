@@ -49,6 +49,7 @@ public class MainActivity extends AppCompatActivity
 
     public static final String LOGIN_COMPLETE_ACTION_RESTART = "restart";
     public static final String LOGIN_COMPLETE_ACTION_OPEN_WIFI_SETTINGS = "wifi-settings";
+    public static final String LOGIN_COMPLETE_ACTION_WPS_BUTTON = "wps-button";
 
     private ColorArcProgressBar batteryProgressBar;
     private Handler handler;
@@ -193,6 +194,14 @@ public class MainActivity extends AppCompatActivity
                 }
                 break;
             }
+            case BottomSheetFragment.OPTION_PUSH_WPS_BUTTON: {
+                if (JioFiPreferences.getInstance().isLoginDataAvailable(this)) {
+                    restartJioFi();
+                } else {
+                    showLoginDialog(LOGIN_COMPLETE_ACTION_WPS_BUTTON);
+                }
+                break;
+            }
             case BottomSheetFragment.OPTION_ADMIN_WEB_UI: {
                 bottomSheetFragment.dismiss();
                 Uri webpage = Uri.parse(NetworkUtils.DEFAULT_HOST);
@@ -210,8 +219,6 @@ public class MainActivity extends AppCompatActivity
                 startActivity(new Intent(this, About.class));
                 break;
             }
-
-            // TODO option to turn on wps button
         }
     }
 
@@ -219,11 +226,6 @@ public class MainActivity extends AppCompatActivity
         DialogFragment loginDialog = new LoginDialog();
         ((LoginDialog) loginDialog).setActionAfterLogin(this, action);
         loginDialog.show(getSupportFragmentManager(), "LoginDialog");
-    }
-
-    public void restartJioFi() {
-        restartJioFiAsyncTask = new RestartJioFiAsyncTask();
-        restartJioFiAsyncTask.execute();
     }
 
     @Override
@@ -236,6 +238,10 @@ public class MainActivity extends AppCompatActivity
             case LOGIN_COMPLETE_ACTION_OPEN_WIFI_SETTINGS: {
                 Intent intent = new Intent(this, WiFiSettings.class);
                 startActivity(intent);
+                break;
+            }
+            case LOGIN_COMPLETE_ACTION_WPS_BUTTON: {
+                pressWPSButton();
                 break;
             }
         }
@@ -287,4 +293,33 @@ public class MainActivity extends AppCompatActivity
     }
 
     // TODO WPS button
+
+    public void restartJioFi() {
+        new RestartJioFiAsyncTask().execute();
+    }
+
+    private void pressWPSButton() {
+        new WPSButtonAsyncTask().execute();
+    }
+
+    private class WPSButtonAsyncTask extends AsyncTask<Void, Void, Void> {
+
+        private boolean isSuccessful = false;
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+
+            if (isSuccessful) {
+                Snackbar.make(mainCordinateView, "WPS button pressed, connect your device", Snackbar.LENGTH_LONG);
+            } else {
+                Snackbar.make(mainCordinateView, "WPS button error, please try after sometime.", Snackbar.LENGTH_LONG);
+            }
+        }
+    }
 }
