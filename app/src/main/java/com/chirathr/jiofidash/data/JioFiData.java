@@ -50,7 +50,7 @@ public class JioFiData {
 
     public static int getBatteryLevel(String text) {
         try {
-            return Integer.parseInt(text.split(" ")[0]);
+            return Integer.parseInt(text.replace("%", "").trim());
         } catch (Exception e) {
             Log.v(TAG, "Error converting to battery % : " + e.getMessage());
             return 0;

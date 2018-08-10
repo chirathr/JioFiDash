@@ -141,6 +141,8 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onResponse(JSONObject response) {
 
+                Log.v(TAG, response.toString());
+
                 try {
                     int batteryPercent = JioFiData.getBatteryLevel(response.getString(JioFiData.BATTERY_LEVEL));
                     batteryProgressBar.setCurrentValues(batteryPercent);
