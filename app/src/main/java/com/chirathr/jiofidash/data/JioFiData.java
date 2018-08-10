@@ -42,7 +42,7 @@ public class JioFiData {
     public static final String BATTERY_LEVEL = "batterylevel";
     public static final String BATTERY_STATUS = "batterystatus";
 
-    private static final int batteryTimeAt100 = 370;
+    private static final int batteryTimeAt100 = 480;
     private static final String batteryTimeFormatString = "%d hours %d mins";
 
     private static final String TAG = JioFiData.class.getSimpleName();

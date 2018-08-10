@@ -208,17 +208,6 @@ public class WiFiSettings extends AppCompatActivity
     protected void onPause() {
         super.onPause();
         updateUi = false;
-        // new LogOutTask().execute();
-    }
-
-    private class LogOutTask extends AsyncTask<Void, Void, Void> {
-
-        @Override
-        protected Void doInBackground(Void... voids) {
-            boolean isSuccessful = NetworkUtils.logout();
-            Log.v(TAG, "Logout " + isSuccessful);
-            return null;
-        }
     }
 
     private static final String CSS_SELECTOR_BLOCKED_ITEM_LIST = "table[id='active_deny_list'] td[class='text_list']";

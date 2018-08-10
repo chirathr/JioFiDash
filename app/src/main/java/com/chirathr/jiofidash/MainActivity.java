@@ -15,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -59,7 +60,6 @@ public class MainActivity extends AppCompatActivity
     };
 
     private BottomSheetFragment bottomSheetFragment;
-    private RestartJioFiAsyncTask restartJioFiAsyncTask;
 
     public static boolean updateUI = true;
     private Snackbar noJioFiSnackBar;
@@ -102,7 +102,6 @@ public class MainActivity extends AppCompatActivity
     protected void onPause() {
         super.onPause();
         updateUI = false;
-        // new LogOutTask().execute();
     }
 
     private void showJioFiNotFoundSnackBar() {
@@ -322,15 +321,6 @@ public class MainActivity extends AppCompatActivity
                             }
                         }).show();
             }
-        }
-    }
-
-    private class LogOutTask extends AsyncTask<Void, Void, Void> {
-
-        @Override
-        protected Void doInBackground(Void... voids) {
-            NetworkUtils.logout();
-            return null;
         }
     }
 }
