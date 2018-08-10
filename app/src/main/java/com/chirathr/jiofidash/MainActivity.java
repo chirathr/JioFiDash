@@ -7,6 +7,7 @@ import androidx.fragment.app.DialogFragment;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -270,6 +271,7 @@ public class MainActivity extends AppCompatActivity
 
                 Snackbar.make(mainConstrainView, R.string.restart_successful, Snackbar.LENGTH_LONG)
                         .show();
+                wiFiRestart();
             } else {
                 Log.v(TAG, "Restart failed");
 
@@ -323,6 +325,23 @@ public class MainActivity extends AppCompatActivity
                             }
                         }).show();
             }
+        }
+    }
+
+    public void wiFiRestart() {
+        WifiManager wifiManager = (WifiManager) this.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+
+        if (wifiManager.isWifiEnabled()) {
+            wifiManager.setWifiEnabled(false);
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    wiFiRestart();
+                }
+            }, 1000);
+        }
+        else {
+            wifiManager.setWifiEnabled(true);
         }
     }
 }
