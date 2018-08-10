@@ -1,14 +1,8 @@
 package com.chirathr.jiofidash.data;
 
-import android.app.Service;
-import android.app.admin.DeviceAdminReceiver;
-import android.app.admin.DevicePolicyManager;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
-import android.text.format.Formatter;
 import android.util.Log;
 
 import com.chirathr.jiofidash.R;
@@ -16,12 +10,9 @@ import com.chirathr.jiofidash.utils.NetworkUtils;
 
 import java.math.BigInteger;
 import java.net.InetAddress;
-import java.net.NetworkInterface;
 import java.net.UnknownHostException;
 import java.nio.ByteOrder;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class JioFiPreferences {
@@ -42,6 +33,8 @@ public class JioFiPreferences {
     public static final String DEVICE_OTHER = "other";
 
     public static int currentDeviceId;
+
+    public static String ipAddressString = null;
 
     public Map<String, String> getUserLoginData(Context context) {
         Map<String,String> params = new HashMap<String, String>();
@@ -133,15 +126,6 @@ public class JioFiPreferences {
 
     }
 
-    public int getDeviceId(Context context) {
-        SharedPreferences sharedPref = context.getSharedPreferences(
-                context.getString(R.string.data_preference_file_key), Context.MODE_PRIVATE);
-
-        currentDeviceId = sharedPref.getInt(context.getString(R.string.saved_device_key), -1);
-
-        return currentDeviceId;
-    }
-
     public void loadDeviceId(Context context) {
         SharedPreferences sharedPref = context.getSharedPreferences(
                 context.getString(R.string.data_preference_file_key), Context.MODE_PRIVATE);
@@ -149,14 +133,14 @@ public class JioFiPreferences {
         currentDeviceId = sharedPref.getInt(context.getString(R.string.saved_device_key), -1);
     }
 
-    public static String ipAddressString = null;
-
     public boolean loadWiFiIpAddress(Context context) {
         Log.v("macAddress", "Loading mac");
         if (NetworkUtils.isOnline(context)) {
-            WifiManager manager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+            WifiManager manager = (WifiManager) context
+                    .getApplicationContext().getSystemService(Context.WIFI_SERVICE);
             int ipAddress = manager.getConnectionInfo().getIpAddress();
-            // Convert little-endian to big-endianif needed
+
+            // Convert little-endian to big-endian if needed
             if (ByteOrder.nativeOrder().equals(ByteOrder.LITTLE_ENDIAN)) {
                 ipAddress = Integer.reverseBytes(ipAddress);
             }

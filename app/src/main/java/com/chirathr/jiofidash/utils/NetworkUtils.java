@@ -108,7 +108,6 @@ public class NetworkUtils {
 
     private static String LOGIN_USERNAME_STRING_ID = "identify";
     private static String LOGIN_PASSWORD_STRING_ID = "password";
-    private static String csrfToken = null;
 
     private static String cookieString = null;
     public static Date loggedInAt;
@@ -385,7 +384,7 @@ public class NetworkUtils {
 
         try {
             Document loginDocument = Jsoup.connect(urlString).get();
-            csrfToken = loginDocument.select(TOKEN_INPUT_CSS_SELECTOR)
+            String csrfToken = loginDocument.select(TOKEN_INPUT_CSS_SELECTOR)
                     .attr(VALUE_ATTRIBUTE_KEY);
             Log.v(TAG, "Login token: " + csrfToken);
 
@@ -430,7 +429,6 @@ public class NetworkUtils {
             return true;
         } catch (IOException e) {
             Log.v(TAG, "IOException, Jsoup connect: " + e.getMessage());
-            csrfToken = null;
             return false;
         }
     }
@@ -442,7 +440,7 @@ public class NetworkUtils {
         return params;
     }
 
-    public static Map<String, String> getPowerSavingTimeOutParams(int powerSavingTimeOut) {
+    public static Map<String, String> getPowerSavingTimeOutParams(int powerSavingTimeOut, String csrfToken) {
         Map<String, String> params = new HashMap<>();
 
         params.put(CSRF_TOKEN_STRING_ID, csrfToken);
@@ -473,7 +471,7 @@ public class NetworkUtils {
         Elements tokenTags = deviceSettingDocument.select(TOKEN_INPUT_CSS_SELECTOR);
 
         if (tokenTags.size() > 1) {
-            csrfToken = tokenTags.first().attr(VALUE_ATTRIBUTE_KEY);
+            String csrfToken = tokenTags.first().attr(VALUE_ATTRIBUTE_KEY);
             Log.v(TAG, "changePowerSavingTimeOut csrf: " + csrfToken);
 
             if (restart) {
@@ -481,7 +479,7 @@ public class NetworkUtils {
                 powerSavingTimeout = Integer.parseInt(selectedVal);
             }
 
-            Map<String, String> params = getPowerSavingTimeOutParams(powerSavingTimeout);
+            Map<String, String> params = getPowerSavingTimeOutParams(powerSavingTimeout, csrfToken);
             url = getURL(URL_DEVICE_SETTINGS_POST_ID);
             response = postRequest(url, params, authHeaders);
 

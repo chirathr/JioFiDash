@@ -29,7 +29,7 @@ public class LoginDialog extends DialogFragment {
     private EditText usernameEditText;
     private EditText passwordEditText;
 
-    private String actionToExcecuteAfterLogin = null;
+    private String actionToExecuteAfterLogin = null;
     private LoginCompleteListener mLoginCompleteListener;
 
     @Override
@@ -75,7 +75,7 @@ public class LoginDialog extends DialogFragment {
         AlertDialog alertDialog = (AlertDialog) getDialog();
 
         if (alertDialog != null) {
-            Button positiveButton = (Button) alertDialog.getButton(Dialog.BUTTON_POSITIVE);
+            Button positiveButton = alertDialog.getButton(Dialog.BUTTON_POSITIVE);
             hideLoading();
             positiveButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -129,7 +129,7 @@ public class LoginDialog extends DialogFragment {
 
             if (loginSuccessfull) {
                 closeDialog();
-                mLoginCompleteListener.loginCompleteListener(actionToExcecuteAfterLogin);
+                mLoginCompleteListener.loginCompleteListener(actionToExecuteAfterLogin);
             }
             else {
                 hideLoading();
@@ -149,17 +149,16 @@ public class LoginDialog extends DialogFragment {
     }
 
     private void displayAuthError() {
-        // TODO Make strings as constants
-        usernameEditText.setError("Username or password wrong");
-        passwordEditText.setError("Username or password wrong");
+        usernameEditText.setError(getString(R.string.login_error));
+        passwordEditText.setError(getString(R.string.login_error));
     }
 
     public void setActionAfterLogin(LoginCompleteListener context, String action) {
         mLoginCompleteListener = context;
-        actionToExcecuteAfterLogin = action;
+        actionToExecuteAfterLogin = action;
     }
 
     public interface LoginCompleteListener {
-        public void loginCompleteListener(String action);
+        void loginCompleteListener(String action);
     }
 }

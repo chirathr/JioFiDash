@@ -13,6 +13,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 public class JioFiData {
 
@@ -62,7 +63,7 @@ public class JioFiData {
         // TODO Final release: Calculate battery time left based on rate of change
 
         if (batteryPercentage == 0) {
-            return String.format(batteryTimeFormatString, 0, 0);
+            return String.format(Locale.US,batteryTimeFormatString, 0, 0);
         }
 
         batteryRemaining = (int) Math.round(batteryTimeAt100 * (batteryPercentage / 100.0));
@@ -70,7 +71,7 @@ public class JioFiData {
         int hours = batteryRemaining / 60;
         int minutes = batteryRemaining % 60;
 
-        return String.format(batteryTimeFormatString, hours, minutes);
+        return String.format(Locale.US, batteryTimeFormatString, hours, minutes);
     }
 
 }

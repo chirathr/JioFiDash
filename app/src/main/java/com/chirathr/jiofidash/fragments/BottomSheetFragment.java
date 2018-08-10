@@ -34,62 +34,41 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
         }
     }
 
-    private TextView restartTextView;
-    private TextView wifiSettingSTextView;
-    private TextView pushWpsTextView;
-    private TextView adminTextView;
-//    private TextView settingsTextView;
-    private TextView aboutTextView;
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.bottom_sheet_fragment_card, container, false);
 
-        restartTextView = view.findViewById(R.id.action_restart);
-        wifiSettingSTextView = view.findViewById(R.id.action_wifi_settings);
-        pushWpsTextView = view.findViewById(R.id.action_push_wps_button);
-        adminTextView = view.findViewById(R.id.action_open_admin_web_ui);
-//        settingsTextView = view.findViewById(R.id.action_settings);
-        aboutTextView = view.findViewById(R.id.action_about);
-
-        restartTextView.setOnClickListener(new View.OnClickListener() {
+        view.findViewById(R.id.action_restart).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mListener.onOptionSelected(OPTION_RESTART_ID);
             }
         });
 
-        wifiSettingSTextView.setOnClickListener(new View.OnClickListener() {
+        view.findViewById(R.id.action_wifi_settings).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mListener.onOptionSelected(OPTION_WIFI_SETTINGS_ID);
             }
         });
 
-        pushWpsTextView.setOnClickListener(new View.OnClickListener() {
+        view.findViewById(R.id.action_push_wps_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mListener.onOptionSelected(OPTION_PUSH_WPS_BUTTON);
             }
         });
 
-//        settingsTextView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                mListener.onOptionSelected(OPTION_SETTINGS_ID);
-//            }
-//        });
-
-        adminTextView.setOnClickListener(new View.OnClickListener() {
+        view.findViewById(R.id.action_open_admin_web_ui).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mListener.onOptionSelected(OPTION_ADMIN_WEB_UI);
             }
         });
 
-        aboutTextView.setOnClickListener(new View.OnClickListener() {
+        view.findViewById(R.id.action_about).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mListener.onOptionSelected(OPTION_ABOUT_ID);

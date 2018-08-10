@@ -81,8 +81,8 @@
     <string name="login_text">Login</string>
     <string name="login_desc_text">Login to continue</string>
     <string name="username_text">Username</string>
-    <string name="password_text">Password</string>
     <string name="other_jiofi_text">Other JioFi</string>
     <string name="other_jiofi_desc_text">Sorry! We do not support older devices yet. Please use the Web UI instead.</string>
     <string name="web_ui_button_text">WEB UI</string>
+    <string name="login_error">Username or password wrong</string>
 </resources>
