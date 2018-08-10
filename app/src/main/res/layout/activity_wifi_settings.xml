@@ -83,7 +83,7 @@
                             style="@style/TextAppearance.MaterialComponents.Headline6"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="left"
+                            android:layout_gravity="start"
                             android:layout_marginStart="0dp"
                             android:layout_weight="1"
                             android:text="@string/wifi_label"
@@ -159,7 +159,7 @@
                         style="@style/Widget.MaterialComponents.Button.TextButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="CHANGE"
+                        android:text="@string/change_button_text"
                         android:textColor="@color/colorPrimaryGreen"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/tv_password" />
@@ -254,7 +254,4 @@
 
         </LinearLayout>
     </ScrollView>
-
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>

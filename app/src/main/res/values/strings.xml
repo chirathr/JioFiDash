@@ -68,4 +68,21 @@
     <string name="cancel">Cancel</string>
     <string name="password_hidden">***********</string>
     <string name="error_too_many_attempts">Saving failed, try again later. Too many attempts.</string>
+    <string name="select_your_jiofi">Select your JioFi</string>
+    <string name="change_button_text">CHANGE</string>
+    <string name="restart_text">Restart</string>
+    <string name="wifi_settings_text">WiFi Settings</string>
+    <string name="push_wps_button_text">Push WPS button</string>
+    <string name="admin_web_ui_text">Admin Web Ui</string>
+    <string name="about_text">About</string>
+    <string name="jiofi_6_jmr815_text">JioFi 6 (JMR815)</string>
+    <string name="jiofi_6_desc_text">JioFi 6(JMR815) 4G device with 3000mah battery, WiFi and micro SD.</string>
+    <string name="select_button_text">SELECT</string>
+    <string name="login_text">Login</string>
+    <string name="login_desc_text">Login to continue</string>
+    <string name="username_text">Username</string>
+    <string name="password_text">Password</string>
+    <string name="other_jiofi_text">Other JioFi</string>
+    <string name="other_jiofi_desc_text">Sorry! We do not support older devices yet. Please use the Web UI instead.</string>
+    <string name="web_ui_button_text">WEB UI</string>
 </resources>

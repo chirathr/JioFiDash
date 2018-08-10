@@ -47,18 +47,6 @@
                 app:layout_constraintStart_toEndOf="@+id/wifi_icon"
                 app:layout_constraintTop_toTopOf="@+id/wifi_icon" />
 
-            <!--<TextView-->
-                <!--android:id="@+id/tv_up_time"-->
-                <!--style="@style/TextAppearance.MaterialComponents.Caption"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginTop="8dp"-->
-                <!--android:text="@string/default_time_text"-->
-                <!--android:textColor="@color/colorGreyDark"-->
-                <!--app:layout_constraintStart_toStartOf="@+id/tv_data_usage_label"-->
-                <!--app:layout_constraintTop_toBottomOf="@+id/tv_data_usage_label" />-->
-
-
             <ImageView
                 android:id="@+id/download_icon"
                 android:layout_width="@dimen/data_speed_icon_size"

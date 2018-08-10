@@ -2,7 +2,7 @@
 <com.google.android.material.card.MaterialCardView
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:elevation="10dp"
+    android:elevation="@dimen/bottom_sheet_card_elevation"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
     app:cardBackgroundColor="@color/colorWhite"
@@ -25,11 +25,10 @@
             android:clickable="true"
             android:drawableStart="@drawable/ic_round_refresh_24px"
             android:drawablePadding="16dp"
-            android:drawableTint="@color/colorTextCaption"
             android:focusable="true"
             android:foreground="?android:attr/selectableItemBackground"
             android:padding="16dp"
-            android:text="Restart"
+            android:text="@string/restart_text"
             android:textColor="@color/colorTextCaption" />
 
         <TextView
@@ -40,11 +39,10 @@
             android:clickable="true"
             android:drawableStart="@drawable/ic_round_wifi_24px"
             android:drawablePadding="16dp"
-            android:drawableTint="@color/colorTextCaption"
             android:focusable="true"
             android:foreground="?android:attr/selectableItemBackground"
             android:padding="16dp"
-            android:text="WiFi Settings"
+            android:text="@string/wifi_settings_text"
             android:textColor="@color/colorTextCaption" />
 
         <TextView
@@ -55,11 +53,10 @@
             android:clickable="true"
             android:drawableStart="@drawable/ic_round_radio_button_checked_24px"
             android:drawablePadding="16dp"
-            android:drawableTint="@color/colorTextCaption"
             android:focusable="true"
             android:foreground="?android:attr/selectableItemBackground"
             android:padding="16dp"
-            android:text="Push WPS button"
+            android:text="@string/push_wps_button_text"
             android:textColor="@color/colorTextCaption" />
 
         <TextView
@@ -70,27 +67,11 @@
             android:clickable="true"
             android:drawableStart="@drawable/ic_round_launch_24px"
             android:drawablePadding="16dp"
-            android:drawableTint="@color/colorTextCaption"
             android:focusable="true"
             android:foreground="?android:attr/selectableItemBackground"
             android:padding="16dp"
-            android:text="Admin Web Ui"
+            android:text="@string/admin_web_ui_text"
             android:textColor="@color/colorTextCaption" />
-
-        <!--<TextView-->
-            <!--android:id="@+id/action_settings"-->
-            <!--style="@style/TextAppearance.MaterialComponents.Headline6"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:clickable="true"-->
-            <!--android:drawableStart="@drawable/ic_round_settings_24px"-->
-            <!--android:drawablePadding="16dp"-->
-            <!--android:drawableTint="@color/colorTextCaption"-->
-            <!--android:focusable="true"-->
-            <!--android:foreground="?android:attr/selectableItemBackground"-->
-            <!--android:padding="16dp"-->
-            <!--android:text="Settings"-->
-            <!--android:textColor="@color/colorTextCaption" />-->
 
         <TextView
             android:id="@+id/action_about"
@@ -100,12 +81,10 @@
             android:clickable="true"
             android:drawableStart="@drawable/ic_round_info_24px"
             android:drawablePadding="16dp"
-            android:drawableTint="@color/colorTextCaption"
             android:focusable="true"
             android:foreground="?android:attr/selectableItemBackground"
             android:padding="16dp"
-            android:text="About"
+            android:text="@string/about_text"
             android:textColor="@color/colorTextCaption" />
-
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>
