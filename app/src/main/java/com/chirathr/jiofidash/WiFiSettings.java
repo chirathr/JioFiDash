@@ -365,7 +365,9 @@ public class WiFiSettings extends AppCompatActivity
 
     @Override
     public void onChangeSSIDCompleteListener() {
-        Snackbar.make(wifiSettingsLayout, "SSID and Password changed.", Snackbar.LENGTH_LONG).show();
+        Snackbar.make(wifiSettingsLayout, "SSID and Password changed. Connect to the new WiFi.", Snackbar.LENGTH_LONG).show();
+        NetworkUtils.clearLogin();
+        wiFiRestart();
     }
 
     @Override
