@@ -618,6 +618,9 @@ public class NetworkUtils {
 
         // Get the CSRF token
         Document pushButtonDocument = Jsoup.parse(response);
+        if (pushButtonDocument == null) {
+            return false;
+        }
         String csrfToken = pushButtonDocument.select(TOKEN_INPUT_CSS_SELECTOR).last().val();
 
         Map<String, String> postParams = new HashMap<>();

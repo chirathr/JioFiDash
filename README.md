@@ -15,7 +15,6 @@ Show details about your JioFi
 * Total data used(D/U) - done
 
 * Restart - done
-* Change superuser and password - done
 * Block device - done
 * Change WiFi SSID and password - done
 * WPS button - done
@@ -43,7 +42,6 @@ Show details about your JioFi
 * Total data used(D/U)
 
 * Restart
-* Change superuser and password 
 * Block device
 * Change WiFi SSID and password
 * WPS button
