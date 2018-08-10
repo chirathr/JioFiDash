@@ -59,6 +59,8 @@ public class DeviceViewHolder extends RecyclerView.ViewHolder {
 
         if (viewModel.getIpAddress().equals(JioFiPreferences.ipAddressString)) {
             blockButton.setVisibility(View.INVISIBLE);
+        } else {
+            blockButton.setVisibility(View.VISIBLE);
         }
 
         mListener = onClickListener;

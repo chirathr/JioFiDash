@@ -541,6 +541,8 @@ public class NetworkUtils {
         wiFiSSID = wifiSettingPageDocument.select(SSID_INPUT_CSS_SELECTOR).val();
         wiFiPassword = wifiSettingPageDocument.select(PASSWORD_WPA2_INPUT_CSS_SELECTOR).val();
 
+        Log.v(TAG, wiFiSSID + " " + wiFiPassword);
+
         return true;
     }
 
@@ -654,8 +656,13 @@ public class NetworkUtils {
 
         // Get the CSRF token
         Document pushButtonDocument = Jsoup.parse(response);
-        String csrfToken = pushButtonDocument.select(TOKEN_INPUT_CSS_SELECTOR).last().val();
-
+        String csrfToken;
+        try {
+            csrfToken = pushButtonDocument.select(TOKEN_INPUT_CSS_SELECTOR).last().val();
+        } catch (Exception e) {
+            Log.v(TAG, "setBlockedDevices csrf token error: " + e.getMessage());
+            return false;
+        }
         Map<String, String> postParams = new HashMap<>();
 
         postParams.put(CSRF_TOKEN_STRING_ID, csrfToken);

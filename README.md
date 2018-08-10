@@ -29,3 +29,21 @@ Show details about your JioFi
 * Storage link - nop
 * Restore default - nop
 * Change connection url - nop
+
+#### Test (need to complete)
+
+* Battery
+    * Percentage 
+    * Time remaining(basic) 
+* Range 
+* LTE band (Band, bandwidth) 
+* WiFi users 
+
+* Download/ Upload speeds 
+* Total data used(D/U)
+
+* Restart
+* Change superuser and password 
+* Block device
+* Change WiFi SSID and password
+* WPS button
