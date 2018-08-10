@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
+import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -117,7 +118,7 @@ public class WiFiSettings extends AppCompatActivity
         showPasswordIcon = findViewById(R.id.show_password);
 
         noJioFiSnackBar = Snackbar.make(
-                wifiSettingsLayout, "JioFi not found, try restarting your WiFi.", Snackbar.LENGTH_INDEFINITE);
+                wifiSettingsLayout, "JioFi not found, check your WiFi.", Snackbar.LENGTH_INDEFINITE);
 
         mRecyclerView = findViewById(R.id.users_list_recyler_view);
         mRecyclerView.setHasFixedSize(true);
@@ -401,6 +402,7 @@ public class WiFiSettings extends AppCompatActivity
                 tempDevice = null;
                 deviceViewModelListToSave = null;
                 NetworkUtils.clearLogin();
+                wiFiRestart();
             } else {
                 Snackbar.make(wifiSettingsLayout,
                         "Failed to " + blockDeviceSnackBarText.replace("ed", "") + tempDevice.getDeviceName(),
@@ -411,11 +413,17 @@ public class WiFiSettings extends AppCompatActivity
                             }
                         }).show();
             }
+
+            updateUi = true;
+
+            handler.postDelayed(loadDeviceListRunnable, DELAY_SSID);
+            handler.postDelayed(loadSSIDRunnable, DELAY_SSID);
         }
     }
 
     @Override
     public void onClickBlockListener(int itemId) {
+        updateUi = false;
         if (itemId >= deviceViewModels.size()) {
             return;
         }
@@ -456,5 +464,22 @@ public class WiFiSettings extends AppCompatActivity
     private void hideJioFiNotFoundSnackBar() {
         if (noJioFiSnackBar.isShown())
             noJioFiSnackBar.dismiss();
+    }
+
+    public void wiFiRestart() {
+        WifiManager wifiManager = (WifiManager) this.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+
+        if (wifiManager.isWifiEnabled()) {
+            wifiManager.setWifiEnabled(false);
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    wiFiRestart();
+                }
+            }, 1000);
+        }
+        else {
+            wifiManager.setWifiEnabled(true);
+        }
     }
 }
