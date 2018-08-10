@@ -538,10 +538,13 @@ public class NetworkUtils {
 
         Document wifiSettingPageDocument = Jsoup.parse(response);
         // 4. Set it to the static variables in NetworkUitls
-        wiFiSSID = wifiSettingPageDocument.select(SSID_INPUT_CSS_SELECTOR).val();
-        wiFiPassword = wifiSettingPageDocument.select(PASSWORD_WPA2_INPUT_CSS_SELECTOR).val();
+        String ssid = wifiSettingPageDocument.select(SSID_INPUT_CSS_SELECTOR).val();
+        String password = wifiSettingPageDocument.select(PASSWORD_WPA2_INPUT_CSS_SELECTOR).val();
 
-        Log.v(TAG, wiFiSSID + " " + wiFiPassword);
+        if (!ssid.isEmpty() && !password.isEmpty()) {
+            wiFiSSID = ssid;
+            wiFiPassword = password;
+        }
 
         return true;
     }
