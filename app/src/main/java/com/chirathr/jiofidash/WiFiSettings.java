@@ -418,6 +418,9 @@ public class WiFiSettings extends AppCompatActivity
 
             handler.postDelayed(loadDeviceListRunnable, DELAY_SSID);
             handler.postDelayed(loadSSIDRunnable, DELAY_SSID);
+            NetworkUtils.clearLogin();
+
+            Snackbar.make(wifiSettingsLayout, "Waiting for WiFi to reconnect...", Snackbar.LENGTH_LONG).show();
         }
     }
 
