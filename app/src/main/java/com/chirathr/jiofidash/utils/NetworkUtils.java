@@ -484,16 +484,24 @@ public class NetworkUtils {
                 url = getURL(URL_DEVICE_SETTINGS_POST_ID);
                 response = postRequest(url, params, authHeaders);
 
-                return response != null;
+                if (response != null) {
+                    JioFiPreferences.getInstance().saveWPSTime(context);
+                    return true;
+                }
 
             } else {
                 Log.v(TAG, "Cookie error or login not successful");
+                NetworkUtils.clearLogin();
+
+                // If logged out then login again
+                return changePowerSavingTimeOut(context, restart, powerSavingTimeout);
             }
-            return false;
         } catch (Exception e) {
             Log.v(TAG, "changePowerSavingTimeOut error: " + e.getMessage());
+            NetworkUtils.clearLogin();
             return false;
         }
+        return false;
     }
 
     // ----------- SSID and Password ------------------------
@@ -554,6 +562,7 @@ public class NetworkUtils {
             }
         } catch (Exception e) {
             Log.v(TAG, "loadCurrentSSIDAndPassword error: " + e.getMessage());
+            NetworkUtils.clearLogin();
             return false;
         }
 
@@ -614,6 +623,7 @@ public class NetworkUtils {
             return true;
         } catch (Exception e) {
             Log.v(TAG, "changeSSIDAndPassword error: " + e.getMessage());
+            NetworkUtils.clearLogin();
             return false;
         }
     }
@@ -643,6 +653,7 @@ public class NetworkUtils {
             csrfToken = pushButtonDocument.select(TOKEN_INPUT_CSS_SELECTOR).last().val();
         } catch (Exception e) {
             Log.v(TAG, "Push button parse error: " + e.getMessage());
+            NetworkUtils.clearLogin();
             return false;
         }
 
@@ -690,6 +701,7 @@ public class NetworkUtils {
             csrfToken = pushButtonDocument.select(TOKEN_INPUT_CSS_SELECTOR).last().val();
         } catch (Exception e) {
             Log.v(TAG, "setBlockedDevices csrf token error: " + e.getMessage());
+            NetworkUtils.clearLogin();
             return false;
         }
         Map<String, String> postParams = new HashMap<>();

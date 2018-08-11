@@ -160,4 +160,8 @@ public class JioFiPreferences {
         else
             return true;
     }
+
+    public void saveWPSTime(Context context) {
+
+    }
 }
