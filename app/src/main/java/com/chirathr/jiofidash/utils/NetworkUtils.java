@@ -467,28 +467,33 @@ public class NetworkUtils {
             return false;
         }
 
-        Document deviceSettingDocument = Jsoup.parse(response);
-        Elements tokenTags = deviceSettingDocument.select(TOKEN_INPUT_CSS_SELECTOR);
+        try {
+            Document deviceSettingDocument = Jsoup.parse(response);
+            Elements tokenTags = deviceSettingDocument.select(TOKEN_INPUT_CSS_SELECTOR);
 
-        if (tokenTags.size() > 1) {
-            String csrfToken = tokenTags.first().attr(VALUE_ATTRIBUTE_KEY);
-            Log.v(TAG, "changePowerSavingTimeOut csrf: " + csrfToken);
+            if (tokenTags.size() > 1) {
+                String csrfToken = tokenTags.first().attr(VALUE_ATTRIBUTE_KEY);
+                Log.v(TAG, "changePowerSavingTimeOut csrf: " + csrfToken);
 
-            if (restart) {
-                String selectedVal = deviceSettingDocument.select(POWER_SAVING_TIME_INPUT_CSS_SELECTOR).val();
-                powerSavingTimeout = Integer.parseInt(selectedVal);
+                if (restart) {
+                    String selectedVal = deviceSettingDocument.select(POWER_SAVING_TIME_INPUT_CSS_SELECTOR).val();
+                    powerSavingTimeout = Integer.parseInt(selectedVal);
+                }
+
+                Map<String, String> params = getPowerSavingTimeOutParams(powerSavingTimeout, csrfToken);
+                url = getURL(URL_DEVICE_SETTINGS_POST_ID);
+                response = postRequest(url, params, authHeaders);
+
+                return response != null;
+
+            } else {
+                Log.v(TAG, "Cookie error or login not successful");
             }
-
-            Map<String, String> params = getPowerSavingTimeOutParams(powerSavingTimeout, csrfToken);
-            url = getURL(URL_DEVICE_SETTINGS_POST_ID);
-            response = postRequest(url, params, authHeaders);
-
-            return response != null;
-
-        } else {
-            Log.v(TAG, "Cookie error or login not successful");
+            return false;
+        } catch (Exception e) {
+            Log.v(TAG, "changePowerSavingTimeOut error: " + e.getMessage());
+            return false;
         }
-        return false;
     }
 
     // ----------- SSID and Password ------------------------
@@ -536,17 +541,23 @@ public class NetworkUtils {
             return false;
         }
 
-        Document wifiSettingPageDocument = Jsoup.parse(response);
-        // 4. Set it to the static variables in NetworkUitls
-        String ssid = wifiSettingPageDocument.select(SSID_INPUT_CSS_SELECTOR).val();
-        String password = wifiSettingPageDocument.select(PASSWORD_WPA2_INPUT_CSS_SELECTOR).val();
+        try {
+            Document wifiSettingPageDocument = Jsoup.parse(response);
+            // 4. Set it to the static variables in NetworkUitls
+            String ssid = wifiSettingPageDocument.select(SSID_INPUT_CSS_SELECTOR).val();
+            String password = wifiSettingPageDocument.select(PASSWORD_WPA2_INPUT_CSS_SELECTOR).val();
 
-        if (!ssid.isEmpty() && !password.isEmpty()) {
-            wiFiSSID = ssid;
-            wiFiPassword = password;
+            if (!ssid.isEmpty() && !password.isEmpty()) {
+                wiFiSSID = ssid;
+                wiFiPassword = password;
+                return true;
+            }
+        } catch (Exception e) {
+            Log.v(TAG, "loadCurrentSSIDAndPassword error: " + e.getMessage());
+            return false;
         }
 
-        return true;
+        return false;
     }
 
     public static boolean changeSSIDAndPassword(Context context, String SSIDString, String password) {
@@ -564,42 +575,47 @@ public class NetworkUtils {
             return false;
         }
 
-        Document wifiSettingPageDocument = Jsoup.parse(response);
+        try {
+            Document wifiSettingPageDocument = Jsoup.parse(response);
 
-        // Get all the other parameter values
-        String csrfToken = wifiSettingPageDocument.select(TOKEN_INPUT_CSS_SELECTOR).val();
-        String wifiChannel = wifiSettingPageDocument.select(WIFI_CHANNEL_INPUT_CSS_SELECTOR).val();
-        String wifiMode = wifiSettingPageDocument.select(WIFI_MODE_INPUT_CSS_SELECTOR).val();
-        String wifiWMM = wifiSettingPageDocument.select(WIFI_WMM_INPUT_CSS_SELECTOR).val();
-        String wifiBroadcasting = wifiSettingPageDocument.select(WIFI_BROADCASTING_INPUT_CSS_SELECTOR).val();
-        String wifiSecurity = wifiSettingPageDocument.select(WIFI_SECURITY_MODE_INPUT_CSS_SELECTOR).val();
+            // Get all the other parameter values
+            String csrfToken = wifiSettingPageDocument.select(TOKEN_INPUT_CSS_SELECTOR).val();
+            String wifiChannel = wifiSettingPageDocument.select(WIFI_CHANNEL_INPUT_CSS_SELECTOR).val();
+            String wifiMode = wifiSettingPageDocument.select(WIFI_MODE_INPUT_CSS_SELECTOR).val();
+            String wifiWMM = wifiSettingPageDocument.select(WIFI_WMM_INPUT_CSS_SELECTOR).val();
+            String wifiBroadcasting = wifiSettingPageDocument.select(WIFI_BROADCASTING_INPUT_CSS_SELECTOR).val();
+            String wifiSecurity = wifiSettingPageDocument.select(WIFI_SECURITY_MODE_INPUT_CSS_SELECTOR).val();
 
-        // 3. Create the post params
-        Map<String, String> postParams = new HashMap<>();
+            // 3. Create the post params
+            Map<String, String> postParams = new HashMap<>();
 
-        postParams.put(FORM_TYPE_STRING_ID, WIFI_SETTING_FORM_TYPE);
-        postParams.put(CSRF_TOKEN_STRING_ID, csrfToken);
-        postParams.put(POST_SSID_ID, SSIDString);
-        postParams.put(POST_WIFI_CHANNEL_ID, wifiChannel);
-        postParams.put(POST_WIFI_MODE_ID, wifiMode);
-        postParams.put(POST_WIFI_WMM_ID, wifiWMM);
-        postParams.put(POST_WIFI_BROADCASTING_ID, wifiBroadcasting);
-        postParams.put(POST_WIFI_SECURITY_MODE_ID, "wpa2");
-        postParams.put(POST_WIFI_WPA_ID, password);
-        postParams.put(POST_WIFI_WPA2_ID, password);
-        postParams.put(POST_WIFI_WPA_MIXED_ID, password);
+            postParams.put(FORM_TYPE_STRING_ID, WIFI_SETTING_FORM_TYPE);
+            postParams.put(CSRF_TOKEN_STRING_ID, csrfToken);
+            postParams.put(POST_SSID_ID, SSIDString);
+            postParams.put(POST_WIFI_CHANNEL_ID, wifiChannel);
+            postParams.put(POST_WIFI_MODE_ID, wifiMode);
+            postParams.put(POST_WIFI_WMM_ID, wifiWMM);
+            postParams.put(POST_WIFI_BROADCASTING_ID, wifiBroadcasting);
+            postParams.put(POST_WIFI_SECURITY_MODE_ID, "wpa2");
+            postParams.put(POST_WIFI_WPA_ID, password);
+            postParams.put(POST_WIFI_WPA2_ID, password);
+            postParams.put(POST_WIFI_WPA_MIXED_ID, password);
 
-        // 4. Make the post request
-        url = getURL(WIFI_SETTINGS_POST_ID);
-        response = postRequest(url, postParams, getAuthHeaders());
+            // 4. Make the post request
+            url = getURL(WIFI_SETTINGS_POST_ID);
+            response = postRequest(url, postParams, getAuthHeaders());
 
-        if (response == null) {
+            if (response == null) {
+                return false;
+            }
+
+            // 5. Clear login data since JioFi restarts
+            clearLogin();
+            return true;
+        } catch (Exception e) {
+            Log.v(TAG, "changeSSIDAndPassword error: " + e.getMessage());
             return false;
         }
-
-        // 5. Clear login data since JioFi restarts
-        clearLogin();
-        return true;
     }
 
     public static boolean pushWPSButton(Context context) {
@@ -617,11 +633,18 @@ public class NetworkUtils {
         }
 
         // Get the CSRF token
-        Document pushButtonDocument = Jsoup.parse(response);
-        if (pushButtonDocument == null) {
+        String csrfToken;
+        try {
+            Document pushButtonDocument = Jsoup.parse(response);
+
+            if (pushButtonDocument == null) {
+                return false;
+            }
+            csrfToken = pushButtonDocument.select(TOKEN_INPUT_CSS_SELECTOR).last().val();
+        } catch (Exception e) {
+            Log.v(TAG, "Push button parse error: " + e.getMessage());
             return false;
         }
-        String csrfToken = pushButtonDocument.select(TOKEN_INPUT_CSS_SELECTOR).last().val();
 
         Map<String, String> postParams = new HashMap<>();
         postParams.put(CSRF_TOKEN_STRING_ID, csrfToken);
@@ -661,9 +684,9 @@ public class NetworkUtils {
         }
 
         // Get the CSRF token
-        Document pushButtonDocument = Jsoup.parse(response);
         String csrfToken;
         try {
+            Document pushButtonDocument = Jsoup.parse(response);
             csrfToken = pushButtonDocument.select(TOKEN_INPUT_CSS_SELECTOR).last().val();
         } catch (Exception e) {
             Log.v(TAG, "setBlockedDevices csrf token error: " + e.getMessage());
