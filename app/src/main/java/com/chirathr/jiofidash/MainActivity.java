@@ -295,7 +295,11 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void pushWPSButton() {
-        new WPSButtonAsyncTask().execute();
+        if (JioFiPreferences.getInstance().isWPSEnabled(this)) {
+            Snackbar.make(mainConstrainView, "WPS button already enabled.", Snackbar.LENGTH_LONG).show();
+        } else {
+            new WPSButtonAsyncTask().execute();
+        }
     }
 
     private class WPSButtonAsyncTask extends AsyncTask<Void, Void, Void> {
@@ -304,9 +308,7 @@ public class MainActivity extends AppCompatActivity
 
         @Override
         protected Void doInBackground(Void... voids) {
-
             isSuccessful = NetworkUtils.pushWPSButton(MainActivity.this);
-
             return null;
         }
 
@@ -315,6 +317,7 @@ public class MainActivity extends AppCompatActivity
             super.onPostExecute(aVoid);
 
             if (isSuccessful) {
+                JioFiPreferences.getInstance().saveWPSTime(MainActivity.this);
                 Snackbar.make(mainConstrainView, "WPS button pressed, connect your device", Snackbar.LENGTH_LONG).show();
             } else {
                 Snackbar.make(mainConstrainView, "WPS button error, please try after sometime.", Snackbar.LENGTH_LONG)

@@ -180,14 +180,14 @@ public class JioFiPreferences {
         editor.apply();
     }
 
-    public long getSavedWPSTime(Context context) {
+    public boolean isWPSEnabled(Context context) {
         SharedPreferences sharedPref = context.getSharedPreferences(
                 context.getString(R.string.data_preference_file_key), Context.MODE_PRIVATE);
 
         String dateTimeString = sharedPref.getString(context.getString(R.string.wps_time), null);
 
         if (dateTimeString == null) {
-            return 10;
+            return false;
         }
 
         Date dateTime = null;
@@ -199,15 +199,20 @@ public class JioFiPreferences {
         }
 
         if (dateTime == null) {
-            return 10;
+            return false;
         }
 
-        return getTimeDifferenceInMin(new Date(), dateTime);
+        if (getTimeDifferenceInSeconds(dateTime, new Date()) <= 120) {
+            return true;
+        }
+        return false;
     }
 
-    public long getTimeDifferenceInMin(Date date2, Date date1) {
+    public long getTimeDifferenceInSeconds(Date date1, Date date2) {
         long diff = date2.getTime() - date1.getTime();
 
-        return Math.round(TimeUnit.MILLISECONDS.toMinutes(diff));
+        Log.v(TAG, Math.round(TimeUnit.MILLISECONDS.toSeconds(diff)) + "");
+
+        return Math.round(TimeUnit.MILLISECONDS.toSeconds(diff));
     }
 }

@@ -477,7 +477,6 @@ public class NetworkUtils {
                 response = postRequest(url, params, authHeaders);
 
                 if (response != null) {
-                    JioFiPreferences.getInstance().saveWPSTime(context);
                     return true;
                 }
 
