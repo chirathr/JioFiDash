@@ -321,6 +321,7 @@ public class WiFiSettings extends AppCompatActivity
             if (!NetworkUtils.isLoggedIn()) {
                 boolean isLoggedIn = NetworkUtils.login(WiFiSettings.this);
                 Log.v(TAG, "Login: " + isLoggedIn);
+                NetworkUtils.login(WiFiSettings.this);
             }
             isSuccessful = NetworkUtils.loadCurrentSSIDAndPassword(WiFiSettings.this);
             return null;
@@ -341,6 +342,7 @@ public class WiFiSettings extends AppCompatActivity
                 showData();
             } else {
                 showLoading();
+                NetworkUtils.clearLogin();
             }
         }
     }

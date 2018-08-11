@@ -55,7 +55,7 @@ public class ColorArcProgressBar extends View{
     private float textSize = dipToPx(60);
     private float hintSize = dipToPx(15);
     private float curSpeedSize = dipToPx(13);
-    private int aniSpeed = 800;
+    private int aniSpeed = 700;
     private float longdegree = dipToPx(13);
     private float shortdegree = dipToPx(5);
     private final int DEGREE_PROGRESS_DISTANCE = dipToPx(8);

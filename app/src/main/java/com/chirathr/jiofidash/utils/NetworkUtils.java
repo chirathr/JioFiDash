@@ -362,19 +362,11 @@ public class NetworkUtils {
         loggedInAt = null;
     }
 
-    private static int loginCount = 0;
 
     public static boolean login(final Context context) {
 
         if (isLoggedIn()) {
             return true;
-        }
-
-        loginCount++;
-
-        if (loginCount > 4) {
-            loginCount = 0;
-            return false;
         }
 
         String urlString = getUrlString(LOGIN_URL_ID);
@@ -407,7 +399,7 @@ public class NetworkUtils {
                 if (response.contains("User already logged in !")) {
                     authenticationError = true;
                     Log.v(TAG, "User already logged in !");
-                    return login(context);
+                    return false;
                 }
             }
 
