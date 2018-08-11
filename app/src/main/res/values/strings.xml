@@ -44,6 +44,8 @@
     <string name="title_activity_on_boarding">OnBoarding</string>
     <string name="section_format">Hello World from section: %1$d</string>
 
+    <string name="wps_time">wps_time</string>
+
 
     <!-- JioFi restart -->
     <string name="restart_successful">Restart successful, please wait few minutes.</string>

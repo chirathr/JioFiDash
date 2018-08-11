@@ -12,8 +12,13 @@ import java.math.BigInteger;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.nio.ByteOrder;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 public class JioFiPreferences {
 
@@ -26,6 +31,8 @@ public class JioFiPreferences {
 
     public String username;
     public String password;
+
+    public static SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.US);
 
     // Devices
 
@@ -163,5 +170,44 @@ public class JioFiPreferences {
 
     public void saveWPSTime(Context context) {
 
+        SharedPreferences sharedPref = context.getSharedPreferences(
+                context.getString(R.string.data_preference_file_key), Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+
+        String dateTime = dateTimeFormat.format(new Date());
+
+        editor.putString(context.getString(R.string.wps_time), dateTime);
+        editor.apply();
+    }
+
+    public long getSavedWPSTime(Context context) {
+        SharedPreferences sharedPref = context.getSharedPreferences(
+                context.getString(R.string.data_preference_file_key), Context.MODE_PRIVATE);
+
+        String dateTimeString = sharedPref.getString(context.getString(R.string.wps_time), null);
+
+        if (dateTimeString == null) {
+            return 10;
+        }
+
+        Date dateTime = null;
+
+        try {
+            dateTime = dateTimeFormat.parse(dateTimeString);
+        } catch (ParseException e) {
+            Log.v(TAG, "Date time parse error: " + e.getMessage());
+        }
+
+        if (dateTime == null) {
+            return 10;
+        }
+
+        return getTimeDifferenceInMin(new Date(), dateTime);
+    }
+
+    public long getTimeDifferenceInMin(Date date2, Date date1) {
+        long diff = date2.getTime() - date1.getTime();
+
+        return Math.round(TimeUnit.MILLISECONDS.toMinutes(diff));
     }
 }
