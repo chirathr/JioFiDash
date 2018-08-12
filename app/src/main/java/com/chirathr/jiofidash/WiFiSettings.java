@@ -184,13 +184,10 @@ public class WiFiSettings extends AppCompatActivity
 
     public class loginAsyncTask extends AsyncTask<Void, Void, Void> {
 
-        private boolean isSuccessful = true;
+        private boolean isSuccessful = false;
         @Override
         protected Void doInBackground(Void... voids) {
-            if (!NetworkUtils.isLoggedIn()) {
-                if (!NetworkUtils.login(WiFiSettings.this))
-                     isSuccessful = false;
-            }
+            isSuccessful = NetworkUtils.login(WiFiSettings.this);
             return null;
         }
 
@@ -318,11 +315,6 @@ public class WiFiSettings extends AppCompatActivity
 
         @Override
         protected Void doInBackground(Void... voids) {
-            if (!NetworkUtils.isLoggedIn()) {
-                boolean isLoggedIn = NetworkUtils.login(WiFiSettings.this);
-                Log.v(TAG, "Login: " + isLoggedIn);
-                NetworkUtils.login(WiFiSettings.this);
-            }
             isSuccessful = NetworkUtils.loadCurrentSSIDAndPassword(WiFiSettings.this);
             return null;
         }
@@ -342,7 +334,6 @@ public class WiFiSettings extends AppCompatActivity
                 showData();
             } else {
                 showLoading();
-                NetworkUtils.clearLogin();
             }
         }
     }
@@ -368,7 +359,6 @@ public class WiFiSettings extends AppCompatActivity
     @Override
     public void onChangeSSIDCompleteListener() {
         Snackbar.make(wifiSettingsLayout, "SSID and Password changed. Connect to the new WiFi.", Snackbar.LENGTH_LONG).show();
-        NetworkUtils.clearLogin();
         wiFiRestart();
     }
 
@@ -405,7 +395,6 @@ public class WiFiSettings extends AppCompatActivity
                         Snackbar.LENGTH_LONG).show();
                 tempDevice = null;
                 deviceViewModelListToSave = null;
-                NetworkUtils.clearLogin();
                 wiFiRestart();
             } else {
                 Snackbar.make(wifiSettingsLayout,
@@ -422,7 +411,6 @@ public class WiFiSettings extends AppCompatActivity
 
             handler.postDelayed(loadDeviceListRunnable, DELAY_SSID);
             handler.postDelayed(loadSSIDRunnable, DELAY_SSID);
-            NetworkUtils.clearLogin();
 
             Snackbar.make(wifiSettingsLayout, "Waiting for WiFi to reconnect...", Snackbar.LENGTH_LONG).show();
         }

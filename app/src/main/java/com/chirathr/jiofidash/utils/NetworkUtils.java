@@ -29,6 +29,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Handler;
@@ -101,6 +102,8 @@ public class NetworkUtils {
     private static String FORM_TYPE_STRING_ID = "form_type";
 
     // Login
+    public static String cookieString = null;
+    public static boolean authenticationError = false;
 
     private static final String TOKEN_INPUT_CSS_SELECTOR = "input[name='token']";
     private static final String POWER_SAVING_TIME_INPUT_CSS_SELECTOR = "input[name='Saving_Time'] option[selected]";
@@ -108,12 +111,6 @@ public class NetworkUtils {
 
     private static String LOGIN_USERNAME_STRING_ID = "identify";
     private static String LOGIN_PASSWORD_STRING_ID = "password";
-
-    private static String cookieString = null;
-    public static Date loggedInAt;
-    public static boolean authenticationError = false;
-
-    public static final int LOGIN_TIMEOUT = 10;
 
     // Power saving settings
     private static String SAVING_TIME_STRING_ID = "Saving_Time";
@@ -232,6 +229,7 @@ public class NetworkUtils {
         String response = null;
 
         try {
+            Log.v(TAG, "POST: " + url.toString());
             connection = (HttpURLConnection) url.openConnection();
             connection.setConnectTimeout(CONNECTION_TIMEOUT);
             connection.setReadTimeout(CONNECTION_TIMEOUT);
@@ -263,13 +261,13 @@ public class NetworkUtils {
             }
 
         } catch (UnsupportedEncodingException e) {
-            Log.v(TAG, "(postRequest)UnsupportedEncodingException: " + e.getMessage());
+            Log.e(TAG, "(postRequest)UnsupportedEncodingException: " + e.getMessage());
             return null;
         } catch (ProtocolException e) {
-            Log.v(TAG, "(postRequest)ProtocolException: " + e.getMessage());
+            Log.e(TAG, "(postRequest)ProtocolException: " + e.getMessage());
             return null;
         } catch (IOException e) {
-            Log.v(TAG, "(postRequest)IOException: " + e.getCause());
+            Log.e(TAG, "(postRequest)IOException: " + e.getCause());
             return null;
         } finally {
             if (connection != null)
@@ -278,24 +276,17 @@ public class NetworkUtils {
         return response;
     }
 
-    public static String getRequest(URL url, Map<String, String> params, Map<String, String> authHeaders) {
+    public static String getRequest(URL url, Map<String, String> authHeaders) {
         HttpURLConnection connection = null;
         String response = null;
-        OutputStream outputStream = null;
-        BufferedWriter writer = null;
 
         try {
-
-            Log.v(TAG, url.toString());
-
+            Log.v(TAG, "GET: " + url.toString());
             connection = (HttpURLConnection) url.openConnection();
             connection.setReadTimeout(CONNECTION_TIMEOUT);
             connection.setConnectTimeout(CONNECTION_TIMEOUT);
             connection.setRequestMethod("GET");
             connection.setDoInput(true);
-
-            if (params != null) {
-            }
 
             if (authHeaders != null) {
                 for (Map.Entry<String, String> entry : authHeaders.entrySet()) {
@@ -309,14 +300,14 @@ public class NetworkUtils {
             if (responseCode == HttpsURLConnection.HTTP_OK) {
                 response = readAll(connection.getInputStream());
             } else {
-                Log.v(TAG, "Response code: " + responseCode);
+                Log.e(TAG, "Error, Response code: " + responseCode);
             }
 
         } catch (ProtocolException e) {
-            Log.v(TAG, "Get request error: " + e.getMessage());
+            Log.e(TAG, "Get request error: " + e.getMessage());
             return null;
         } catch (IOException e) {
-            Log.v(TAG, "Get request error: " + e.getMessage());
+            Log.e(TAG, "Get request error: " + e.getMessage());
             return null;
         } finally {
             if (connection != null) {
@@ -340,32 +331,11 @@ public class NetworkUtils {
         return params;
     }
 
-    public static boolean isLoggedIn() {
-
-        Calendar cal = Calendar.getInstance();
-        Date dateTimeNow = cal.getTime();
-
-        if (cookieString != null && loggedInAt != null) {
-            long diffInTime = (long) ((dateTimeNow.getTime() - loggedInAt.getTime()) / (1000 * 60 * 60 * 24));
-            long minutes = TimeUnit.MILLISECONDS.toMinutes(diffInTime);
-
-            if (minutes < LOGIN_TIMEOUT) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    public static void clearLogin() {
-        cookieString = null;
-        loggedInAt = null;
-    }
-
-
     public static boolean login(final Context context) {
 
-        if (isLoggedIn()) {
+        // If logged in less then 2 minutes before
+        cookieString = JioFiPreferences.getInstance().loadCookieString(context);
+        if (cookieString != null) {
             return true;
         }
 
@@ -378,7 +348,6 @@ public class NetworkUtils {
             Document loginDocument = Jsoup.connect(urlString).get();
             String csrfToken = loginDocument.select(TOKEN_INPUT_CSS_SELECTOR)
                     .attr(VALUE_ATTRIBUTE_KEY);
-            Log.v(TAG, "Login token: " + csrfToken);
 
             if (csrfToken == null || csrfToken.equals("")) {
                 return false;
@@ -394,11 +363,11 @@ public class NetworkUtils {
             if (response != null) {
                 if (response.contains("Login Fail")) {
                     authenticationError = true;
-                    Log.v(TAG, "Login Failed !");
+                    Log.e(TAG, "Login Failed !");
                 }
                 if (response.contains("User already logged in !")) {
                     authenticationError = true;
-                    Log.v(TAG, "User already logged in !");
+                    Log.e(TAG, "User already logged in !");
                     return false;
                 }
             }
@@ -410,23 +379,22 @@ public class NetworkUtils {
                 Log.v(TAG, "cookie " + cookieString);
                 authenticationError = false;
 
-                Calendar cal = Calendar.getInstance();
-                loggedInAt = cal.getTime();
-
+                // save the current cookie
+                JioFiPreferences.getInstance().saveLoginCookie(context, cookieString);
             } else {
-                Log.v(TAG, "Login Failed !");
+                Log.e(TAG, "Login Failed !");
                 return false;
             }
 
             return true;
         } catch (IOException e) {
-            Log.v(TAG, "IOException, Jsoup connect: " + e.getMessage());
+            Log.e(TAG, "IOException, Jsoup connect: " + e.getMessage());
             return false;
         }
     }
 
     public static Map<String, String> getAuthHeaders() {
-        Map<String, String> params = new HashMap<String, String>();
+        Map<String, String> params = new HashMap<>();
         params.put("Content-Type", "application/x-www-form-urlencoded");
         params.put("Cookie", getCookieString());
         return params;
@@ -446,14 +414,13 @@ public class NetworkUtils {
 
     public static boolean changePowerSavingTimeOut(Context context, boolean restart, int powerSavingTimeout) {
 
-        if (!isLoggedIn()) {
-            if (!login(context))
-                return false;
+        if (!login(context)) {
+            return false;
         }
 
         URL url = getURL(URL_DEVICE_SETTINGS_GET_ID);
         Map<String, String> authHeaders = getAuthHeaders();
-        String response = getRequest(url, null, authHeaders);
+        String response = getRequest(url, authHeaders);
 
         if (response == null) {
             return false;
@@ -465,7 +432,6 @@ public class NetworkUtils {
 
             if (tokenTags.size() > 1) {
                 String csrfToken = tokenTags.first().attr(VALUE_ATTRIBUTE_KEY);
-                Log.v(TAG, "changePowerSavingTimeOut csrf: " + csrfToken);
 
                 if (restart) {
                     String selectedVal = deviceSettingDocument.select(POWER_SAVING_TIME_INPUT_CSS_SELECTOR).val();
@@ -481,15 +447,13 @@ public class NetworkUtils {
                 }
 
             } else {
-                Log.v(TAG, "Cookie error or login not successful");
-                NetworkUtils.clearLogin();
-
-                // If logged out then login again
-                return changePowerSavingTimeOut(context, restart, powerSavingTimeout);
+                Log.e(TAG, "Cookie error or login not successful");
+                JioFiPreferences.getInstance().clearSavedCookie(context);
+                return false;
             }
         } catch (Exception e) {
-            Log.v(TAG, "changePowerSavingTimeOut error: " + e.getMessage());
-            NetworkUtils.clearLogin();
+            Log.e(TAG, "changePowerSavingTimeOut error: " + e.getMessage());
+            JioFiPreferences.getInstance().clearSavedCookie(context);
             return false;
         }
         return false;
@@ -527,13 +491,13 @@ public class NetworkUtils {
 
     public static boolean loadCurrentSSIDAndPassword(Context context) {
         // 1. Login
-        if (!isLoggedIn()) {
-            if (!login(context))
-                return false;
+        if (!login(context)) {
+            return false;
         }
+
         // 2. Make a get request to http://jiofi.local.html/Security_Mode.cgi
         URL url = getURL(WIFI_SETTINGS_GET_ID);
-        String response = getRequest(url, null, getAuthHeaders());
+        String response = getRequest(url, getAuthHeaders());
 
         // 3. Get the current SSID and Password
         if (response == null) {
@@ -542,7 +506,7 @@ public class NetworkUtils {
 
         try {
             Document wifiSettingPageDocument = Jsoup.parse(response);
-            // 4. Set it to the static variables in NetworkUitls
+            // 4. Set it to the static variables in NetworkUtils
             String ssid = wifiSettingPageDocument.select(SSID_INPUT_CSS_SELECTOR).val();
             String password = wifiSettingPageDocument.select(PASSWORD_WPA2_INPUT_CSS_SELECTOR).val();
 
@@ -552,8 +516,8 @@ public class NetworkUtils {
                 return true;
             }
         } catch (Exception e) {
-            Log.v(TAG, "loadCurrentSSIDAndPassword error: " + e.getMessage());
-            NetworkUtils.clearLogin();
+            Log.e(TAG, "loadCurrentSSIDAndPassword error: " + e.getMessage());
+            JioFiPreferences.getInstance().clearSavedCookie(context);
             return false;
         }
 
@@ -563,14 +527,13 @@ public class NetworkUtils {
     public static boolean changeSSIDAndPassword(Context context, String SSIDString, String password) {
 
         // 1. Login
-        if (!isLoggedIn()) {
-            if (!login(context))
-                return false;
+        if (!login(context)) {
+            return false;
         }
 
         // 2. Make a get request
         URL url = getURL(WIFI_SETTINGS_GET_ID);
-        String response = getRequest(url, null, getAuthHeaders());
+        String response = getRequest(url, getAuthHeaders());
         if (response == null) {
             return false;
         }
@@ -610,25 +573,24 @@ public class NetworkUtils {
             }
 
             // 5. Clear login data since JioFi restarts
-            clearLogin();
+            JioFiPreferences.getInstance().clearSavedCookie(context);
             return true;
         } catch (Exception e) {
-            Log.v(TAG, "changeSSIDAndPassword error: " + e.getMessage());
-            NetworkUtils.clearLogin();
+            Log.e(TAG, "changeSSIDAndPassword error: " + e.getMessage());
+            JioFiPreferences.getInstance().clearSavedCookie(context);
             return false;
         }
     }
 
     public static boolean pushWPSButton(Context context) {
         // 1. Login
-        if (!isLoggedIn()) {
-            if (!login(context))
-                return false;
+        if (!login(context)) {
+            return false;
         }
 
         // 2. Make a get request
         URL url = getURL(WPS_GET_ID);
-        String response = getRequest(url, null, getAuthHeaders());
+        String response = getRequest(url, getAuthHeaders());
         if (response == null) {
             return false;
         }
@@ -637,21 +599,19 @@ public class NetworkUtils {
         String csrfToken;
         try {
             Document pushButtonDocument = Jsoup.parse(response);
-
             if (pushButtonDocument == null) {
                 return false;
             }
             csrfToken = pushButtonDocument.select(TOKEN_INPUT_CSS_SELECTOR).last().val();
         } catch (Exception e) {
-            Log.v(TAG, "Push button parse error: " + e.getMessage());
-            NetworkUtils.clearLogin();
+            Log.e(TAG, "Push button parse error: " + e.getMessage());
+            JioFiPreferences.getInstance().clearSavedCookie(context);
             return false;
         }
 
         Map<String, String> postParams = new HashMap<>();
         postParams.put(CSRF_TOKEN_STRING_ID, csrfToken);
         postParams.put(FORM_TYPE_STRING_ID, "push_pbs");
-
 
         // 4. Make the post request
         url = getURL(WPS_POST_ID);
@@ -660,6 +620,8 @@ public class NetworkUtils {
         if (response == null) {
             return false;
         }
+
+        JioFiPreferences.getInstance().saveWPSTime(context);
         return true;
     }
 
@@ -672,15 +634,14 @@ public class NetworkUtils {
 
     public static boolean setBlockedDevices(Context context, List<DeviceViewModel> viewModels) {
         // 1. Login
-        if (!isLoggedIn()) {
-            if (!login(context))
-                return false;
+        if (!login(context)) {
+            return false;
         }
 
         // 2. Make a get request
         URL url = getURL(WIFI_MAC_GET_ID);
 
-        String response = getRequest(url, null, getAuthHeaders());
+        String response = getRequest(url, getAuthHeaders());
         if (response == null) {
             return false;
         }
@@ -691,8 +652,8 @@ public class NetworkUtils {
             Document pushButtonDocument = Jsoup.parse(response);
             csrfToken = pushButtonDocument.select(TOKEN_INPUT_CSS_SELECTOR).last().val();
         } catch (Exception e) {
-            Log.v(TAG, "setBlockedDevices csrf token error: " + e.getMessage());
-            NetworkUtils.clearLogin();
+            Log.e(TAG, "setBlockedDevices csrf token error: " + e.getMessage());
+            JioFiPreferences.getInstance().clearSavedCookie(context);
             return false;
         }
         Map<String, String> postParams = new HashMap<>();
@@ -704,28 +665,22 @@ public class NetworkUtils {
 
         for (DeviceViewModel viewModel: viewModels) {
             if (viewModel.getIsBlocked()) {
-                postParams.put(String.format(POST_WIFI_MAC_DENY_MAC_FORMAT_STRING, count), viewModel.getMacAddress());
-                postParams.put(String.format(POST_WIFI_MAC_DENY_DISC_FORMAT_STRING, count), viewModel.getDeviceName());
-                postParams.put(String.format(POST_WIFI_MAC_DENY_ENABLE_FORMAT_STRING, count), "checked");
-                postParams.put(String.format(POST_WIFI_MAC_DENY_KEY_FORMAT_STRING, count), "");
+                postParams.put(String.format(Locale.US, POST_WIFI_MAC_DENY_MAC_FORMAT_STRING, count), viewModel.getMacAddress());
+                postParams.put(String.format(Locale.US, POST_WIFI_MAC_DENY_DISC_FORMAT_STRING, count), viewModel.getDeviceName());
+                postParams.put(String.format(Locale.US, POST_WIFI_MAC_DENY_ENABLE_FORMAT_STRING, count), "checked");
+                postParams.put(String.format(Locale.US, POST_WIFI_MAC_DENY_KEY_FORMAT_STRING, count), "");
                 count++;
             }
         }
 
         postParams.put(POST_WIFI_MAC_DENY_COUNT, String.valueOf(count));
-
         String urlString = String.format("%s?%s", getUrlString(WIFI_MAC_POST_ID), new Date().getTime());
-
-        Log.v(TAG, "URL " + urlString);
-
         try {
             url = new URL(urlString);
         } catch (MalformedURLException e) {
             Log.e(TAG, "Malformed URL for wifi mac post");
         }
-
         response = postRequest(url, postParams, getAuthHeaders());
-
         return response != null;
     }
 }

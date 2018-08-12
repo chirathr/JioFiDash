@@ -45,6 +45,8 @@
     <string name="section_format">Hello World from section: %1$d</string>
 
     <string name="wps_time">wps_time</string>
+    <string name="login_time">login_time</string>
+    <string name="cookie_string">cookie_string</string>
 
 
     <!-- JioFi restart -->

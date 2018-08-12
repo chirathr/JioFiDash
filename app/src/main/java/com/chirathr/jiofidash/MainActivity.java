@@ -256,25 +256,20 @@ public class MainActivity extends AppCompatActivity
 
         @Override
         protected Void doInBackground(Void... voids) {
-            restarted = NetworkUtils.changePowerSavingTimeOut(getApplicationContext(), false, 10);
+            restarted = NetworkUtils.changePowerSavingTimeOut(getApplicationContext(), true, 0);
             return null;
         }
 
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-
             if (restarted) {
                 Log.v(TAG, "Restart successful");
-
-                NetworkUtils.clearLogin();
-
                 Snackbar.make(mainConstrainView, R.string.restart_successful, Snackbar.LENGTH_LONG)
                         .show();
                 wiFiRestart();
             } else {
-                Log.v(TAG, "Restart failed");
-
+                Log.e(TAG, "Restart failed");
                 Snackbar.make(mainConstrainView, "Restart failed!", Snackbar.LENGTH_LONG)
                         .setAction(R.string.retry, new View.OnClickListener() {
                             @Override
@@ -315,9 +310,7 @@ public class MainActivity extends AppCompatActivity
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-
             if (isSuccessful) {
-                JioFiPreferences.getInstance().saveWPSTime(MainActivity.this);
                 Snackbar.make(mainConstrainView, "WPS button pressed, connect your device", Snackbar.LENGTH_LONG).show();
             } else {
                 Snackbar.make(mainConstrainView, "WPS button error, please try after sometime.", Snackbar.LENGTH_LONG)

@@ -153,11 +153,6 @@ public class ChangeSSIDPasswordDialogFragment extends DialogFragment {
 
         @Override
         protected Void doInBackground(Void... voids) {
-
-            if (!NetworkUtils.isLoggedIn()) {
-                NetworkUtils.login(getActivity());
-            }
-
             isSuccessful = NetworkUtils.changeSSIDAndPassword(getActivity(), SSIDName, password);
             return null;
         }
@@ -171,7 +166,6 @@ public class ChangeSSIDPasswordDialogFragment extends DialogFragment {
                 dismiss();
             } else {
                 tooManyAttemptsTextView.setVisibility(View.VISIBLE);
-                NetworkUtils.clearLogin();
             }
         }
     }

@@ -39,6 +39,9 @@ public class JioFiPreferences {
     public static final String DEVICE_6 = "JMR815";
     public static final String DEVICE_OTHER = "other";
 
+    public static final int LOGIN_TIMEOUT = 120;
+    public static final int WPS_TIMEOUT = 120;
+
     public static int currentDeviceId;
 
     public static String ipAddressString = null;
@@ -202,7 +205,7 @@ public class JioFiPreferences {
             return false;
         }
 
-        if (getTimeDifferenceInSeconds(dateTime, new Date()) <= 120) {
+        if (getTimeDifferenceInSeconds(dateTime, new Date()) <= WPS_TIMEOUT) {
             return true;
         }
         return false;
@@ -213,6 +216,50 @@ public class JioFiPreferences {
 
         Log.v(TAG, Math.round(TimeUnit.MILLISECONDS.toSeconds(diff)) + "");
 
-        return Math.round(TimeUnit.MILLISECONDS.toSeconds(diff));
+        return TimeUnit.MILLISECONDS.toSeconds(diff);
+    }
+
+    public void saveLoginCookie(Context context, String cookieString) {
+        SharedPreferences sharedPref = context.getSharedPreferences(
+                context.getString(R.string.data_preference_file_key), Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+
+        String dateTime = dateTimeFormat.format(new Date());
+
+        editor.putString(context.getString(R.string.cookie_string), cookieString);
+        editor.putString(context.getString(R.string.login_time), dateTime);
+        editor.apply();
+    }
+
+    public String loadCookieString(Context context) {
+        SharedPreferences sharedPref = context.getSharedPreferences(
+                context.getString(R.string.data_preference_file_key), Context.MODE_PRIVATE);
+        String dateTimeString = sharedPref.getString(context.getString(R.string.login_time), null);
+
+        if (dateTimeString == null) { return null; }
+
+        Date dateTime = null;
+
+        try {
+            dateTime = dateTimeFormat.parse(dateTimeString);
+        } catch (ParseException e) {
+            Log.v(TAG, "Date time parse error: " + e.getMessage());
+        }
+
+        if (dateTime == null) { return null; }
+
+        if (getTimeDifferenceInSeconds(dateTime, new Date()) <= LOGIN_TIMEOUT) {
+            return sharedPref.getString(context.getString(R.string.cookie_string), null);
+        }
+        return null;
+    }
+
+    public void clearSavedCookie(Context context) {
+        SharedPreferences sharedPref = context.getSharedPreferences(
+                context.getString(R.string.data_preference_file_key), Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+
+        editor.putString(context.getString(R.string.login_time), null);
+        editor.apply();
     }
 }
