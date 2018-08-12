@@ -45,3 +45,36 @@ Show details about your JioFi
 * Block device
 * Change WiFi SSID and password
 * WPS button
+
+#### Data shown
+
+- Battery 
+    - percentage
+    - status
+    - URL: http://jiofi.local.html/Device_info_ajax.cgi
+```json
+{ batterylevel:'91 %', batterystatus:'Discharging', curr_time:'Sun 12 Aug 2018 12:35:33'} 
+```
+
+- Data speed
+    - upload (txRate)
+    - download (rxRate)
+    - max upload
+    - max download
+    - URL: http://jiofi.local.html/lte_ajax.cgi
+```json
+{ status:'Attached', con_status:'1534055241', time:'2326', time_str:'00:00:38:46', opmode:'FDD', opband:'5', rsrp:'-101 dBm', rsrq:'-11 dB', sinr:'4 dBm', bandwidth:'5 MHz', earfcn:'2540', plmn:'405862', apn:'jionet', gcellID:'0022EE30', pcellID:'195', ecgi:'405862022EE30', eutran:'4058620036022EE30'}
+```
+
+- Network
+    - operating band
+    - bandwidth
+    - p cell id
+    - rsrp
+- Total Data
+    - upload (duration_ul)
+    - download (duration_dl)
+- User
+    - User count (act_cnt)
+    - User list (userlistinfo)
+    
