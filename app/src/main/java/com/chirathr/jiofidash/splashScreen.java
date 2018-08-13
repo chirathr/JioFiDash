@@ -21,28 +21,24 @@ public class splashScreen extends AppCompatActivity {
     AnimationDrawable launcherAnimation;
 
     @Override
-    protected void onStart() {
-        super.onStart();
-
-        mHandler.postDelayed(mLauncher, SPLASH_DELAY);
-    }
-
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
 
-        // Initial setup
+        // Initial setup that loads the device id and saved username and password.
         JioFiPreferences jioFiPreferences = JioFiPreferences.getInstance();
         jioFiPreferences.loadDeviceId(this);
         jioFiPreferences.loadUsernameAndPassword(this);
 
+        // Animated icon
         ImageView launcherIcon = (ImageView) findViewById(R.id.launcher_animated);
         launcherIcon.setBackgroundResource(R.drawable.ic_launcher_animated);
         launcherAnimation = (AnimationDrawable) launcherIcon.getBackground();
 
+        // show animation
         launcherAnimation.start();
 
+        // Launch main activity after a time out to show animated logo
         mHandler.postDelayed(mLauncher, SPLASH_DELAY);
     }
 

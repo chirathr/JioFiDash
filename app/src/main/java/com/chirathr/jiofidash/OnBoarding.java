@@ -28,6 +28,7 @@ public class OnBoarding extends AppCompatActivity {
         jiofi6SelectButton = findViewById(R.id.select_button_jiofi_6);
         olderJiofiWebUIButton = findViewById(R.id.select_button_other_jiofi);
 
+        // select JioFi 6 device and open Main Activity
         jiofi6SelectButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -39,6 +40,7 @@ public class OnBoarding extends AppCompatActivity {
             }
         });
 
+        // TODO change to web ui, update the app to save this as device and change from settings
         olderJiofiWebUIButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
