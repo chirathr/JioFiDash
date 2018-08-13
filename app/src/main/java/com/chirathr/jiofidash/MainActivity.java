@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity
 
     private View mainConstrainView;
 
+    // Actions that are done after successful login
     public static final String LOGIN_COMPLETE_ACTION_RESTART = "restart";
     public static final String LOGIN_COMPLETE_ACTION_OPEN_WIFI_SETTINGS = "wifi-settings";
     public static final String LOGIN_COMPLETE_ACTION_WPS_BUTTON = "wps-button";
@@ -62,6 +63,8 @@ public class MainActivity extends AppCompatActivity
 
     private BottomSheetFragment bottomSheetFragment;
 
+    // TODO control all update processes using this variable
+    // Controls all the processes in the app
     public static boolean updateUI = true;
     private Snackbar noJioFiSnackBar;
 
@@ -126,6 +129,7 @@ public class MainActivity extends AppCompatActivity
     public boolean onOptionsItemSelected(MenuItem item) {
         int selectedItemId = item.getItemId();
 
+        // Open bottom sheet dialog fragment
         if (selectedItemId == R.id.action_settings) {
             showBottomSheetDialogFragment();
             return true;
@@ -134,6 +138,7 @@ public class MainActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
+    // function that runs a volley json request to get battery state and battery level
     private void loadBatteryInfo(Context context) {
         String urlString = NetworkUtils.getUrlString(NetworkUtils.DEVICE_INFO_ID);
 
@@ -169,6 +174,7 @@ public class MainActivity extends AppCompatActivity
         bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
     }
 
+    // Event listener that handles actions clicked on BottomSheetFragment
     @Override
     public void onOptionSelected(int optionId) {
         switch (optionId) {
@@ -212,19 +218,20 @@ public class MainActivity extends AppCompatActivity
                 break;
             }
             case BottomSheetFragment.OPTION_ABOUT_ID: {
-
                 startActivity(new Intent(this, About.class));
                 break;
             }
         }
     }
 
+    // Show login dialog and complete the action on successful login
     public void showLoginDialog(String action) {
         DialogFragment loginDialog = new LoginDialog();
         ((LoginDialog) loginDialog).setActionAfterLogin(this, action);
         loginDialog.show(getSupportFragmentManager(), "LoginDialog");
     }
 
+    // Event listener that is called after successful login with corresponding action to be done
     @Override
     public void loginCompleteListener(String action) {
         switch (action) {
@@ -244,6 +251,7 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    // Async task that restarts JioFi by setting the power save time out.
     private class RestartJioFiAsyncTask extends AsyncTask<Void, Void, Void> {
 
         private boolean restarted;
@@ -297,6 +305,7 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    // Async task that enables WPS
     private class WPSButtonAsyncTask extends AsyncTask<Void, Void, Void> {
 
         private boolean isSuccessful = false;
@@ -324,6 +333,7 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    // TODO wiFi should not be restarted. Maybe a popup saying user should restart wifi or a dialog to restart wifi
     public void wiFiRestart() {
         WifiManager wifiManager = (WifiManager) this.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
 
