@@ -436,7 +436,7 @@ public class WiFiSettings extends AppCompatActivity
 
     // Function that asks confirmation to restart WiFi
     public void showWiFiRestartDialog() {
-        // TODO complete this
+
     }
 
     // Function that restarts WiFi

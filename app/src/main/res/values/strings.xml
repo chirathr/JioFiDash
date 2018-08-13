@@ -47,7 +47,8 @@
     <string name="wps_time">wps_time</string>
     <string name="login_time">login_time</string>
     <string name="cookie_string">cookie_string</string>
-
+    <string name="restart_dialog_message">WiFi restart required. Do you want to restart now?</string>
+    <string name="restart_dialog_confirm">RESTART</string>
 
     <!-- JioFi restart -->
     <string name="restart_successful">Restart successful, please wait few minutes.</string>
