@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
+
 public class RestartWiFiDialogFragment extends DialogFragment {
     private RestartWiFiConfirmListener mListener;
 
@@ -29,6 +30,7 @@ public class RestartWiFiDialogFragment extends DialogFragment {
                 .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         // User cancelled the dialog
+                        mListener.restartWiFiCancelListener();
                     }
                 });
         // Create the AlertDialog object and return it
@@ -48,5 +50,6 @@ public class RestartWiFiDialogFragment extends DialogFragment {
 
     public interface RestartWiFiConfirmListener {
         void restartWiFiConfirmListener();
+        void restartWiFiCancelListener();
     }
 }

@@ -29,6 +29,7 @@ import com.chirathr.jiofidash.data.DeviceViewModel;
 import com.chirathr.jiofidash.data.JioFiData;
 import com.chirathr.jiofidash.data.JioFiPreferences;
 import com.chirathr.jiofidash.fragments.ChangeSSIDPasswordDialogFragment;
+import com.chirathr.jiofidash.fragments.RestartWiFiDialogFragment;
 import com.chirathr.jiofidash.utils.NetworkUtils;
 import com.chirathr.jiofidash.utils.VolleySingleton;
 import com.google.android.material.snackbar.Snackbar;
@@ -45,7 +46,7 @@ import java.util.Map;
 
 public class WiFiSettings extends AppCompatActivity
         implements ChangeSSIDPasswordDialogFragment.OnChangeSSIDCompleteListener,
-        DeviceListAdapter.OnClickListener{
+        DeviceListAdapter.OnClickListener, RestartWiFiDialogFragment.RestartWiFiConfirmListener {
 
     private static final String TAG = WiFiSettings.class.getSimpleName();
     private static int DELAY = 3000;
@@ -164,10 +165,7 @@ public class WiFiSettings extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
-        if (!updateUi) {
-            updateUi = true;
-            handler.post(loadDataRunnable);
-        }
+        resumeUIUpdateTasks();
     }
 
     @Override
@@ -373,7 +371,6 @@ public class WiFiSettings extends AppCompatActivity
                         Snackbar.LENGTH_LONG).show();
                 tempDevice = null;
                 blockedDeviceViewModelList = null;
-                //wiFiRestart();
             } else {
                 Snackbar.make(wifiSettingsLayout,
                         "Failed to " + blockDeviceSnackBarText.replace("ed", "") + tempDevice.getDeviceName(),
@@ -384,10 +381,9 @@ public class WiFiSettings extends AppCompatActivity
                             }
                         }).show();
             }
-            // Start updating the UI after blocking the device
-            updateUi = true;
             handler.postDelayed(loadDataRunnable, DELAY);
             Snackbar.make(wifiSettingsLayout, "Waiting for WiFi to reconnect...", Snackbar.LENGTH_LONG).show();
+            showWiFiRestartDialog();
         }
     }
 
@@ -436,7 +432,20 @@ public class WiFiSettings extends AppCompatActivity
 
     // Function that asks confirmation to restart WiFi
     public void showWiFiRestartDialog() {
+        DialogFragment dialogFragment = new RestartWiFiDialogFragment();
+        dialogFragment.show(getSupportFragmentManager(), "RestartDialog");
+    }
 
+    @Override
+    public void restartWiFiConfirmListener() {
+        wiFiRestart();
+        Snackbar.make(wifiSettingsLayout, "Restarting WiFi", Snackbar.LENGTH_LONG).show();
+        resumeUIUpdateTasks();
+    }
+
+    @Override
+    public void restartWiFiCancelListener() {
+        resumeUIUpdateTasks();
     }
 
     // Function that restarts WiFi
@@ -454,6 +463,13 @@ public class WiFiSettings extends AppCompatActivity
         }
         else {
             wifiManager.setWifiEnabled(true);
+        }
+    }
+
+    public void resumeUIUpdateTasks() {
+        if (!updateUi) {
+            updateUi = true;
+            handler.post(loadDataRunnable);
         }
     }
 }
