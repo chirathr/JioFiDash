@@ -29,7 +29,6 @@ import com.chirathr.jiofidash.data.DeviceViewModel;
 import com.chirathr.jiofidash.data.JioFiData;
 import com.chirathr.jiofidash.data.JioFiPreferences;
 import com.chirathr.jiofidash.fragments.ChangeSSIDPasswordDialogFragment;
-import com.chirathr.jiofidash.fragments.RestartWiFiDialogFragment;
 import com.chirathr.jiofidash.utils.NetworkUtils;
 import com.chirathr.jiofidash.utils.VolleySingleton;
 import com.google.android.material.snackbar.Snackbar;
@@ -46,7 +45,7 @@ import java.util.Map;
 
 public class WiFiSettings extends AppCompatActivity
         implements ChangeSSIDPasswordDialogFragment.OnChangeSSIDCompleteListener,
-        DeviceListAdapter.OnClickListener, RestartWiFiDialogFragment.RestartWiFiConfirmListener {
+        DeviceListAdapter.OnClickListener {
 
     private static final String TAG = WiFiSettings.class.getSimpleName();
     private static int DELAY = 3000;
@@ -448,24 +447,6 @@ public class WiFiSettings extends AppCompatActivity
     private void hideJioFiNotFoundSnackBar() {
         if (noJioFiSnackBar.isShown())
             noJioFiSnackBar.dismiss();
-    }
-
-    // Function that asks confirmation to restart WiFi
-    public void showWiFiRestartDialog() {
-        DialogFragment dialogFragment = new RestartWiFiDialogFragment();
-        dialogFragment.show(getSupportFragmentManager(), "RestartDialog");
-    }
-
-    @Override
-    public void restartWiFiConfirmListener() {
-        wiFiRestart();
-        Snackbar.make(wifiSettingsLayout, "Restarting WiFi", Snackbar.LENGTH_LONG).show();
-        resumeUIUpdateTasks();
-    }
-
-    @Override
-    public void restartWiFiCancelListener() {
-        resumeUIUpdateTasks();
     }
 
     // Function that restarts WiFi
