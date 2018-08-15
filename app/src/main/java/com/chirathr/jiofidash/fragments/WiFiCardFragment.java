@@ -29,6 +29,8 @@ import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
+import static com.chirathr.jiofidash.MainActivity.updateUI;
+
 public class WiFiCardFragment extends Fragment {
 
     public static final String TAG = WiFiCardFragment.class.getSimpleName();
@@ -41,7 +43,6 @@ public class WiFiCardFragment extends Fragment {
     private ProgressBar loadingProgressBar;
     private ConstraintLayout devicesLayout;
 
-    private boolean updateUI = true;
 
     private Handler handler;
 

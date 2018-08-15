@@ -19,8 +19,7 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
     public static final int OPTION_WIFI_SETTINGS_ID = 1;
     public static final int OPTION_PUSH_WPS_BUTTON = 2;
     public static final int OPTION_ADMIN_WEB_UI = 3;
-    public static final int OPTION_SETTINGS_ID = 4;
-    public static final int OPTION_ABOUT_ID = 5;
+    public static final int OPTION_ABOUT_ID = 4;
 
     private onOptionSelectedListener mListener;
 

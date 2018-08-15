@@ -63,7 +63,6 @@ public class MainActivity extends AppCompatActivity
 
     private BottomSheetFragment bottomSheetFragment;
 
-    // TODO control all update processes using this variable
     // Controls all the network and Ui update processes on MainActivity
     public static boolean updateUI = true;
     private Snackbar noJioFiSnackBar;

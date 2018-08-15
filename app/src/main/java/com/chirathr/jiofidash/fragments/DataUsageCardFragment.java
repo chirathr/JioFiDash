@@ -27,6 +27,8 @@ import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
+import static com.chirathr.jiofidash.MainActivity.updateUI;
+
 public class DataUsageCardFragment extends Fragment {
 
     private static final int DELAY = 5000;
@@ -36,11 +38,8 @@ public class DataUsageCardFragment extends Fragment {
 
     private TextView downloadData;
     private TextView uploadData;
-    private TextView upTime;
     private ProgressBar loadingProgressBar;
     private ConstraintLayout dataUsageLayout;
-
-    private boolean updateUI = true;
 
     private Handler handler;
 
@@ -62,15 +61,15 @@ public class DataUsageCardFragment extends Fragment {
 
         View dataUsageView = inflater.inflate(R.layout.data_usage_card, container, false);
 
-        loadingProgressBar = (ProgressBar) dataUsageView.findViewById(R.id.date_usage_loading_progress_bar);
+        loadingProgressBar = dataUsageView.findViewById(R.id.date_usage_loading_progress_bar);
         loadingProgressBar.getIndeterminateDrawable().setColorFilter(
                 getResources().getColor(R.color.colorGrey), android.graphics.PorterDuff.Mode.MULTIPLY);
-        dataUsageLayout = (ConstraintLayout) dataUsageView.findViewById(R.id.data_usage_layout);
+        dataUsageLayout = dataUsageView.findViewById(R.id.data_usage_layout);
 
         showLoading();
 
-        uploadData = (TextView) dataUsageView.findViewById(R.id.tv_total_upload_data);
-        downloadData = (TextView) dataUsageView.findViewById(R.id.tv_total_download_data);
+        uploadData = dataUsageView.findViewById(R.id.tv_total_upload_data);
+        downloadData = dataUsageView.findViewById(R.id.tv_total_download_data);
 
         handler.postDelayed(dataUsageUpdateRunnable, START_DELAY);
 

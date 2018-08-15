@@ -27,6 +27,8 @@ import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
+import static com.chirathr.jiofidash.MainActivity.updateUI;
+
 public class DataSpeedCardFragment extends Fragment {
 
     private static final String TAG = DataSpeedCardFragment.class.getSimpleName();
@@ -42,8 +44,6 @@ public class DataSpeedCardFragment extends Fragment {
     private ConstraintLayout dataSpeedConstrainLayout;
 
     private Handler handler;
-
-    private boolean updateUI = true;
 
     private Runnable dataSpeedUpdateRunnable = new Runnable() {
         @Override
@@ -64,19 +64,17 @@ public class DataSpeedCardFragment extends Fragment {
 
         View dataSpeedCardView = inflater.inflate(R.layout.data_speed_card, container, false);
 
-        loadingProgressBar = (ProgressBar) dataSpeedCardView.findViewById(R.id.date_speed_loading_progress_bar);
+        loadingProgressBar = dataSpeedCardView.findViewById(R.id.date_speed_loading_progress_bar);
         loadingProgressBar.getIndeterminateDrawable().setColorFilter(
                 getResources().getColor(R.color.colorGrey), android.graphics.PorterDuff.Mode.MULTIPLY);
-        dataSpeedConstrainLayout = (ConstraintLayout) dataSpeedCardView.findViewById(R.id.data_speed_layout);
+        dataSpeedConstrainLayout = dataSpeedCardView.findViewById(R.id.data_speed_layout);
         showLoading();
 
-        uploadSpeedTextView = (TextView)  dataSpeedCardView.findViewById(R.id.tv_upload_speed);
-        uploadSpeedMaxTextView = (TextView) dataSpeedCardView.findViewById(R.id.tv_upload_speed_max);
-        downloadSpeedTextView = (TextView) dataSpeedCardView.findViewById(R.id.tv_download_speed);
-        downloadSpeedMaxTextView = (TextView) dataSpeedCardView.findViewById(R.id.tv_download_speed_max);
-
+        uploadSpeedTextView = dataSpeedCardView.findViewById(R.id.tv_upload_speed);
+        uploadSpeedMaxTextView = dataSpeedCardView.findViewById(R.id.tv_upload_speed_max);
+        downloadSpeedTextView = dataSpeedCardView.findViewById(R.id.tv_download_speed);
+        downloadSpeedMaxTextView = dataSpeedCardView.findViewById(R.id.tv_download_speed_max);
         handler.postDelayed(dataSpeedUpdateRunnable, START_DELAY);
-
         return dataSpeedCardView;
     }
 
