@@ -65,5 +65,7 @@ public class DeviceViewModel {
 
     public void setIsBlocked(boolean isBlocked) {
         this.isBlocked = isBlocked;
+        ipAddress = "";
+        isConnectedString = "Blocked";
     }
 }

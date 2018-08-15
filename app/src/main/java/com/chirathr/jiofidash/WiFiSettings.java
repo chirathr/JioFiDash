@@ -229,7 +229,17 @@ public class WiFiSettings extends AppCompatActivity
                             String macAddress = elementList.get(i).text().trim();
                             String name = elementList.get(i + 1).text().trim();
                             DeviceViewModel deviceViewModel = new DeviceViewModel(name, macAddress);
-                            deviceViewModels.add(deviceViewModel);
+
+                            boolean isFound = false;
+                            for (int j = 0; j < deviceViewModels.size(); ++j) {
+                                if (deviceViewModels.get(j).getMacAddress().equals(deviceViewModel.getMacAddress())) {
+                                    isFound = true;
+                                    deviceViewModels.get(j).setIsBlocked(true);
+                                }
+                            }
+                            if (!isFound) {
+                                deviceViewModels.add(deviceViewModel);
+                            }
                         }
 
                         Log.v(TAG, deviceViewModels.size() + "");
@@ -352,8 +362,6 @@ public class WiFiSettings extends AppCompatActivity
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            // Stop the UI from updating
-            pauseUIUpdateTasks();
         }
 
         @Override
@@ -415,6 +423,9 @@ public class WiFiSettings extends AppCompatActivity
 
     @Override
     public void onClickUnBlockListener(int itemId) {
+        // Stop the UI from updating
+        pauseUIUpdateTasks();
+
         if (itemId >= deviceViewModels.size()) {
             return;
         }
