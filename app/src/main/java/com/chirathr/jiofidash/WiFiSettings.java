@@ -353,7 +353,7 @@ public class WiFiSettings extends AppCompatActivity
         protected void onPreExecute() {
             super.onPreExecute();
             // Stop the UI from updating
-            updateUi = false;
+            pauseUIUpdateTasks();
         }
 
         @Override
@@ -383,7 +383,16 @@ public class WiFiSettings extends AppCompatActivity
             }
             handler.postDelayed(loadDataRunnable, DELAY);
             Snackbar.make(wifiSettingsLayout, "Waiting for WiFi to reconnect...", Snackbar.LENGTH_LONG).show();
-            showWiFiRestartDialog();
+
+            // TODO test if this dialog is required on other devices
+            //showWiFiRestartDialog();
+
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    resumeUIUpdateTasks();
+                }
+            }, 2000);
         }
     }
 
@@ -472,5 +481,10 @@ public class WiFiSettings extends AppCompatActivity
             updateUi = true;
             handler.post(loadDataRunnable);
         }
+    }
+
+    public void pauseUIUpdateTasks() {
+        updateUi = false;
+        showLoading();
     }
 }
