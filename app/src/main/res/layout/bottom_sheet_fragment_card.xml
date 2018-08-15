@@ -60,6 +60,34 @@
             android:textColor="@color/colorTextCaption" />
 
         <TextView
+            android:id="@+id/action_change_saved_username_password"
+            style="@style/TextAppearance.MaterialComponents.Headline6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:drawableStart="@drawable/ic_round_edit_24px"
+            android:drawablePadding="16dp"
+            android:focusable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:padding="16dp"
+            android:text="@string/change_saved_username_and_password"
+            android:textColor="@color/colorTextCaption" />
+
+        <TextView
+            android:id="@+id/action_change_selected_device"
+            style="@style/TextAppearance.MaterialComponents.Headline6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:drawableStart="@drawable/ic_round_device_hub_24px"
+            android:drawablePadding="16dp"
+            android:focusable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:padding="16dp"
+            android:text="@string/change_selected_device"
+            android:textColor="@color/colorTextCaption" />
+
+        <TextView
             android:id="@+id/action_open_admin_web_ui"
             style="@style/TextAppearance.MaterialComponents.Headline6"
             android:layout_width="match_parent"
