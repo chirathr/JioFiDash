@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity
     private BottomSheetFragment bottomSheetFragment;
 
     // TODO control all update processes using this variable
-    // Controls all the processes in the app
+    // Controls all the network and Ui update processes on MainActivity
     public static boolean updateUI = true;
     private Snackbar noJioFiSnackBar;
 
@@ -333,7 +333,6 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    // TODO wiFi should not be restarted. Maybe a popup saying user should restart wifi or a dialog to restart wifi
     public void wiFiRestart() {
         WifiManager wifiManager = (WifiManager) this.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
 

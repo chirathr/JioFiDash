@@ -466,6 +466,7 @@ public class WiFiSettings extends AppCompatActivity
         }
     }
 
+    // Functions that starts the loadDataRunnable
     public void resumeUIUpdateTasks() {
         if (!updateUi) {
             updateUi = true;
