@@ -40,10 +40,10 @@ public class OnBoarding extends AppCompatActivity {
             }
         });
 
-        // TODO change to web ui, update the app to save this as device and change from settings
         olderJiofiWebUIButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                JioFiPreferences.getInstance().setDevice(getApplicationContext(), NetworkUtils.DEVICE_NOT_SET_ID);
                 Uri webpage = Uri.parse(NetworkUtils.DEFAULT_HOST);
                 Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
                 if (intent.resolveActivity(getPackageManager()) != null) {

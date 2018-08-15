@@ -204,6 +204,17 @@ public class MainActivity extends AppCompatActivity
                 }
                 break;
             }
+            case BottomSheetFragment.OPTION_CHANGE_SAVED_USERNAME_PASSWORD: {
+                bottomSheetFragment.dismiss();
+
+                break;
+            }
+            case BottomSheetFragment.OPTION_CHANGE_SELECTED_DEVICE: {
+                bottomSheetFragment.dismiss();
+                startActivity(new Intent(this, OnBoarding.class)
+                        .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+                break;
+            }
             case BottomSheetFragment.OPTION_ADMIN_WEB_UI: {
                 bottomSheetFragment.dismiss();
                 Uri webpage = Uri.parse(NetworkUtils.DEFAULT_HOST);

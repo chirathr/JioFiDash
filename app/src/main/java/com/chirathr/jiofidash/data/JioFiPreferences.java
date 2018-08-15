@@ -132,6 +132,11 @@ public class JioFiPreferences {
             editor.putInt(context.getString(R.string.saved_device_key), NetworkUtils.DEVICE_6_ID);
             editor.apply();
             currentDeviceId = NetworkUtils.DEVICE_6_ID;
+        } else if (deviceId == NetworkUtils.DEVICE_NOT_SET_ID) {
+            // For now show the onBoarding screen
+            editor.putInt(context.getString(R.string.saved_device_key), NetworkUtils.DEVICE_NOT_SET_ID);
+            editor.apply();
+            currentDeviceId = NetworkUtils.DEVICE_NOT_SET_ID;
         }
 
     }
@@ -140,7 +145,7 @@ public class JioFiPreferences {
         SharedPreferences sharedPref = context.getSharedPreferences(
                 context.getString(R.string.data_preference_file_key), Context.MODE_PRIVATE);
 
-        currentDeviceId = sharedPref.getInt(context.getString(R.string.saved_device_key), -1);
+        currentDeviceId = sharedPref.getInt(context.getString(R.string.saved_device_key), NetworkUtils.DEVICE_NOT_SET_ID);
     }
 
     public boolean loadWiFiIpAddress(Context context) {

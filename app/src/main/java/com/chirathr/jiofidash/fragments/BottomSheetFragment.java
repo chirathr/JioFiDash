@@ -18,8 +18,10 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
     public static final int OPTION_RESTART_ID = 0;
     public static final int OPTION_WIFI_SETTINGS_ID = 1;
     public static final int OPTION_PUSH_WPS_BUTTON = 2;
-    public static final int OPTION_ADMIN_WEB_UI = 3;
-    public static final int OPTION_ABOUT_ID = 4;
+    public static final int OPTION_CHANGE_SAVED_USERNAME_PASSWORD = 3;
+    public static final int OPTION_CHANGE_SELECTED_DEVICE = 4;
+    public static final int OPTION_ADMIN_WEB_UI = 5;
+    public static final int OPTION_ABOUT_ID = 6;
 
     private onOptionSelectedListener mListener;
 
@@ -71,6 +73,22 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
             @Override
             public void onClick(View view) {
                 mListener.onOptionSelected(OPTION_ABOUT_ID);
+            }
+        });
+
+        view.findViewById(R.id.action_change_saved_username_password)
+                .setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mListener.onOptionSelected(OPTION_CHANGE_SAVED_USERNAME_PASSWORD);
+            }
+        });
+
+        view.findViewById(R.id.action_change_selected_device)
+                .setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mListener.onOptionSelected(OPTION_CHANGE_SELECTED_DEVICE);
             }
         });
 

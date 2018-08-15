@@ -125,7 +125,11 @@ public class NetworkUtils {
     public static String getUrlString(int urlType) {
         int deviceType = JioFiPreferences.currentDeviceId;
         String[] deviceUrls = getDeviceUrls(deviceType);
-        return getHostAddress() + deviceUrls[urlType];
+        String url = null;
+        if (deviceUrls != null) {
+            url = deviceUrls[urlType];
+        }
+        return getHostAddress() + url;
     }
 
     private static URL getURL(int urlType) {

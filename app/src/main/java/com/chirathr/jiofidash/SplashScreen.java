@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import com.chirathr.jiofidash.data.JioFiPreferences;
 import com.chirathr.jiofidash.utils.NetworkUtils;
 
-public class splashScreen extends AppCompatActivity {
+public class SplashScreen extends AppCompatActivity {
 
     private static final int SPLASH_DELAY = 1000;
 
