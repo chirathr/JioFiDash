@@ -206,7 +206,7 @@ public class MainActivity extends AppCompatActivity
             }
             case BottomSheetFragment.OPTION_CHANGE_SAVED_USERNAME_PASSWORD: {
                 bottomSheetFragment.dismiss();
-
+                showLoginDialog(null);
                 break;
             }
             case BottomSheetFragment.OPTION_CHANGE_SELECTED_DEVICE: {
@@ -244,6 +244,9 @@ public class MainActivity extends AppCompatActivity
     // Event listener that is called after successful login with corresponding action to be done
     @Override
     public void loginCompleteListener(String action) {
+        if (action == null) {
+            return;
+        }
         switch (action) {
             case LOGIN_COMPLETE_ACTION_RESTART: {
                 restartJioFi();
@@ -258,6 +261,7 @@ public class MainActivity extends AppCompatActivity
                 pushWPSButton();
                 break;
             }
+            default: Log.v(TAG, "Loggeg in");
         }
     }
 

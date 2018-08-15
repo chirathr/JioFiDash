@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.chirathr.jiofidash.R;
+import com.chirathr.jiofidash.data.JioFiPreferences;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 import androidx.annotation.NonNull;
@@ -76,13 +77,17 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
             }
         });
 
-        view.findViewById(R.id.action_change_saved_username_password)
-                .setOnClickListener(new View.OnClickListener() {
+        TextView changeSavedLoginDetails = view.findViewById(R.id.action_change_saved_username_password);
+        changeSavedLoginDetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mListener.onOptionSelected(OPTION_CHANGE_SAVED_USERNAME_PASSWORD);
             }
         });
+
+        if (!JioFiPreferences.getInstance().isLoginDataAvailable(getActivity())) {
+            changeSavedLoginDetails.setText(getContext().getString(R.string.add_login_details));
+        }
 
         view.findViewById(R.id.action_change_selected_device)
                 .setOnClickListener(new View.OnClickListener() {
