@@ -93,4 +93,8 @@
     <string name="change_saved_username_and_password">Edit login credentials</string>
     <string name="add_login_details">"Add login details"</string>
     <string name="change_selected_device">Change selected device</string>
+
+    <string name="battery_notification_channel_name">Low battery</string>
+    <string name="battery_notification_title_format_string">JioFi Battery low: %d%%</string>
+    <string name="battery_notification_body_format_string">Please connect your charger.</string>
 </resources>

@@ -16,7 +16,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -28,13 +27,13 @@ import com.chirathr.jiofidash.fragments.BottomSheetFragment;
 import com.chirathr.jiofidash.fragments.LoginDialog;
 import com.chirathr.jiofidash.progressBar.ColorArcProgressBar;
 import com.chirathr.jiofidash.utils.NetworkUtils;
+import com.chirathr.jiofidash.utils.NotificationUtils;
 import com.chirathr.jiofidash.utils.VolleySingleton;
 import com.google.android.material.snackbar.Snackbar;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import static java.lang.Thread.sleep;
 
 public class MainActivity extends AppCompatActivity
         implements BottomSheetFragment.onOptionSelectedListener, LoginDialog.LoginCompleteListener {
