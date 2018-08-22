@@ -31,13 +31,11 @@ public class BatteryReminderJobService extends JobService {
                 Request.Method.GET, urlString, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-
-                Log.v(TAG, response.toString());
-
+                // Show low battery notification
                 try {
                     int batteryPercent = JioFiData.getBatteryLevel(response.getString(JioFiData.BATTERY_LEVEL));
                     // Show battery low warning
-                    if (batteryPercent <= 20) {
+                    if (batteryPercent <= 100) {
                         // < 20, 15, 10, 5, 2
                         // TODO to reminder to once
                         NotificationUtils.remindUserBatteryLow(context, batteryPercent);

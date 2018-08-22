@@ -26,6 +26,7 @@ import com.chirathr.jiofidash.data.JioFiPreferences;
 import com.chirathr.jiofidash.fragments.BottomSheetFragment;
 import com.chirathr.jiofidash.fragments.LoginDialog;
 import com.chirathr.jiofidash.progressBar.ColorArcProgressBar;
+import com.chirathr.jiofidash.sync.Utilities;
 import com.chirathr.jiofidash.utils.NetworkUtils;
 import com.chirathr.jiofidash.utils.VolleySingleton;
 import com.google.android.material.snackbar.Snackbar;
@@ -90,6 +91,9 @@ public class MainActivity extends AppCompatActivity
 
         noJioFiSnackBar = Snackbar.make(
                 mainConstrainView, "JioFi not found, check your WiFi.", Snackbar.LENGTH_INDEFINITE);
+
+        // Start the battery notification task
+        Utilities.scheduleBatteryJob(this);
     }
 
     @Override
