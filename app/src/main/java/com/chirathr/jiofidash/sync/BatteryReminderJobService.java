@@ -35,14 +35,16 @@ public class BatteryReminderJobService extends JobService {
                 // Show low battery notification
                 try {
                     int batteryPercent = JioFiData.getBatteryLevel(response.getString(JioFiData.BATTERY_LEVEL));
-                    batteryPercent = 20;
-                    // Show battery low warning
-                    if (JioFiPreferences.getInstance().canShowNotification(context, batteryPercent)) {
-                        // 100, 20, 10, 5, 2
-                        NotificationUtils.remindUserBatteryLow(context, batteryPercent);
-                    }
+                    String batteryStatus = response.getString(JioFiData.BATTERY_STATUS);
 
-                    Log.v(TAG, "Battery: " + batteryPercent);
+                    // Show battery full and low notifications
+                    if (JioFiPreferences.getInstance().canShowNotification(context, batteryPercent, batteryStatus)) {
+                        // 100, 20, 10, 5, 2
+                        Log.v("JioFiPreferences", "True");
+                        NotificationUtils.remindUserBatteryLow(context, batteryPercent);
+                    } else {
+                        Log.v("JioFiPreferences", "False");
+                    }
                 } catch (JSONException e) {
                     Log.v(TAG, "JSONException: " + e.getMessage());
                 }

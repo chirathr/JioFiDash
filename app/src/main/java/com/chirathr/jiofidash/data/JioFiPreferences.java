@@ -284,29 +284,37 @@ public class JioFiPreferences {
         return sharedPref.getInt(context.getString(R.string.battery_notification_percent), -1);
     }
 
-    public boolean canShowNotification(Context context, int batteryPercentage) {
+    private static final String BATTERY_DISCHARGING = "Discharging";
+    private static final String BATTERY_CHARGING = "Charging";
+
+    public boolean canShowNotification(Context context, int currentBatteryPercentage, String batteryStatus) {
         int lastBatteryPercentage = getLastBatteryNotificationPercentage(context);
+        Log.v(TAG, "Current battery: " + currentBatteryPercentage);
+        Log.v(TAG, "Last battery: " + lastBatteryPercentage);
+        logBatteryNotificationPercentage(context, currentBatteryPercentage);
+        if (lastBatteryPercentage == -1) { return true; }
 
-        if (lastBatteryPercentage == -1) {
-            logBatteryNotificationPercentage(context, batteryPercentage);
-            return true;
-        }
+        // If battery is charging don't show low battery notifications
+        if (currentBatteryPercentage < 100 && batteryStatus.equals(BATTERY_CHARGING)) { return false; }
 
-        if (lastBatteryPercentage < 100 && batteryPercentage == 100) {
+        if (lastBatteryPercentage < 100 && currentBatteryPercentage == 100) {
             // 100%
             return true;
-        } else if (lastBatteryPercentage > 20 && batteryPercentage > 10) {
+        } else if (lastBatteryPercentage > 20 && currentBatteryPercentage <= 20 && currentBatteryPercentage > 10) {
             // 20%
             return true;
-        } else if (lastBatteryPercentage > 10 && batteryPercentage > 5) {
+        } else if (lastBatteryPercentage > 10 && currentBatteryPercentage <= 10 && currentBatteryPercentage > 5) {
             // 10%
             return true;
-        } else if (lastBatteryPercentage > 5 && batteryPercentage > 2) {
+        } else if (lastBatteryPercentage > 5 && currentBatteryPercentage <= 5 && currentBatteryPercentage > 2) {
             // 5%
             return true;
+        } else if (lastBatteryPercentage > 2 && currentBatteryPercentage <= 2 && currentBatteryPercentage >= 0) {
+            // 2% critical
+            return true;
         } else {
-            // 2% critical or return false for other cases
-            return lastBatteryPercentage > 2 && batteryPercentage >= 0;
+            // Otherwise don't show
+            return false;
         }
 
     }
