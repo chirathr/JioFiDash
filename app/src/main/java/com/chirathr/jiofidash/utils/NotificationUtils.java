@@ -22,6 +22,7 @@ public class NotificationUtils {
 
     private static final int BATTERY_REMINDER_NOTIFICATION_ID = 1;
     private static final String BATTERY_REMINDER_NOTIFICATION_CHANNEL_ID = "battery_low";
+    private static final int LOW_BATTERY_PERCENTAGE = 20;
 
     private static final int BATTERY_REMINDER_PENDING_INTENT_ID = 2;
 
@@ -64,17 +65,29 @@ public class NotificationUtils {
             }
         }
 
+        String batteryNotificationTitle;
+        String batteryNotificationBody;
+        int batteryNotificationColor;
+
+        if (batteryPercentage == 100) {
+            batteryNotificationTitle = context.getString(R.string.battery_full_notification_title_format_string);
+            batteryNotificationBody = context.getString(R.string.battery_full_notification_body_format_string);
+            batteryNotificationColor = ContextCompat.getColor(context, R.color.colorPrimaryGreenDark);
+        } else {
+            batteryNotificationTitle = context.getString(R.string.battery_low_notification_title_format_string);
+            batteryNotificationBody = context.getString(R.string.battery_low_notification_body_format_string);
+            batteryNotificationColor = ContextCompat.getColor(context, R.color.colorPrimaryRedDark);
+        }
+
         // Build the notification
         NotificationCompat.Builder notificationBuilder =
                 new NotificationCompat.Builder(context, BATTERY_REMINDER_NOTIFICATION_CHANNEL_ID)
-                .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
+                .setColor(batteryNotificationColor)
                 .setSmallIcon(R.drawable.ic_round_battery_alert_24px)
                 .setLargeIcon(largeIcon(context))
-                .setContentTitle(String.format(context.getString(
-                        R.string.battery_notification_title_format_string), batteryPercentage))
-                .setContentText(context.getString(R.string.battery_notification_body_format_string))
-                .setStyle(new NotificationCompat.BigTextStyle().bigText(
-                        context.getString(R.string.battery_notification_body_format_string)))
+                .setContentTitle(String.format(batteryNotificationTitle, batteryPercentage))
+                .setContentText(batteryNotificationBody)
+                .setStyle(new NotificationCompat.BigTextStyle().bigText(batteryNotificationBody))
                 .setDefaults(Notification.DEFAULT_VIBRATE)
                 .setContentIntent(contentIntent(context))
                 .setAutoCancel(true);

@@ -95,6 +95,9 @@
     <string name="change_selected_device">Change selected device</string>
 
     <string name="battery_notification_channel_name">Low battery</string>
-    <string name="battery_notification_title_format_string">JioFi Battery low: %d%%</string>
-    <string name="battery_notification_body_format_string">Please connect your charger.</string>
+    <string name="battery_low_notification_title_format_string">JioFi Battery low: %d%%</string>
+    <string name="battery_full_notification_title_format_string">JioFi Battery Full: %d%%</string>
+    <string name="battery_low_notification_body_format_string">Please connect your charger.</string>
+    <string name="battery_full_notification_body_format_string">You can remove your charger now.</string>
+    <string name="battery_notification_percent">battery_notification_percent</string>
 </resources>

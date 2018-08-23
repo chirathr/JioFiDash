@@ -8,7 +8,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.chirathr.jiofidash.data.JioFiData;
-import com.chirathr.jiofidash.utils.NetworkUtils;
 import com.chirathr.jiofidash.utils.NotificationUtils;
 import com.chirathr.jiofidash.utils.VolleySingleton;
 import com.firebase.jobdispatcher.JobParameters;
@@ -20,12 +19,13 @@ import org.json.JSONObject;
 public class BatteryReminderJobService extends JobService {
 
     private static final String TAG = BatteryReminderJobService.class.getSimpleName();
+    private static final int LOW_BATTERY_PERCENTAGE = 20;
 
     @Override
     public boolean onStartJob(final JobParameters job) {
 
         final Context context = BatteryReminderJobService.this;
-        String urlString = NetworkUtils.getUrlString(NetworkUtils.DEVICE_INFO_ID);
+        String urlString = "http://jiofi.local.html/Device_info_ajax.cgi";
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                 Request.Method.GET, urlString, null, new Response.Listener<JSONObject>() {
@@ -34,12 +34,15 @@ public class BatteryReminderJobService extends JobService {
                 // Show low battery notification
                 try {
                     int batteryPercent = JioFiData.getBatteryLevel(response.getString(JioFiData.BATTERY_LEVEL));
+                    batteryPercent = 20;
                     // Show battery low warning
-                    if (batteryPercent <= 100) {
+                    if (batteryPercent <= LOW_BATTERY_PERCENTAGE || batteryPercent == 100) {
                         // < 20, 15, 10, 5, 2
                         // TODO to reminder to once
                         NotificationUtils.remindUserBatteryLow(context, batteryPercent);
                     }
+
+                    Log.v(TAG, "Battery: " + batteryPercent);
                 } catch (JSONException e) {
                     Log.v(TAG, "JSONException: " + e.getMessage());
                 }
@@ -50,7 +53,7 @@ public class BatteryReminderJobService extends JobService {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.v(TAG, "Volley error: " + error.getMessage());
-                jobFinished(job, true);
+                jobFinished(job, false);
             }
         });
 
