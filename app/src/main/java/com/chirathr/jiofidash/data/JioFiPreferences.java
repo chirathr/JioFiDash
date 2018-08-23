@@ -267,4 +267,47 @@ public class JioFiPreferences {
         editor.putString(context.getString(R.string.login_time), null);
         editor.apply();
     }
+
+    // Make sure only one notification at 100,  20, 10, 5 and 2%
+    public void logBatteryNotificationPercentage(Context context, int batteryPercentage) {
+        SharedPreferences sharedPref = context.getSharedPreferences(
+                context.getString(R.string.data_preference_file_key), Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+
+        editor.putInt(context.getString(R.string.battery_notification_percent), batteryPercentage);
+        editor.apply();
+    }
+
+    public int getLastBatteryNotificationPercentage(Context context) {
+        SharedPreferences sharedPref = context.getSharedPreferences(
+                context.getString(R.string.data_preference_file_key), Context.MODE_PRIVATE);
+        return sharedPref.getInt(context.getString(R.string.battery_notification_percent), -1);
+    }
+
+    public boolean canShowNotification(Context context, int batteryPercentage) {
+        int lastBatteryPercentage = getLastBatteryNotificationPercentage(context);
+
+        if (lastBatteryPercentage == -1) {
+            logBatteryNotificationPercentage(context, batteryPercentage);
+            return true;
+        }
+
+        if (lastBatteryPercentage < 100 && batteryPercentage == 100) {
+            // 100%
+            return true;
+        } else if (lastBatteryPercentage > 20 && batteryPercentage > 10) {
+            // 20%
+            return true;
+        } else if (lastBatteryPercentage > 10 && batteryPercentage > 5) {
+            // 10%
+            return true;
+        } else if (lastBatteryPercentage > 5 && batteryPercentage > 2) {
+            // 5%
+            return true;
+        } else {
+            // 2% critical or return false for other cases
+            return lastBatteryPercentage > 2 && batteryPercentage >= 0;
+        }
+
+    }
 }

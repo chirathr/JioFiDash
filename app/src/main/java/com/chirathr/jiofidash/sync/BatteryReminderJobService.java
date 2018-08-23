@@ -8,6 +8,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.chirathr.jiofidash.data.JioFiData;
+import com.chirathr.jiofidash.data.JioFiPreferences;
 import com.chirathr.jiofidash.utils.NotificationUtils;
 import com.chirathr.jiofidash.utils.VolleySingleton;
 import com.firebase.jobdispatcher.JobParameters;
@@ -36,9 +37,8 @@ public class BatteryReminderJobService extends JobService {
                     int batteryPercent = JioFiData.getBatteryLevel(response.getString(JioFiData.BATTERY_LEVEL));
                     batteryPercent = 20;
                     // Show battery low warning
-                    if (batteryPercent <= LOW_BATTERY_PERCENTAGE || batteryPercent == 100) {
-                        // < 20, 15, 10, 5, 2
-                        // TODO to reminder to once
+                    if (JioFiPreferences.getInstance().canShowNotification(context, batteryPercent)) {
+                        // 100, 20, 10, 5, 2
                         NotificationUtils.remindUserBatteryLow(context, batteryPercent);
                     }
 

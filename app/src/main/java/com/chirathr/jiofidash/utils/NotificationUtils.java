@@ -73,10 +73,14 @@ public class NotificationUtils {
             batteryNotificationTitle = context.getString(R.string.battery_full_notification_title_format_string);
             batteryNotificationBody = context.getString(R.string.battery_full_notification_body_format_string);
             batteryNotificationColor = ContextCompat.getColor(context, R.color.colorPrimaryGreenDark);
+        } else if (batteryPercentage <= 2) {
+            batteryNotificationTitle = context.getString(R.string.battery_low_critical_notification_title_format_string);
+            batteryNotificationBody = context.getString(R.string.battery_low_critical_notification_body_format_string);
+            batteryNotificationColor = ContextCompat.getColor(context, R.color.colorPrimaryRedDark);
         } else {
             batteryNotificationTitle = context.getString(R.string.battery_low_notification_title_format_string);
             batteryNotificationBody = context.getString(R.string.battery_low_notification_body_format_string);
-            batteryNotificationColor = ContextCompat.getColor(context, R.color.colorPrimaryRedDark);
+            batteryNotificationColor = ContextCompat.getColor(context, R.color.colorPrimaryOrangeDark);
         }
 
         // Build the notification
