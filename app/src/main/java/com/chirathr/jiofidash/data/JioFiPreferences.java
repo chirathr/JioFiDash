@@ -289,9 +289,12 @@ public class JioFiPreferences {
 
     public boolean canShowNotification(Context context, int currentBatteryPercentage, String batteryStatus) {
         int lastBatteryPercentage = getLastBatteryNotificationPercentage(context);
-        Log.v(TAG, "Current battery: " + currentBatteryPercentage);
-        Log.v(TAG, "Last battery: " + lastBatteryPercentage);
         logBatteryNotificationPercentage(context, currentBatteryPercentage);
+
+        if (currentBatteryPercentage < 100 && currentBatteryPercentage > 20) {
+            return false;
+        }
+
         if (lastBatteryPercentage == -1) { return true; }
 
         // If battery is charging don't show low battery notifications
