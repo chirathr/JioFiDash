@@ -44,7 +44,8 @@
 
         <activity
             android:name=".OnBoarding"
-            android:theme="@style/OnBoardingTheme"/>
+            android:theme="@style/OnBoardingTheme"
+            android:screenOrientation="portrait"/>
 
         <activity android:name=".WiFiSettings"
             android:parentActivityName=".MainActivity">
