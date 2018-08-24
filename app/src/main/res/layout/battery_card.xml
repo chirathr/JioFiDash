@@ -19,8 +19,8 @@
                 <com.chirathr.jiofidash.progressBar.ColorArcProgressBar
                     android:id="@+id/batteryProgressBar"
                     app:current_value="91"
-                    android:layout_width="match_parent"
-                    android:layout_height="300dp"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"

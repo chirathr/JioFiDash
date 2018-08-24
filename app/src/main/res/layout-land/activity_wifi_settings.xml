@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/wifi_settings_layout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".WiFiSettings"
+    android:background="@color/colorBackground">
+
+    <ProgressBar
+        android:id="@+id/progress_bar_wifi_settings"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="0dp"
+        android:paddingTop="-4dp"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/guideline"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/guideline"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="4dp" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/wifi_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/card_padding"
+                android:background="@color/colorBackgroundCard"
+                app:cardBackgroundColor="@color/colorBackgroundCard"
+                app:cardCornerRadius="3dp"
+                app:cardElevation="@dimen/card_elevation">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/wifi_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:paddingBottom="8dp">
+
+                    <ImageView
+                        android:id="@+id/wifi_icon"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="8dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/ic_round_wifi_orange_24px" />
+
+                    <LinearLayout
+                        android:id="@+id/tv_wifi_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:orientation="vertical"
+                        app:layout_constraintBottom_toTopOf="@+id/wifi_icon"
+                        app:layout_constraintStart_toEndOf="@+id/wifi_icon"
+                        app:layout_constraintTop_toBottomOf="@+id/wifi_icon">
+
+                        <TextView
+                            android:id="@+id/tv_wifi_label_text"
+                            style="@style/TextAppearance.MaterialComponents.Headline6"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="start"
+                            android:layout_marginStart="0dp"
+                            android:layout_weight="1"
+                            android:text="@string/wifi_label"
+                            android:textColor="@color/colorWhite" />
+
+                        <TextView
+                            android:id="@+id/tv_wifi_caption"
+                            style="@style/TextAppearance.MaterialComponents.Caption"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:layout_weight="1"
+                            android:text="@string/wifi_caption_text"
+                            android:textColor="@color/colorGreyDark" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/tv_wifi_ssid_label"
+                        style="@style/TextAppearance.MaterialComponents.Caption"
+                        android:textColor="@color/colorTextCaption"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:text="@string/ssid_name_label"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/wifi_icon" />
+
+                    <TextView
+                        android:id="@+id/tv_wifi_ssid"
+                        style="@style/TextAppearance.MaterialComponents.Headline6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/jiofi_ssid_name_default"
+                        android:textColor="@color/colorWhite"
+                        app:layout_constraintStart_toStartOf="@+id/tv_wifi_ssid_label"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_wifi_ssid_label" />
+
+                    <ImageView
+                        android:id="@+id/show_password"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        app:layout_constraintBottom_toTopOf="@+id/tv_password"
+                        app:layout_constraintStart_toEndOf="@+id/tv_password"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_password"
+                        app:srcCompat="@drawable/ic_round_visibility_24px" />
+
+                    <TextView
+                        android:id="@+id/tv_password_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="@string/password_text"
+                        style="@style/TextAppearance.MaterialComponents.Caption"
+                        android:textColor="@color/colorTextCaption"
+                        app:layout_constraintStart_toStartOf="@+id/tv_wifi_ssid"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_wifi_ssid" />
+
+                    <TextView
+                        android:id="@+id/tv_password"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/password_hidden"
+                        android:textColor="@color/colorWhite"
+                        style="@style/TextAppearance.MaterialComponents.Headline6"
+                        app:layout_constraintStart_toStartOf="@+id/tv_password_label"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_password_label" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/button_change_ssid_password"
+                        style="@style/Widget.MaterialComponents.Button.TextButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/change_button_text"
+                        android:textColor="@color/colorPrimaryGreen"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_password" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginStart="8dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/button_change_ssid_password" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/devices_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/card_padding"
+                android:layout_marginRight="@dimen/card_padding"
+                android:layout_marginBottom="@dimen/card_padding"
+                android:background="@color/colorBackgroundCard"
+                app:cardBackgroundColor="@color/colorBackgroundCard"
+                app:cardCornerRadius="3dp"
+                app:cardElevation="@dimen/card_elevation"
+                app:layout_constraintTop_toBottomOf="@+id/wifi_card">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/devices_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:paddingBottom="16dp">
+
+                    <ImageView
+                        android:id="@+id/devices_icon"
+                        android:layout_width="@dimen/card_header_icon"
+                        android:layout_height="@dimen/card_header_icon"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/ic_round_devices_24px" />
+
+                    <TextView
+                        android:id="@+id/tv_devices_label"
+                        style="@style/TextAppearance.MaterialComponents.Headline6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:text="@string/devices_label"
+                        android:textColor="@color/colorWhite"
+                        app:layout_constraintStart_toEndOf="@+id/devices_icon"
+                        app:layout_constraintTop_toTopOf="@+id/devices_icon" />
+
+                    <TextView
+                        android:id="@+id/tv_devices_caption"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/devices_connected_text"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="16sp"
+                        app:layout_constraintStart_toStartOf="@+id/tv_devices_label"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_devices_label" />
+
+                    <TextView
+                        android:id="@+id/tv_device_count"
+                        style="@style/TextAppearance.MaterialComponents.Headline5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:text="@string/device_count_text"
+                        android:textColor="@color/colorWhite"
+                        app:layout_constraintBottom_toTopOf="@+id/devices_icon"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/devices_icon" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/users_list_recyler_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:scrollbars="vertical"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/devices_icon" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+        </LinearLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,6 +2,7 @@ package com.chirathr.jiofidash.progressBar;
 
 import android.animation.ValueAnimator;
 import android.content.Context;
+import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -25,7 +26,7 @@ public class ColorArcProgressBar extends View{
 
     private int mWidth;
     private int mHeight;
-    private int diameter = 500;  //直径
+    private int diameter = 10;  //直径
     private float centerX;  //圆心X坐标
     private float centerY;  //圆心Y坐标
 
@@ -133,7 +134,14 @@ public class ColorArcProgressBar extends View{
 
     private void initView() {
 
-        diameter = 3 * getScreenWidth() / 5;
+        int orientation = getOrientation();
+
+        // Change size based on orientation
+        if (orientation == Configuration.ORIENTATION_PORTRAIT)
+            diameter = 3 * getScreenWidth() / 5;
+        else
+            diameter = 3 * getScreenWidth() / 10;
+
         //弧形的矩阵区域
         bgRect = new RectF();
         bgRect.top = longdegree + progressWidth/2 + DEGREE_PROGRESS_DISTANCE;
@@ -388,6 +396,10 @@ public class ColorArcProgressBar extends View{
         DisplayMetrics displayMetrics = new DisplayMetrics();
         windowManager.getDefaultDisplay().getMetrics(displayMetrics);
         return displayMetrics.widthPixels;
+    }
+
+    private int getOrientation() {
+        return getContext().getResources().getConfiguration().orientation;
     }
 
     public void setMainTextColor(int color) {
