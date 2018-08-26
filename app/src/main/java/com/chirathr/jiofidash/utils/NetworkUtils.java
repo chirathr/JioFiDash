@@ -106,7 +106,7 @@ public class NetworkUtils {
     public static boolean authenticationError = false;
 
     private static final String TOKEN_INPUT_CSS_SELECTOR = "input[name='token']";
-    private static final String POWER_SAVING_TIME_INPUT_CSS_SELECTOR = "input[name='Saving_Time'] option[selected]";
+    private static final String POWER_SAVING_TIME_INPUT_CSS_SELECTOR = "select[name='Saving_Time'] option[selected]";
     private static final String VALUE_ATTRIBUTE_KEY = "value";
 
     private static String LOGIN_USERNAME_STRING_ID = "identify";
