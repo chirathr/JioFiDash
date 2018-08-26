@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit;
 import androidx.annotation.NonNull;
 
 public class Utilities {
-    private static final int BATTERY_INTERVAL_MINUTES = 1;
+    private static final int BATTERY_INTERVAL_MINUTES = 6;
     private static final int BATTERY_INTERVAL_SECONDS = (int) (TimeUnit.MINUTES.toSeconds(BATTERY_INTERVAL_MINUTES));
     private static final int SYNC_FLEXTIME_SECONDS = BATTERY_INTERVAL_SECONDS;
 
