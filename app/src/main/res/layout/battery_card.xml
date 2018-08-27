@@ -38,6 +38,14 @@
                     app:max_value="100"
                     app:string_unit="Discharging"
                     app:total_engle="270"/>
+
+                <ProgressBar
+                    android:id="@+id/battery_loading_progress_bar"
+                    style="?android:attr/progressBarStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:indeterminate="true"/>
         </FrameLayout>
 
 </com.google.android.material.card.MaterialCardView>

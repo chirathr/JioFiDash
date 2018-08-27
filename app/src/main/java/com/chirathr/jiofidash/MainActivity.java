@@ -16,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -66,6 +67,8 @@ public class MainActivity extends AppCompatActivity
     public static boolean updateUI = true;
     private Snackbar noJioFiSnackBar;
 
+    private ProgressBar loadingProgressBar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,6 +78,7 @@ public class MainActivity extends AppCompatActivity
         handler = new Handler();
         batteryProgressBar = (ColorArcProgressBar) findViewById(R.id.batteryProgressBar);
         handler.post(batteryUpdateRunnable);
+        loadingProgressBar = findViewById(R.id.battery_loading_progress_bar);
 
         bottomSheetFragment = new BottomSheetFragment();
 
@@ -94,6 +98,7 @@ public class MainActivity extends AppCompatActivity
 
         // Start the battery notification task
         Utilities.scheduleBatteryJob(this);
+        showLoading();
     }
 
     @Override
@@ -160,11 +165,13 @@ public class MainActivity extends AppCompatActivity
                 }
 
                 hideJioFiNotFoundSnackBar();
+                showDataUsage();
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 showJioFiNotFoundSnackBar();
+                showLoading();
             }
         });
 
@@ -364,5 +371,15 @@ public class MainActivity extends AppCompatActivity
         else {
             wifiManager.setWifiEnabled(true);
         }
+    }
+
+    private void showLoading() {
+        loadingProgressBar.setVisibility(View.VISIBLE);
+        batteryProgressBar.setAlpha(Float.parseFloat("0.2"));
+    }
+
+    private void showDataUsage() {
+        loadingProgressBar.setVisibility(View.INVISIBLE);
+        batteryProgressBar.setAlpha(Float.parseFloat("1.0"));
     }
 }
