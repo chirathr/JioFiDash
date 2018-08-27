@@ -131,10 +131,11 @@ public class ChangeSSIDPasswordDialogFragment extends DialogFragment {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            ssidEditText.setText(NetworkUtils.wiFiSSID);
-            passwordEditText.setText(NetworkUtils.wiFiPassword);
-            hideLoading();
-
+            try {
+                ssidEditText.setText(NetworkUtils.wiFiSSID);
+                passwordEditText.setText(NetworkUtils.wiFiPassword);
+                hideLoading();
+            } catch (Exception ignore) { }
             if (!isSuccessful) {
                 mListener.onLoadSSIDFailedListener();
                 dismiss();
@@ -169,9 +170,13 @@ public class ChangeSSIDPasswordDialogFragment extends DialogFragment {
             hideLoading();
             if (isSuccessful) {
                 mListener.onChangeSSIDCompleteListener();
-                dismiss();
+                try {
+                    dismiss();
+                } catch (Exception ignored) { }
             } else {
-                tooManyAttemptsTextView.setVisibility(View.VISIBLE);
+                try {
+                    tooManyAttemptsTextView.setVisibility(View.VISIBLE);
+                } catch (Exception ignored) { }
             }
         }
     }

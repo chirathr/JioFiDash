@@ -154,9 +154,7 @@ public class LoginDialog extends DialogFragment {
         try {
             usernameEditText.setError(getString(R.string.login_error));
             passwordEditText.setError(getString(R.string.login_error));
-        } catch (Exception ignore) {
-
-        }
+        } catch (Exception ignore) { }
     }
 
     public void setActionAfterLogin(LoginCompleteListener context, String action) {
