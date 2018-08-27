@@ -45,11 +45,8 @@ public class LoginDialog extends DialogFragment {
         passwordEditText = view.findViewById(R.id.password_input);
 
         JioFiPreferences preferences = JioFiPreferences.getInstance();
-
-        if (preferences.isLoginDataAvailable(getContext())) {
-            usernameEditText.setText(preferences.username);
-            passwordEditText.setText(preferences.password);
-        }
+        usernameEditText.setText(preferences.username);
+        passwordEditText.setText(preferences.password);
 
         builder.setView(view)
                 .setPositiveButton("Login", new DialogInterface.OnClickListener() {
@@ -154,8 +151,12 @@ public class LoginDialog extends DialogFragment {
     }
 
     private void displayAuthError() {
-        usernameEditText.setError(getString(R.string.login_error));
-        passwordEditText.setError(getString(R.string.login_error));
+        try {
+            usernameEditText.setError(getString(R.string.login_error));
+            passwordEditText.setError(getString(R.string.login_error));
+        } catch (Exception ignore) {
+
+        }
     }
 
     public void setActionAfterLogin(LoginCompleteListener context, String action) {
