@@ -27,8 +27,6 @@ import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
-import static com.chirathr.jiofidash.MainActivity.updateUI;
-
 public class DataSpeedCardFragment extends Fragment {
 
     private static final String TAG = DataSpeedCardFragment.class.getSimpleName();
@@ -44,6 +42,7 @@ public class DataSpeedCardFragment extends Fragment {
     private ConstraintLayout dataSpeedConstrainLayout;
 
     private Handler handler;
+    private boolean updateUI = true;
 
     private Runnable dataSpeedUpdateRunnable = new Runnable() {
         @Override

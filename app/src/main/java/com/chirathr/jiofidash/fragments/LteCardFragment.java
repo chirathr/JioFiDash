@@ -28,8 +28,6 @@ import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
-import static com.chirathr.jiofidash.MainActivity.updateUI;
-
 public class LteCardFragment extends Fragment {
 
     private static final int DELAY = 1000;
@@ -68,6 +66,8 @@ public class LteCardFragment extends Fragment {
     private ConstraintLayout layout;
 
     private Handler handler;
+
+    private boolean updateUI = true;
 
     private Runnable lteInfoRunnable = new Runnable() {
         @Override

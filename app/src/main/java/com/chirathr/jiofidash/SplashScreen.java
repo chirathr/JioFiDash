@@ -37,7 +37,11 @@ public class SplashScreen extends AppCompatActivity {
 
         // show animation
         launcherAnimation.start();
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
         // Launch main activity after a time out to show animated logo
         mHandler.postDelayed(mLauncher, SPLASH_DELAY);
     }

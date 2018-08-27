@@ -1,7 +1,6 @@
 package com.chirathr.jiofidash.fragments;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -16,7 +15,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.chirathr.jiofidash.R;
-import com.chirathr.jiofidash.WiFiSettings;
 import com.chirathr.jiofidash.utils.NetworkUtils;
 import com.chirathr.jiofidash.utils.VolleySingleton;
 
@@ -29,7 +27,6 @@ import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
-import static com.chirathr.jiofidash.MainActivity.updateUI;
 
 public class WiFiCardFragment extends Fragment {
 
@@ -43,8 +40,8 @@ public class WiFiCardFragment extends Fragment {
     private ProgressBar loadingProgressBar;
     private ConstraintLayout devicesLayout;
 
-
     private Handler handler;
+    private boolean updateUI = true;
 
     private Runnable devicesUpdateRunnable = new Runnable() {
         @Override

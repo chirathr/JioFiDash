@@ -22,6 +22,7 @@ import com.chirathr.jiofidash.R;
 /**
  * colorful arc progress bar
  * Created by shinelw on 12/4/15.
+ * https://github.com/Shinelw/ColorArcProgressBar
  */
 public class ColorArcProgressBar extends View{
 

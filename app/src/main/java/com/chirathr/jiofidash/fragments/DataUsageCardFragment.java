@@ -27,8 +27,6 @@ import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
-import static com.chirathr.jiofidash.MainActivity.updateUI;
-
 public class DataUsageCardFragment extends Fragment {
 
     private static final int DELAY = 5000;
@@ -42,6 +40,8 @@ public class DataUsageCardFragment extends Fragment {
     private ConstraintLayout dataUsageLayout;
 
     private Handler handler;
+
+    private boolean updateUI = true;
 
     private Runnable dataUsageUpdateRunnable = new Runnable() {
         @Override
