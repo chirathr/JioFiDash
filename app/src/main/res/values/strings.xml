@@ -105,4 +105,8 @@
     <string name="designed_by_chirath_r">Designed by Chirath R</string>
     <string name="chirathr_website">https://chirathr.com</string>
     <string name="app_description_about">This app provide a simple and easy to use interface to manage a JioFi device.</string>
+    <string name="email_id_chirath">chirath.02@gmail.com</string>
+    <string name="please_contact_email">I am always excited to hear from you! If you have any feedback, questions, or concerns, please email me at:</string>
+    <string name="follow_me_on_twitter">Follow me on twitter:</string>
+    <string name="twitter_chirath">https://twitter.com/chirathr</string>
 </resources>
