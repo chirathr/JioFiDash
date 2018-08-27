@@ -40,6 +40,8 @@
     <string name="saved_user_name_key">username</string>
     <string name="saved_password_key">password</string>
 
+    <string name="login_success">login_success</string>
+
     <string name="saved_device_key">device_id</string>
     <string name="title_activity_on_boarding">OnBoarding</string>
     <string name="section_format">Hello World from section: %1$d</string>

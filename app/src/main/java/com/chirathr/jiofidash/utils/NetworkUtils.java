@@ -368,6 +368,7 @@ public class NetworkUtils {
                 if (response.contains("Login Fail")) {
                     authenticationError = true;
                     Log.e(TAG, "Login Failed !");
+                    JioFiPreferences.getInstance().setLoginState(context, false);
                 }
                 if (response.contains("User already logged in !")) {
                     authenticationError = true;

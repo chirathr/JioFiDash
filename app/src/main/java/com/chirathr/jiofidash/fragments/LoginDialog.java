@@ -86,8 +86,7 @@ public class LoginDialog extends DialogFragment {
                     JioFiPreferences preferences = JioFiPreferences.getInstance();
                     preferences.setUsernameAndPassword(username, password);
                     preferences.saveUsernameAndPassword(getContext());
-
-                    Log.v(TAG, username + " " + password);
+                    preferences.setLoginState(getContext(), true);
 
                     loginTask = new LoginTask();
                     loginTask.execute();
@@ -130,6 +129,7 @@ public class LoginDialog extends DialogFragment {
             if (loginSuccessfull) {
                 closeDialog();
                 mLoginCompleteListener.loginCompleteListener(actionToExecuteAfterLogin);
+                JioFiPreferences.getInstance().setLoginState(getContext(), false);
             }
             else {
                 hideLoading();

@@ -101,8 +101,15 @@ public class JioFiPreferences {
         return false;
     }
 
-    public boolean loadUsernameAndPassword(Context context) {
+    public void setLoginState(Context context, boolean state) {
+        SharedPreferences sharedPref = context.getSharedPreferences(
+                context.getString(R.string.data_preference_file_key), Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putBoolean(context.getString(R.string.login_success), state);
+        editor.apply();
+    }
 
+    public boolean loadUsernameAndPassword(Context context) {
         if (username != null && password != null) {
             return true;
         }
@@ -116,7 +123,8 @@ public class JioFiPreferences {
             username = sharedPref.getString(context.getString(R.string.saved_user_name_key), null);
             password = sharedPref.getString(context.getString(R.string.saved_password_key), null);
 
-            return true;
+            // Return false if last login failed
+            return sharedPref.getBoolean(context.getString(R.string.login_success), false);
         }
 
         return false;
