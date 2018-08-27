@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -80,16 +79,22 @@ public class LoginDialog extends DialogFragment {
             positiveButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
                     String username = usernameEditText.getText().toString();
                     String password = passwordEditText.getText().toString();
+
                     JioFiPreferences preferences = JioFiPreferences.getInstance();
                     preferences.setUsernameAndPassword(username, password);
                     preferences.saveUsernameAndPassword(getContext());
                     preferences.setLoginState(getContext(), true);
 
-                    loginTask = new LoginTask();
-                    loginTask.execute();
+                    if (username.isEmpty()) {
+                        usernameEditText.setError(getString(R.string.login_error_blank));
+                    } else if (password.isEmpty()) {
+                        passwordEditText.setError(getString(R.string.login_error_blank));
+                    } else {
+                        loginTask = new LoginTask();
+                        loginTask.execute();
+                    }
                 }
             });
         }
@@ -101,7 +106,7 @@ public class LoginDialog extends DialogFragment {
 
     private class LoginTask extends AsyncTask<Void, Void, Void> {
 
-        private boolean loginSuccessfull;
+        private boolean loginSuccessful;
 
         @Override
         protected void onPreExecute() {
@@ -118,7 +123,7 @@ public class LoginDialog extends DialogFragment {
 
         @Override
         protected Void doInBackground(Void... voids) {
-            loginSuccessfull = NetworkUtils.login(getContext());
+            loginSuccessful = NetworkUtils.login(getContext());
             return null;
         }
 
@@ -126,7 +131,7 @@ public class LoginDialog extends DialogFragment {
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
 
-            if (loginSuccessfull) {
+            if (loginSuccessful) {
                 closeDialog();
                 mLoginCompleteListener.loginCompleteListener(actionToExecuteAfterLogin);
                 JioFiPreferences.getInstance().setLoginState(getContext(), false);

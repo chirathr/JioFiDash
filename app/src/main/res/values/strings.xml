@@ -92,6 +92,7 @@
     <string name="other_jiofi_desc_text">Sorry! We do not support older devices yet. Please use the Web UI instead.</string>
     <string name="web_ui_button_text">WEB UI</string>
     <string name="login_error">Username or password wrong</string>
+    <string name="login_error_blank">Cannot be blank</string>
     <string name="change_saved_username_and_password">Edit login credentials</string>
     <string name="add_login_details">"Add login details"</string>
     <string name="change_selected_device">Change selected device</string>
