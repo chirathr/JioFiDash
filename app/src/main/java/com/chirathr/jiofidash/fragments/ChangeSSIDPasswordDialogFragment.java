@@ -79,7 +79,13 @@ public class ChangeSSIDPasswordDialogFragment extends DialogFragment {
                 @Override
                 public void onClick(View view) {
                     tooManyAttemptsTextView.setVisibility(View.GONE);
-                    new SetSSIDPasswordTask().execute();
+                    if (ssidEditText.getText().toString().isEmpty()) {
+                        ssidEditText.setError(getString(R.string.login_error_blank));
+                    } else if (passwordEditText.getText().toString().isEmpty()) {
+                        passwordEditText.setError(getString(R.string.login_error_blank));
+                    } else {
+                        new SetSSIDPasswordTask().execute();
+                    }
                 }
             });
         }
