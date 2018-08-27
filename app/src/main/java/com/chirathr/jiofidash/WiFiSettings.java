@@ -391,8 +391,7 @@ public class WiFiSettings extends AppCompatActivity
             handler.postDelayed(loadDataRunnable, DELAY);
             Snackbar.make(wifiSettingsLayout, "Waiting for WiFi to reconnect...", Snackbar.LENGTH_LONG).show();
 
-            // TODO test if this dialog is required on other devices
-            //showWiFiRestartDialog();
+            wiFiRestart();
 
             handler.postDelayed(new Runnable() {
                 @Override

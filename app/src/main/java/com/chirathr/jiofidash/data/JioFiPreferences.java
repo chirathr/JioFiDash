@@ -39,7 +39,7 @@ public class JioFiPreferences {
     public static final String DEVICE_6 = "JMR815";
     public static final String DEVICE_OTHER = "other";
 
-    public static final int LOGIN_TIMEOUT = 120;
+    public static final int LOGIN_TIMEOUT = 80;
     public static final int WPS_TIMEOUT = 120;
 
     public static int currentDeviceId;

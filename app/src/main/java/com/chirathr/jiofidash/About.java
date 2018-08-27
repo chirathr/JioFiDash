@@ -11,7 +11,6 @@ public class About extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // TODO update content before release
         setContentView(R.layout.activity_about);
 
         // Enable the Up button
