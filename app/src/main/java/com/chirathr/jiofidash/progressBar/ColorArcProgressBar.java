@@ -13,6 +13,7 @@ import android.graphics.RectF;
 import android.graphics.SweepGradient;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 
@@ -140,7 +141,7 @@ public class ColorArcProgressBar extends View{
         if (orientation == Configuration.ORIENTATION_PORTRAIT)
             diameter = 3 * getScreenWidth() / 5;
         else
-            diameter = 3 * getScreenWidth() / 10;
+            diameter = (int) (getScreenDensity() * 230);
 
         //弧形的矩阵区域
         bgRect = new RectF();
@@ -396,6 +397,13 @@ public class ColorArcProgressBar extends View{
         DisplayMetrics displayMetrics = new DisplayMetrics();
         windowManager.getDefaultDisplay().getMetrics(displayMetrics);
         return displayMetrics.widthPixels;
+    }
+
+    private float getScreenDensity() {
+        WindowManager windowManager = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        windowManager.getDefaultDisplay().getMetrics(displayMetrics);
+        return displayMetrics.density;
     }
 
     private int getOrientation() {
