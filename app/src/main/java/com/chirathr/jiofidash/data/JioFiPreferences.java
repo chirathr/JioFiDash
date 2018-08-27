@@ -88,11 +88,15 @@ public class JioFiPreferences {
     }
 
     public boolean isLoginDataAvailable(Context context) {
+        // Return false if last login failed
+        SharedPreferences sharedPref = context.getSharedPreferences(
+                context.getString(R.string.data_preference_file_key), Context.MODE_PRIVATE);
+        if (!sharedPref.getBoolean(context.getString(R.string.login_success), false)) {
+            return false;
+        }
         if (username != null && password != null) {
             return true;
         } else {
-            SharedPreferences sharedPref = context.getSharedPreferences(
-                    context.getString(R.string.data_preference_file_key), Context.MODE_PRIVATE);
             if (sharedPref.contains(context.getString(R.string.saved_user_name_key))
                     && sharedPref.contains(context.getString(R.string.saved_password_key))) {
                 return true;
@@ -123,8 +127,7 @@ public class JioFiPreferences {
             username = sharedPref.getString(context.getString(R.string.saved_user_name_key), null);
             password = sharedPref.getString(context.getString(R.string.saved_password_key), null);
 
-            // Return false if last login failed
-            return sharedPref.getBoolean(context.getString(R.string.login_success), false);
+            return true;
         }
 
         return false;
