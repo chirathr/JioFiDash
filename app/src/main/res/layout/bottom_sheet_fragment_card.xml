@@ -30,7 +30,7 @@
             android:paddingBottom="8dp"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
-            style="@style/TextAppearance.MaterialComponents.Body1"
+            style="@style/TextAppearance.MaterialComponents.Headline6"
             android:text="@string/restart_text"
             android:textColor="@color/colorTextCaption" />
 
@@ -47,7 +47,7 @@
             android:paddingBottom="8dp"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
-            style="@style/TextAppearance.MaterialComponents.Body1"
+            style="@style/TextAppearance.MaterialComponents.Headline6"
             android:text="@string/wifi_settings_text"
             android:textColor="@color/colorTextCaption" />
 
@@ -64,7 +64,7 @@
             android:paddingBottom="8dp"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
-            style="@style/TextAppearance.MaterialComponents.Body1"
+            style="@style/TextAppearance.MaterialComponents.Headline6"
             android:text="@string/push_wps_button_text"
             android:textColor="@color/colorTextCaption" />
 
@@ -81,7 +81,7 @@
             android:paddingBottom="8dp"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
-            style="@style/TextAppearance.MaterialComponents.Body1"
+            style="@style/TextAppearance.MaterialComponents.Headline6"
             android:text="@string/change_saved_username_and_password"
             android:textColor="@color/colorTextCaption" />
 
@@ -98,7 +98,7 @@
             android:paddingBottom="8dp"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
-            style="@style/TextAppearance.MaterialComponents.Body1"
+            style="@style/TextAppearance.MaterialComponents.Headline6"
             android:text="@string/change_selected_device"
             android:textColor="@color/colorTextCaption" />
 
@@ -115,7 +115,7 @@
             android:paddingBottom="8dp"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
-            style="@style/TextAppearance.MaterialComponents.Body1"
+            style="@style/TextAppearance.MaterialComponents.Headline6"
             android:text="@string/admin_web_ui_text"
             android:textColor="@color/colorTextCaption" />
 
@@ -132,7 +132,7 @@
             android:paddingBottom="16dp"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
-            style="@style/TextAppearance.MaterialComponents.Body1"
+            style="@style/TextAppearance.MaterialComponents.Headline6"
             android:text="@string/about_text"
             android:textColor="@color/colorTextCaption" />
     </LinearLayout>
