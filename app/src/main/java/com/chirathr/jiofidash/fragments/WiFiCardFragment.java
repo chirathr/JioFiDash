@@ -99,19 +99,23 @@ public class WiFiCardFragment extends Fragment {
                 urlString, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Document lanInfoDocument = Jsoup.parse(response);
-                ssidNameTextView.setText(lanInfoDocument.getElementById("ssid").text());
+                try {
+                    Document lanInfoDocument = Jsoup.parse(response);
+                    ssidNameTextView.setText(lanInfoDocument.getElementById("ssid").text());
 
-                String noOfClients = lanInfoDocument.getElementById("noOfClient").text();
-                String devicesFormatText;
-                if (noOfClients.equals("1")) {
-                    devicesFormatText = "%s device";
-                } else {
-                    devicesFormatText = "%s devices";
+                    String noOfClients = lanInfoDocument.getElementById("noOfClient").text();
+                    String devicesFormatText;
+                    if (noOfClients.equals("1")) {
+                        devicesFormatText = "%s device";
+                    } else {
+                        devicesFormatText = "%s devices";
+                    }
+                    devicesCount.setText(String.format(devicesFormatText, noOfClients));
+
+                    showData();
+                } catch (Exception ignore) {
+                    showLoading();
                 }
-                devicesCount.setText(String.format(devicesFormatText, noOfClients));
-
-                showData();
             }
         }, new Response.ErrorListener() {
             @Override

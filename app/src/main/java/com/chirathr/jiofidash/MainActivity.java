@@ -161,7 +161,7 @@ public class MainActivity extends AppCompatActivity
                     batteryProgressBar.setUnit(response.getString(JioFiData.BATTERY_STATUS));
                     batteryProgressBar.setTitle(JioFiData.calculateRemainingTimeString(getApplicationContext(), batteryPercent));
                 } catch (JSONException e) {
-                    Log.v(TAG, "JSONException: " + e.getMessage());
+                    Log.e(TAG, "JSONException: " + e.getMessage());
                 }
 
                 hideJioFiNotFoundSnackBar();
