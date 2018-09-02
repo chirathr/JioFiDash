@@ -27,7 +27,8 @@ public class SplashScreen extends AppCompatActivity {
 
         // Initial setup that loads the device id and saved username and password.
         JioFiPreferences jioFiPreferences = JioFiPreferences.getInstance();
-        jioFiPreferences.clearData(this);
+        // Only if there is some change in data storage
+        //jioFiPreferences.clearData(this);
         jioFiPreferences.loadDeviceId(this);
         jioFiPreferences.loadUsernameAndPassword(this);
 
