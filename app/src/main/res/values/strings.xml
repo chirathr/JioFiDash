@@ -112,4 +112,7 @@
     <string name="please_contact_email">I am always excited to hear from you! If you have any feedback, questions, or concerns, please email me at:</string>
     <string name="follow_me_on_twitter">Follow me on twitter:</string>
     <string name="twitter_chirath">https://twitter.com/chirathr</string>
+
+    <string name="error_selecting_device_dialog_message">Error selecting device. Do you want to retry or select another device?</string>
+    <string name="select_another">SELECT ANOTHER</string>
 </resources>
