@@ -149,7 +149,14 @@ public class JioFiPreferences {
             editor.apply();
             currentDeviceId = NetworkUtils.DEVICE_NOT_SET_ID;
         }
+    }
 
+    public void clearSelectedDevice(Context context) {
+        SharedPreferences sharedPref = context.getSharedPreferences(
+                context.getString(R.string.data_preference_file_key), Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.remove(context.getString(R.string.saved_device_key));
+        editor.apply();
     }
 
     public void loadDeviceId(Context context) {

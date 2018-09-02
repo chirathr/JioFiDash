@@ -220,6 +220,8 @@ public class MainActivity extends AppCompatActivity
             }
             case BottomSheetFragment.OPTION_CHANGE_SELECTED_DEVICE: {
                 bottomSheetFragment.dismiss();
+                // Clear selected device and load onBoarding activity
+                JioFiPreferences.getInstance().clearSelectedDevice(this);
                 startActivity(new Intent(this, OnBoarding.class)
                         .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
                 break;
