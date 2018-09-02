@@ -139,10 +139,10 @@ public class JioFiPreferences {
                 context.getString(R.string.data_preference_file_key), Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
 
-        if (deviceId == NetworkUtils.DEVICE_6_ID) {
-            editor.putInt(context.getString(R.string.saved_device_key), NetworkUtils.DEVICE_6_ID);
+        if (deviceId == NetworkUtils.DEVICE_JIOFI_6_ID) {
+            editor.putInt(context.getString(R.string.saved_device_key), NetworkUtils.DEVICE_JIOFI_6_ID);
             editor.apply();
-            currentDeviceId = NetworkUtils.DEVICE_6_ID;
+            currentDeviceId = NetworkUtils.DEVICE_JIOFI_6_ID;
         } else if (deviceId == NetworkUtils.DEVICE_NOT_SET_ID) {
             // For now show the onBoarding screen
             editor.putInt(context.getString(R.string.saved_device_key), NetworkUtils.DEVICE_NOT_SET_ID);

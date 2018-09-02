@@ -25,14 +25,11 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
-import java.util.logging.Handler;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -43,7 +40,13 @@ public class NetworkUtils {
     public static final String DEFAULT_HOST = "http://jiofi.local.html";
 
     // JioFI 6
-    public static final int DEVICE_6_ID = 6;
+    public static final int DEVICE_JIOFI_6_ID = 7;
+    public static final int DEVICE_JIOFI_M2S_ID = 6;
+    public static final int DEVICE_JIOFI_5_ID = 5;
+    public static final int DEVICE_JIOFI_4_ID = 4;
+    public static final int DEVICE_JIOFI_3_ID = 3;
+    public static final int DEVICE_JIOFI_2_ID = 2;
+    public static final int DEVICE_JIOFI_1_ID = 1;
     public static final int DEVICE_OTHER_ID = 0;
     public static final int DEVICE_NOT_SET_ID = -1;
     private static final String[] DEVICE_6_URLS = new String[]{
@@ -88,7 +91,7 @@ public class NetworkUtils {
 
     // Get device url based on type
     public static String[] getDeviceUrls(int deviceType) {
-        if (deviceType == DEVICE_6_ID)    // JioFi 6
+        if (deviceType == DEVICE_JIOFI_6_ID)    // JioFi 6
             return DEVICE_6_URLS;
 
         return null;
