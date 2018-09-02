@@ -2,6 +2,7 @@ package com.chirathr.jiofidash;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -18,6 +19,7 @@ import com.chirathr.jiofidash.adapters.JioFiDeviceListAdapter;
 import com.chirathr.jiofidash.data.JioFiDeviceViewModel;
 import com.chirathr.jiofidash.data.JioFiDevicesData;
 import com.chirathr.jiofidash.data.JioFiPreferences;
+import com.chirathr.jiofidash.fragments.ErrorSelectingDeviceDialogFragment;
 import com.chirathr.jiofidash.utils.NetworkUtils;
 import com.chirathr.jiofidash.utils.VolleySingleton;
 import com.google.android.material.snackbar.Snackbar;
@@ -33,7 +35,9 @@ import static com.chirathr.jiofidash.utils.NetworkUtils.DEVICE_JIOFI_6_ID;
 import static com.chirathr.jiofidash.utils.NetworkUtils.DEVICE_JIOFI_M2S_ID;
 import static com.chirathr.jiofidash.utils.NetworkUtils.DEVICE_OTHER_ID;
 
-public class OnBoarding extends AppCompatActivity implements JioFiDeviceListAdapter.JioFiDeviceOnClickLisetner {
+public class OnBoarding extends AppCompatActivity implements
+        JioFiDeviceListAdapter.JioFiDeviceOnClickLisetner,
+        ErrorSelectingDeviceDialogFragment.ErrorSelectingButtonListener {
 
     private static final String TAG = OnBoarding.class.getSimpleName();
     private RecyclerView jioFiDevicesRecyclerView;
@@ -50,7 +54,8 @@ public class OnBoarding extends AppCompatActivity implements JioFiDeviceListAdap
 
         jioFiDevicesRecyclerView.setHasFixedSize(true);
         jioFiDevicesRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        jioFiDevicesRecyclerView.setAdapter(new JioFiDeviceListAdapter(this, this, jioFiDeviceViewModels));
+        jioFiDevicesRecyclerView.setAdapter(
+                new JioFiDeviceListAdapter(this, this, jioFiDeviceViewModels));
 
         constraintLayout = findViewById(R.id.onBoardingLayout);
     }
@@ -95,9 +100,9 @@ public class OnBoarding extends AppCompatActivity implements JioFiDeviceListAdap
                                 Log.v(TAG, document.title());
                             }
                             else {
-
+                                DialogFragment dialogFragment = new ErrorSelectingDeviceDialogFragment();
+                                dialogFragment.show(getSupportFragmentManager(), "errorVerifyingSelection");
                             }
-
                         }
                         catch (NullPointerException e) {
                             Log.v(TAG, "Parse error :" + e.getMessage());
@@ -106,7 +111,8 @@ public class OnBoarding extends AppCompatActivity implements JioFiDeviceListAdap
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-
+                Snackbar.make(constraintLayout, "No JioFi found, check your WiFi", Snackbar.LENGTH_LONG).show();
+                hideChecking();
             }
         });
         VolleySingleton.getInstance(this).addToRequestQueue(stringRequest);
@@ -130,7 +136,16 @@ public class OnBoarding extends AppCompatActivity implements JioFiDeviceListAdap
     }
 
     public void showChecking() {
-        Snackbar.make(constraintLayout, "Checking device..", Snackbar.LENGTH_LONG).show();
+        Snackbar.make(constraintLayout, "Checking device..", Snackbar.LENGTH_INDEFINITE).show();
         jioFiDevicesRecyclerView.setAlpha(Float.parseFloat("0.2"));
+    }
+
+    public void hideChecking() {
+        jioFiDevicesRecyclerView.setAlpha(Float.parseFloat("1.0"));
+    }
+
+    @Override
+    public void onSelectAnotherListener() {
+        hideChecking();
     }
 }

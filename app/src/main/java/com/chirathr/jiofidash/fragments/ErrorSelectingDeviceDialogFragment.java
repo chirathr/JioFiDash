@@ -25,14 +25,9 @@ public class ErrorSelectingDeviceDialogFragment extends DialogFragment {
                 .setPositiveButton(R.string.retry, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        mListener.onRetrySelectListener();
+                        mListener.onSelectAnotherListener();
                     }
-                }).setNegativeButton(R.string.select_another, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                mListener.onSelectAnotherListener();
-            }
-        });
+                });
 
         return builder.create();
     }
@@ -48,7 +43,6 @@ public class ErrorSelectingDeviceDialogFragment extends DialogFragment {
     }
 
     public interface ErrorSelectingButtonListener {
-        void onRetrySelectListener();
         void onSelectAnotherListener();
     }
 }
