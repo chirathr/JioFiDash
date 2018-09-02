@@ -228,8 +228,8 @@ public class MainActivity extends AppCompatActivity
             }
             case BottomSheetFragment.OPTION_ADMIN_WEB_UI: {
                 bottomSheetFragment.dismiss();
-                Uri webpage = Uri.parse(NetworkUtils.DEFAULT_HOST);
-                Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
+                Uri web_page = Uri.parse(NetworkUtils.DEFAULT_HOST);
+                Intent intent = new Intent(Intent.ACTION_VIEW, web_page);
                 if (intent.resolveActivity(getPackageManager()) != null) {
                     startActivity(intent);
                 } else {

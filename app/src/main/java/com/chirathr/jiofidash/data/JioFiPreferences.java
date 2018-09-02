@@ -2,6 +2,8 @@ package com.chirathr.jiofidash.data;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.net.wifi.WifiManager;
 import android.util.Log;
 
@@ -39,7 +41,7 @@ public class JioFiPreferences {
     public static final String DEVICE_6 = "JMR815";
     public static final String DEVICE_OTHER = "other";
 
-    public static final int LOGIN_TIMEOUT = 80;
+    public static final int LOGIN_TIMEOUT = 120;
     public static final int WPS_TIMEOUT = 120;
 
     public static int currentDeviceId;
@@ -69,6 +71,27 @@ public class JioFiPreferences {
     public void setUsernameAndPassword(String username, String password) {
         this.username = username;
         this.password = password;
+    }
+
+    public void clearData(Context context) {
+        try {
+            PackageInfo pInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
+            int mCurrentVersion = pInfo.versionCode;
+
+            SharedPreferences sharedPref = context.getSharedPreferences(
+                    context.getString(R.string.data_preference_file_key), Context.MODE_PRIVATE);
+
+            int last_version = sharedPref.getInt("last_version", -1);
+            if(last_version != mCurrentVersion) {
+                // Clear the device data
+                SharedPreferences.Editor editor = sharedPref.edit();
+                editor.remove(context.getString(R.string.saved_device_key));
+                editor.putInt("last_version", mCurrentVersion);
+                editor.apply();
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     public void saveUsernameAndPassword(Context context) {

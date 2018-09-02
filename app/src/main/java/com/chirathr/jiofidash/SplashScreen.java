@@ -29,9 +29,10 @@ public class SplashScreen extends AppCompatActivity {
         JioFiPreferences jioFiPreferences = JioFiPreferences.getInstance();
         jioFiPreferences.loadDeviceId(this);
         jioFiPreferences.loadUsernameAndPassword(this);
+        jioFiPreferences.clearData(this);
 
         // Animated icon
-        ImageView launcherIcon = (ImageView) findViewById(R.id.launcher_animated);
+        ImageView launcherIcon = findViewById(R.id.launcher_animated);
         launcherIcon.setBackgroundResource(R.drawable.ic_launcher_animated);
         launcherAnimation = (AnimationDrawable) launcherIcon.getBackground();
 
