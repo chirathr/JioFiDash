@@ -1,6 +1,8 @@
 package com.chirathr.jiofidash;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,49 +12,36 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import com.chirathr.jiofidash.adapters.JioFiDeviceListAdapter;
+import com.chirathr.jiofidash.data.JioFiDeviceViewModel;
+import com.chirathr.jiofidash.data.JioFiDevicesData;
 import com.chirathr.jiofidash.data.JioFiPreferences;
 import com.chirathr.jiofidash.utils.NetworkUtils;
 
-public class OnBoarding extends AppCompatActivity {
+import java.util.List;
+
+public class OnBoarding extends AppCompatActivity implements JioFiDeviceListAdapter.JioFiDeviceOnClickLisetner {
 
     private static final String TAG = OnBoarding.class.getSimpleName();
+    private RecyclerView jioFiDevicesRecyclerView;
 
-    private Button jiofi6SelectButton;
-    private Button olderJiofiWebUIButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_on_boarding);
 
-        jiofi6SelectButton = findViewById(R.id.select_button_jiofi_6);
-        olderJiofiWebUIButton = findViewById(R.id.select_button_other_jiofi);
+        jioFiDevicesRecyclerView = findViewById(R.id.jioFiDeviceRecyclerView);
+        List<JioFiDeviceViewModel> jioFiDeviceViewModels = JioFiDevicesData.getDevices();
 
-        // select JioFi 6 device and open Main Activity
-        jiofi6SelectButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Context context = getApplicationContext();
+        jioFiDevicesRecyclerView.setHasFixedSize(true);
+        jioFiDevicesRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        jioFiDevicesRecyclerView.setAdapter(new JioFiDeviceListAdapter(this, this, jioFiDeviceViewModels));
 
-                JioFiPreferences.getInstance().setDevice(context, NetworkUtils.DEVICE_6_ID);
-                startActivity(new Intent(context, MainActivity.class)
-                        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
-            }
-        });
+    }
 
-        olderJiofiWebUIButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                JioFiPreferences.getInstance().setDevice(getApplicationContext(), NetworkUtils.DEVICE_NOT_SET_ID);
-                Uri webpage = Uri.parse(NetworkUtils.DEFAULT_HOST);
-                Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
-                if (intent.resolveActivity(getPackageManager()) != null) {
-                    startActivity(intent);
-                } else{
-                    //Page not found
-                    Log.v(TAG, "page not found, open web page.");
-                }
-            }
-        });
+    @Override
+    public void selectDevice(int deviceId) {
+
     }
 }

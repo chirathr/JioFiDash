@@ -1,5 +1,6 @@
 package com.chirathr.jiofidash.adapters;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,10 +18,14 @@ public class JioFiDeviceListAdapter extends RecyclerView.Adapter<JioFiDeviceView
 
     private List<JioFiDeviceViewModel> jioFiDeviceViewModelList;
     private JioFiDeviceOnClickLisetner mListener;
+    private Context mContext;
 
-    public JioFiDeviceListAdapter(JioFiDeviceOnClickLisetner onClickListener, List<JioFiDeviceViewModel> viewModelList) {
+    public JioFiDeviceListAdapter(
+            Context context,
+            JioFiDeviceOnClickLisetner onClickListener, List<JioFiDeviceViewModel> viewModelList) {
         jioFiDeviceViewModelList = viewModelList;
         mListener = onClickListener;
+        mContext = context;
     }
 
     @NonNull
@@ -33,7 +38,7 @@ public class JioFiDeviceListAdapter extends RecyclerView.Adapter<JioFiDeviceView
 
     @Override
     public void onBindViewHolder(@NonNull JioFiDeviceViewHolder holder, int position) {
-        holder.bind(jioFiDeviceViewModelList.get(position), mListener);
+        holder.bind(mContext, jioFiDeviceViewModelList.get(position), mListener);
     }
 
     @Override

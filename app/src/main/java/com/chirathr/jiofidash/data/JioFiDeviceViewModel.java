@@ -1,15 +1,13 @@
 package com.chirathr.jiofidash.data;
 
-import android.graphics.drawable.Drawable;
-
 public class JioFiDeviceViewModel {
-    private Drawable deviceImage;
+    private int deviceImage;
     private String deviceName;
     private int deviceId;
     private String description;
     private boolean isSupported;
 
-    public JioFiDeviceViewModel(int id, Drawable image, String name, String description, boolean isSupported) {
+    public JioFiDeviceViewModel(int id, int image, String name, String description, boolean isSupported) {
         deviceId = id;
         deviceImage = image;
         deviceName = name;
@@ -25,11 +23,11 @@ public class JioFiDeviceViewModel {
         isSupported = supported;
     }
 
-    public Drawable getDeviceImage() {
+    public int getDeviceImage() {
         return deviceImage;
     }
 
-    public void setDeviceImage(Drawable deviceImage) {
+    public void setDeviceImage(int deviceImage) {
         this.deviceImage = deviceImage;
     }
 
