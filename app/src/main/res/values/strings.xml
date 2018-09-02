@@ -82,7 +82,7 @@
     <string name="push_wps_button_text">Push WPS button</string>
     <string name="admin_web_ui_text">Admin Web Ui</string>
     <string name="about_text">About</string>
-    <string name="jiofi_6_jmr815_text">JioFi 6 (JMR815)</string>
+    <string name="jiofi_6_text">JioFi 6</string>
     <string name="jiofi_6_desc_text">JioFi 6(JMR815) 4G device with 3000mah battery, WiFi and micro SD.</string>
     <string name="select_button_text">SELECT</string>
     <string name="login_text">Login</string>
