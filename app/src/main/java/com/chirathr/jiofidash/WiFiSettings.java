@@ -221,37 +221,41 @@ public class WiFiSettings extends AppCompatActivity
                     @Override
                     public void onResponse(String response) {
                         // Load the blocked List
-                        Document wiFiMacDocument = Jsoup.parse(response);
-                        Elements elementList = wiFiMacDocument.select(CSS_SELECTOR_BLOCKED_ITEM_LIST);
+                        try {
+                            Document wiFiMacDocument = Jsoup.parse(response);
+                            Elements elementList = wiFiMacDocument.select(CSS_SELECTOR_BLOCKED_ITEM_LIST);
 
-                        for (int i = 0; i < elementList.size(); i += 2) {
-                            String macAddress = elementList.get(i).text().trim();
-                            String name = elementList.get(i + 1).text().trim();
-                            DeviceViewModel deviceViewModel = new DeviceViewModel(name, macAddress);
+                            for (int i = 0; i < elementList.size(); i += 2) {
+                                String macAddress = elementList.get(i).text().trim();
+                                String name = elementList.get(i + 1).text().trim();
+                                DeviceViewModel deviceViewModel = new DeviceViewModel(name, macAddress);
 
-                            boolean isFound = false;
-                            for (int j = 0; j < deviceViewModels.size(); ++j) {
-                                if (deviceViewModels.get(j).getMacAddress().equals(deviceViewModel.getMacAddress())) {
-                                    isFound = true;
-                                    deviceViewModels.get(j).setIsBlocked(true);
+                                boolean isFound = false;
+                                for (int j = 0; j < deviceViewModels.size(); ++j) {
+                                    if (deviceViewModels.get(j).getMacAddress().equals(deviceViewModel.getMacAddress())) {
+                                        isFound = true;
+                                        deviceViewModels.get(j).setIsBlocked(true);
+                                    }
+                                }
+                                if (!isFound) {
+                                    deviceViewModels.add(deviceViewModel);
                                 }
                             }
-                            if (!isFound) {
-                                deviceViewModels.add(deviceViewModel);
-                            }
-                        }
 
-                        Log.v(TAG, deviceViewModels.size() + "");
+                            Log.v(TAG, deviceViewModels.size() + "");
 
-                        // Update the UI
-                        if (updateUi) {
-                            if (mDeviceListAdapter == null) {
-                                mDeviceListAdapter = new DeviceListAdapter(WiFiSettings.this);
-                                mDeviceListAdapter.setDeviceViewModels(deviceViewModels);
-                                mRecyclerView.setAdapter(mDeviceListAdapter);
-                            } else {
-                                mDeviceListAdapter.setDeviceViewModels(deviceViewModels);
+                            // Update the UI
+                            if (updateUi) {
+                                if (mDeviceListAdapter == null) {
+                                    mDeviceListAdapter = new DeviceListAdapter(WiFiSettings.this);
+                                    mDeviceListAdapter.setDeviceViewModels(deviceViewModels);
+                                    mRecyclerView.setAdapter(mDeviceListAdapter);
+                                } else {
+                                    mDeviceListAdapter.setDeviceViewModels(deviceViewModels);
+                                }
                             }
+                        } catch (Exception e) {
+                            Log.e(TAG, "JSoup exception: " + e.getMessage());
                         }
                     }
                 }, new Response.ErrorListener() {

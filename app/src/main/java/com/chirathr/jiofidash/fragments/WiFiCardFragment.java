@@ -113,7 +113,8 @@ public class WiFiCardFragment extends Fragment {
                     devicesCount.setText(String.format(devicesFormatText, noOfClients));
 
                     showData();
-                } catch (Exception ignore) {
+                } catch (Exception e) {
+                    Log.e(TAG, "JSoup exception: " + e.getMessage());
                     showLoading();
                 }
             }
