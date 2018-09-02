@@ -7,7 +7,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardCornerRadius="3dp"
     app:cardElevation="@dimen/card_elevation"
-    android:layout_margin="@dimen/card_padding"
+    android:layout_marginBottom="@dimen/card_padding"
+    android:layout_marginStart="@dimen/card_padding"
+    android:layout_marginEnd="@dimen/card_padding"
     android:clipChildren="false"
     android:clipToPadding="false">
 
