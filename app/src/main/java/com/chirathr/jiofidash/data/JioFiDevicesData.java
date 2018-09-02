@@ -8,6 +8,8 @@ import java.util.List;
 
 public class JioFiDevicesData {
 
+    public static final String JIOFI_6_PAGE_TITLE = "JMR815";
+
     private static final String NOT_SUPPORTED_YET = "This device will be supported in a future update. Please use the Web UI instead.";
 
     private static final JioFiDeviceViewModel jioFi6 = new JioFiDeviceViewModel(
@@ -50,5 +52,14 @@ public class JioFiDevicesData {
         }
 
         return deviceViewModel;
+    }
+
+    public static String getDevicePageTitle(int deviceId) {
+        switch (deviceId) {
+            case NetworkUtils.DEVICE_JIOFI_6_ID:
+                return JIOFI_6_PAGE_TITLE;
+            default:
+                return null;
+        }
     }
 }
