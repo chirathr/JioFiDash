@@ -1,6 +1,5 @@
 package com.chirathr.jiofidash.viewholders;
 
-import android.content.res.Resources;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -15,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class JioFiDeviceViewHolder extends RecyclerView.ViewHolder {
 
-    private JioFiDeviceListAdapter.JiofiDeviceOnClickListner mListener;
+    private JioFiDeviceListAdapter.JioFiDeviceOnClickLisetner mListener;
 
     private ImageView deviceImageView;
     private TextView deviceNameTextView;
@@ -30,7 +29,7 @@ public class JioFiDeviceViewHolder extends RecyclerView.ViewHolder {
         deviceSelectButton = itemView.findViewById(R.id.jioFiSelectButton);
     }
 
-    public void bind(JioFiDeviceViewModel viewModel, JioFiDeviceListAdapter.JiofiDeviceOnClickListner listener) {
+    public void bind(final JioFiDeviceViewModel viewModel, JioFiDeviceListAdapter.JioFiDeviceOnClickLisetner listener) {
         mListener = listener;
 
         deviceImageView.setImageDrawable(viewModel.getDeviceImage());
@@ -43,5 +42,11 @@ public class JioFiDeviceViewHolder extends RecyclerView.ViewHolder {
             deviceSelectButton.setText(R.string.web_ui_button_text);
         }
 
+        deviceSelectButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mListener.selectDevice(viewModel.getDeviceId());
+            }
+        });
     }
 }
