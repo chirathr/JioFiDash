@@ -17,13 +17,11 @@ import com.chirathr.jiofidash.utils.NetworkUtils;
 
 import java.util.List;
 
-import static com.chirathr.jiofidash.utils.NetworkUtils.DEVICE_JIOFI_1_ID;
-import static com.chirathr.jiofidash.utils.NetworkUtils.DEVICE_JIOFI_2_ID;
-import static com.chirathr.jiofidash.utils.NetworkUtils.DEVICE_JIOFI_3_ID;
 import static com.chirathr.jiofidash.utils.NetworkUtils.DEVICE_JIOFI_4_ID;
 import static com.chirathr.jiofidash.utils.NetworkUtils.DEVICE_JIOFI_5_ID;
 import static com.chirathr.jiofidash.utils.NetworkUtils.DEVICE_JIOFI_6_ID;
 import static com.chirathr.jiofidash.utils.NetworkUtils.DEVICE_JIOFI_M2S_ID;
+import static com.chirathr.jiofidash.utils.NetworkUtils.DEVICE_OTHER_ID;
 
 public class OnBoarding extends AppCompatActivity implements JioFiDeviceListAdapter.JioFiDeviceOnClickLisetner {
 
@@ -48,15 +46,7 @@ public class OnBoarding extends AppCompatActivity implements JioFiDeviceListAdap
     @Override
     public void selectDevice(int deviceId) {
         switch (deviceId) {
-            case DEVICE_JIOFI_1_ID: {
-                openWebUI();
-                break;
-            }
-            case DEVICE_JIOFI_2_ID: {
-                openWebUI();
-                break;
-            }
-            case DEVICE_JIOFI_3_ID: {
+            case DEVICE_OTHER_ID: {
                 openWebUI();
                 break;
             }
@@ -73,9 +63,7 @@ public class OnBoarding extends AppCompatActivity implements JioFiDeviceListAdap
                 break;
             }
             case DEVICE_JIOFI_6_ID: {
-                JioFiPreferences.getInstance().setDevice(this, NetworkUtils.DEVICE_JIOFI_6_ID);
-                startActivity(new Intent(this, MainActivity.class)
-                        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+                setDeviceAndStartMainActivity(NetworkUtils.DEVICE_JIOFI_6_ID);
                 break;
             }
         }
@@ -90,5 +78,11 @@ public class OnBoarding extends AppCompatActivity implements JioFiDeviceListAdap
             //Page not found
             Log.v(TAG, "page not found, open web page.");
         }
+    }
+
+    public void setDeviceAndStartMainActivity(int deviceId) {
+        JioFiPreferences.getInstance().setDevice(this, deviceId);
+        startActivity(new Intent(this, MainActivity.class)
+                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
     }
 }

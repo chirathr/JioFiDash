@@ -44,11 +44,9 @@ public class NetworkUtils {
     public static final int DEVICE_JIOFI_M2S_ID = 6;
     public static final int DEVICE_JIOFI_5_ID = 5;
     public static final int DEVICE_JIOFI_4_ID = 4;
-    public static final int DEVICE_JIOFI_3_ID = 3;
-    public static final int DEVICE_JIOFI_2_ID = 2;
-    public static final int DEVICE_JIOFI_1_ID = 1;
     public static final int DEVICE_OTHER_ID = 0;
     public static final int DEVICE_NOT_SET_ID = -1;
+
     private static final String[] DEVICE_6_URLS = new String[]{
             "/lte_ajax.cgi",
             "/lan_ajax.cgi",
