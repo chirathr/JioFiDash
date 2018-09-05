@@ -4,10 +4,10 @@
 
 ### Apis without authentication
 
-* http://jiofi.local.html/lte_ajax.cgi
-* http://jiofi.local.html/lan_ajax.cgi
-* http://jiofi.local.html/wan_info_ajax.cgi
-* http://jiofi.local.html/Device_info_ajax.cgi
+* http://jiofi.local.html/lte_ajax.cgi - LTE info
+* http://jiofi.local.html/lan_ajax.cgi - WiFi data
+* http://jiofi.local.html/wan_info_ajax.cgi - Data usage
+* http://jiofi.local.html/Device_info_ajax.cgi - Battery Info
 
 ### Authenticated Apis
 
@@ -15,8 +15,8 @@ All these require cookie from the login.
 
 #### SSID and password change form
 
-GET URL: http://jiofi.local.html/Security_Mode.cgi
-POST URL: http://jiofi.local.html/Security_Mode_sv.cgi
+- GET URL: http://jiofi.local.html/Security_Mode.cgi
+- POST URL: http://jiofi.local.html/Security_Mode_sv.cgi
 
 Request Method: POST
 
@@ -36,9 +36,8 @@ Request Method: POST
 
 ##### Request Header
 
-Content-Type: application/x-www-form-urlencoded
-Cookie: ksession=8f8367efdf968a3d3e74014daf042a24
-
+- Content-Type: application/x-www-form-urlencoded
+- Cookie: ksession=8f8367efdf968a3d3e74014daf042a24
 
 #### Mac filter (Block device)
 
@@ -50,15 +49,17 @@ url: "/MAC_Filter_ajax.cgi?"+timestamp
 var timestamp = Number(new Date());
 ```
 
-Response: { state:'success', token:'4564731487' } 
+Response: ```{ state:'success', token:'4564731487' }```
 
 #### Turn off
 
+```
 Request URL: http://jiofi.local.html/MAC_Filter_ajax.cgi?1533475544302
 Request Method: POST
 Status Code: 200 OK
 Remote Address: 192.168.15.1:80
 Referrer Policy: no-referrer-when-downgrade
+```
 
 ##### Post Data
 - token: 5117341133
@@ -66,35 +67,37 @@ Referrer Policy: no-referrer-when-downgrade
 
 #### Block one or more devices
 
+```
 Request URL: http://jiofi.local.html/MAC_Filter_ajax.cgi?1533474990415
 Request Method: POST
 Status Code: 200 OK
 Remote Address: 192.168.15.1:80
 Referrer Policy: no-referrer-when-downgrade
+```
 
 ##### Post data for a single device
 
-token: 5372034741
-mode: 2
-deny_cnt: 1
-deny_0_mac: c4:8e:8f:01:5e:f5
-deny_0_dis: android
-deny_0_enable: checked
-deny_0_key: 
+- token: 5372034741
+- mode: 2
+- deny_cnt: 1
+- deny_0_mac: c4:8e:8f:01:5e:f5
+- deny_0_dis: android
+d- eny_0_enable: checked
+- deny_0_key: 
 
 ##### Post data for multiple devices
 
-token: 469468408
-mode: 2
-deny_cnt: 2
-deny_0_mac: c4:8e:8f:01:5e:f5
-deny_0_dis: android
-deny_0_enable: checked
-deny_0_key: 
-deny_1_mac: c4:8e:8f:01:5e:f6
-deny_1_dis: another
-deny_1_enable: checked
-deny_1_key: 
+- token: 469468408
+- mode: 2
+- deny_cnt: 2
+- deny_0_mac: c4:8e:8f:01:5e:f5
+- deny_0_dis: android
+- deny_0_enable: checked
+- deny_0_key: 
+- deny_1_mac: c4:8e:8f:01:5e:f6
+- deny_1_dis: another
+- deny_1_enable: checked
+- deny_1_key: 
 
 
 #### WPS button
@@ -103,14 +106,16 @@ There seems to be an issue when you do this, as the wps does not turn off. So be
 
 GET: http://jiofi.local.html/WPS.cgi
 
+```
 Request URL: http://jiofi.local.html/wps_sv.cgi
 Request Method: POST
 Status Code: 200 OK
 Remote Address: 192.168.15.1:80
 Referrer Policy: no-referrer-when-downgrade
+```
 
-cookie
+- cookie
  
-form_type: push_pbs
-token: 54515213
+- form_type: push_pbs
+- token: 54515213
 

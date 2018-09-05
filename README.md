@@ -9,7 +9,7 @@
 
 A simple dashboard for JioFi device.
 
-*Supported devices: * JioFi 6
+**Supported devices:** JioFi 6
 
 #### Features
 
@@ -31,3 +31,10 @@ A simple dashboard for JioFi device.
     <img src="/JioFiDash_artwork/playstore_art/5_notifications.png" alt="Notifications" style="border: 1px solid #e8e8e8; display: inline; margin: 5px 5px 5px 5px;" width="320px"/>
     <img src="/JioFiDash_artwork/playstore_art/6_select_device.png" alt="Select device" style="border: 1px solid #e8e8e8; display: inline; margin: 5px 5px 5px 5px;" width="320px"/>
 </div>
+
+
+#### Devices
+
+API and post parameters for devices.
+
+[JioFi 6](/docs/JioFi6.md)
