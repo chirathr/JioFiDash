@@ -9,7 +9,7 @@
 
 A simple dashboard for JioFi device.
 
-**Supported devices: ** JioFi 6
+*Supported devices: * JioFi 6
 
 #### Features
 
@@ -20,3 +20,14 @@ A simple dashboard for JioFi device.
 - Restart JioFi device.
 - Show notifications for low, full battery.
 - Dark material design theme.
+
+#### Screenshots
+
+<div style="display: inline-block;">
+    <img src="/JioFiDash_artwork/playstore_art/1_battery_network_data.png" alt="Battery status" style="border: 1px solid #e8e8e8; display: inline; margin: 20px 5px 0 5px;" width="320px"/>
+    <img src="/JioFiDash_artwork/playstore_art/2_block_devices.png" alt="Wifi ssid, password" style="border: 1px solid #e8e8e8; display: inline; margin: 20px 5px 0 5px;" width="320px"/>
+    <img src="/JioFiDash_artwork/playstore_art/3_wifi_ssid_password.png" alt="change ssid password" style="border: 1px solid #e8e8e8; display: inline; margin: 5px 5px 0 5px;" width="320px"/>
+    <img src="/JioFiDash_artwork/playstore_art/4_restart_wps.png" alt="Restart and WPS" style="border: 1px solid #e8e8e8; display: inline; margin: 5px 5px 0 5px;" width="320px"/>
+    <img src="/JioFiDash_artwork/playstore_art/5_notifications.png" alt="Notifications" style="border: 1px solid #e8e8e8; display: inline; margin: 5px 5px 5px 5px;" width="320px"/>
+    <img src="/JioFiDash_artwork/playstore_art/6_select_device.png" alt="Select device" style="border: 1px solid #e8e8e8; display: inline; margin: 5px 5px 5px 5px;" width="320px"/>
+</div>
