@@ -114,8 +114,6 @@ Remote Address: 192.168.15.1:80
 Referrer Policy: no-referrer-when-downgrade
 ```
 
-- cookie
- 
 - form_type: push_pbs
 - token: 54515213
 
