@@ -25,6 +25,7 @@ import org.json.JSONObject;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.content.res.AppCompatResources;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
@@ -215,7 +216,7 @@ public class LteCardFragment extends Fragment {
         lteSpeedTextView.setText(text);
         try {
             lteSpeedTextView.setTextColor(getResources().getColor(textColor));
-            lteNetworkIcon.setImageDrawable(getResources().getDrawable(icon));
+            lteNetworkIcon.setImageDrawable(AppCompatResources.getDrawable(getContext(), icon));
         } catch (IllegalStateException e) {
             Log.v(TAG, "IllegalStateException: " + e.getMessage());
         }

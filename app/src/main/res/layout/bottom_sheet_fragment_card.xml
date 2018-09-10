@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:elevation="@dimen/bottom_sheet_card_elevation"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+    app:behavior_hideable="true"
+    app:behavior_peekHeight="0dp"
     app:cardBackgroundColor="@color/colorWhite"
     app:cardCornerRadius="0dp"
     app:cardElevation="10dp"
-    app:behavior_hideable="true"
-    app:behavior_peekHeight="0dp"
     app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
     <LinearLayout
@@ -17,123 +16,197 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/action_restart"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:clickable="true"
-            android:drawableStart="@drawable/ic_round_refresh_24px"
-            android:drawablePadding="16dp"
-            android:focusable="true"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:paddingTop="16dp"
-            android:paddingBottom="8dp"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            style="@style/TextAppearance.MaterialComponents.Headline6"
-            android:text="@string/restart_text"
-            android:textColor="@color/colorTextCaption" />
+            android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/action_wifi_settings"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:drawableStart="@drawable/ic_round_wifi_24px"
-            android:drawablePadding="16dp"
-            android:focusable="true"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            style="@style/TextAppearance.MaterialComponents.Headline6"
-            android:text="@string/wifi_settings_text"
-            android:textColor="@color/colorTextCaption" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="16dp"
+                android:paddingTop="18dp"
+                android:paddingEnd="16dp"
+                app:srcCompat="@drawable/ic_round_refresh_24px" />
 
-        <TextView
-            android:id="@+id/action_push_wps_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:drawableStart="@drawable/ic_round_radio_button_checked_24px"
-            android:drawablePadding="16dp"
-            android:focusable="true"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            style="@style/TextAppearance.MaterialComponents.Headline6"
-            android:text="@string/push_wps_button_text"
-            android:textColor="@color/colorTextCaption" />
+            <TextView
+                android:id="@+id/action_restart"
+                style="@style/TextAppearance.MaterialComponents.Headline6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:paddingTop="16dp"
+                android:paddingBottom="8dp"
+                android:text="@string/restart_text"
+                android:textColor="@color/colorTextCaption" />
 
-        <TextView
-            android:id="@+id/action_change_saved_username_password"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:drawableStart="@drawable/ic_round_edit_24px"
-            android:drawablePadding="16dp"
-            android:focusable="true"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            style="@style/TextAppearance.MaterialComponents.Headline6"
-            android:text="@string/change_saved_username_and_password"
-            android:textColor="@color/colorTextCaption" />
+        </LinearLayout>
 
-        <TextView
-            android:id="@+id/action_change_selected_device"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:clickable="true"
-            android:drawableStart="@drawable/ic_round_device_hub_24px"
-            android:drawablePadding="16dp"
-            android:focusable="true"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            style="@style/TextAppearance.MaterialComponents.Headline6"
-            android:text="@string/change_selected_device"
-            android:textColor="@color/colorTextCaption" />
+            android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/action_open_admin_web_ui"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:drawableStart="@drawable/ic_round_launch_24px"
-            android:drawablePadding="16dp"
-            android:focusable="true"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            style="@style/TextAppearance.MaterialComponents.Headline6"
-            android:text="@string/admin_web_ui_text"
-            android:textColor="@color/colorTextCaption" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="16dp"
+                android:paddingTop="9dp"
+                android:paddingEnd="16dp"
+                app:srcCompat="@drawable/ic_round_wifi_24px" />
 
-        <TextView
-            android:id="@+id/action_about"
+            <TextView
+                android:id="@+id/action_wifi_settings"
+                style="@style/TextAppearance.MaterialComponents.Headline6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:text="@string/wifi_settings_text"
+                android:textColor="@color/colorTextCaption" />
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:clickable="true"
-            android:drawableStart="@drawable/ic_round_info_24px"
-            android:drawablePadding="16dp"
-            android:focusable="true"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:paddingTop="8dp"
-            android:paddingBottom="16dp"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            style="@style/TextAppearance.MaterialComponents.Headline6"
-            android:text="@string/about_text"
-            android:textColor="@color/colorTextCaption" />
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="16dp"
+                android:paddingTop="9dp"
+                android:paddingEnd="16dp"
+                app:srcCompat="@drawable/ic_round_radio_button_checked_24px" />
+
+            <TextView
+                android:id="@+id/action_push_wps_button"
+                style="@style/TextAppearance.MaterialComponents.Headline6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:text="@string/push_wps_button_text"
+                android:textColor="@color/colorTextCaption" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="16dp"
+                android:paddingTop="9dp"
+                android:paddingEnd="16dp"
+                app:srcCompat="@drawable/ic_round_edit_24px" />
+
+            <TextView
+                android:id="@+id/action_change_saved_username_password"
+                style="@style/TextAppearance.MaterialComponents.Headline6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:text="@string/change_saved_username_and_password"
+                android:textColor="@color/colorTextCaption" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="16dp"
+                android:paddingTop="8dp"
+                android:paddingEnd="16dp"
+                app:srcCompat="@drawable/ic_round_device_hub_24px" />
+
+            <TextView
+                android:id="@+id/action_change_selected_device"
+                style="@style/TextAppearance.MaterialComponents.Headline6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:text="@string/change_selected_device"
+                android:textColor="@color/colorTextCaption" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="16dp"
+                android:paddingTop="8dp"
+                android:paddingEnd="16dp"
+                app:srcCompat="@drawable/ic_round_launch_24px" />
+
+            <TextView
+                android:id="@+id/action_open_admin_web_ui"
+                style="@style/TextAppearance.MaterialComponents.Headline6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:text="@string/admin_web_ui_text"
+                android:textColor="@color/colorTextCaption" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="16dp"
+                android:paddingTop="8dp"
+                android:paddingEnd="16dp"
+                app:srcCompat="@drawable/ic_round_info_24px" />
+
+            <TextView
+                android:id="@+id/action_about"
+                style="@style/TextAppearance.MaterialComponents.Headline6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:paddingTop="8dp"
+                android:paddingBottom="16dp"
+                android:text="@string/about_text"
+                android:textColor="@color/colorTextCaption" />
+        </LinearLayout>
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>
