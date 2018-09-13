@@ -100,8 +100,6 @@ public class MainActivity extends AppCompatActivity
         // Start the battery notification task
         Utilities.scheduleBatteryJob(this);
         showLoading();
-
-        NotificationUtils.remindUserBatteryLow(this, 20);
     }
 
     @Override

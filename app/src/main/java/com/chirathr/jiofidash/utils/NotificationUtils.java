@@ -100,7 +100,7 @@ public class NotificationUtils {
         // Handle notification crashed on Android KitKat
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) {
             if (batteryPercentage == 100) {
-                notificationBuilder.setSmallIcon(R.drawable.round_battery_alert_black_48dp);
+                notificationBuilder.setSmallIcon(R.drawable.round_battery_charging_full_black_48dp);
             }
             else {
                 notificationBuilder.setSmallIcon(R.drawable.round_battery_alert_black_48dp);
@@ -108,7 +108,7 @@ public class NotificationUtils {
         } else {
             // Devices greater than kitkat (api 19)
             if (batteryPercentage == 100) {
-                notificationBuilder.setSmallIcon(R.drawable.ic_round_battery_alert_24px);
+                notificationBuilder.setSmallIcon(R.drawable.ic_round_battery_charging_full_24px);
             }
             else {
                 notificationBuilder.setSmallIcon(R.drawable.ic_round_battery_alert_24px);
