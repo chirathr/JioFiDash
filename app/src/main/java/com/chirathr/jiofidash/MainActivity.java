@@ -29,6 +29,7 @@ import com.chirathr.jiofidash.fragments.LoginDialog;
 import com.chirathr.jiofidash.progressBar.ColorArcProgressBar;
 import com.chirathr.jiofidash.sync.Utilities;
 import com.chirathr.jiofidash.utils.NetworkUtils;
+import com.chirathr.jiofidash.utils.NotificationUtils;
 import com.chirathr.jiofidash.utils.VolleySingleton;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -99,6 +100,8 @@ public class MainActivity extends AppCompatActivity
         // Start the battery notification task
         Utilities.scheduleBatteryJob(this);
         showLoading();
+
+        NotificationUtils.remindUserBatteryLow(this, 20);
     }
 
     @Override

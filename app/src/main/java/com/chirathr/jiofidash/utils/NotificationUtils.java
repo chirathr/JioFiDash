@@ -73,6 +73,8 @@ public class NotificationUtils {
             batteryNotificationTitle = context.getString(R.string.battery_full_notification_title_format_string);
             batteryNotificationBody = context.getString(R.string.battery_full_notification_body_format_string);
             batteryNotificationColor = ContextCompat.getColor(context, R.color.colorPrimaryGreenDark);
+
+
         } else if (batteryPercentage <= 2) {
             batteryNotificationTitle = context.getString(R.string.battery_low_critical_notification_title_format_string);
             batteryNotificationBody = context.getString(R.string.battery_low_critical_notification_body_format_string);
@@ -87,7 +89,6 @@ public class NotificationUtils {
         NotificationCompat.Builder notificationBuilder =
                 new NotificationCompat.Builder(context, BATTERY_REMINDER_NOTIFICATION_CHANNEL_ID)
                 .setColor(batteryNotificationColor)
-                .setSmallIcon(R.drawable.ic_round_battery_alert_24px)
                 .setLargeIcon(largeIcon(context))
                 .setContentTitle(String.format(batteryNotificationTitle, batteryPercentage))
                 .setContentText(batteryNotificationBody)
@@ -95,6 +96,24 @@ public class NotificationUtils {
                 .setDefaults(Notification.DEFAULT_VIBRATE)
                 .setContentIntent(contentIntent(context))
                 .setAutoCancel(true);
+
+        // Handle notification crashed on Android KitKat
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) {
+            if (batteryPercentage == 100) {
+                notificationBuilder.setSmallIcon(R.drawable.round_battery_alert_black_48dp);
+            }
+            else {
+                notificationBuilder.setSmallIcon(R.drawable.round_battery_alert_black_48dp);
+            }
+        } else {
+            // Devices greater than kitkat (api 19)
+            if (batteryPercentage == 100) {
+                notificationBuilder.setSmallIcon(R.drawable.ic_round_battery_alert_24px);
+            }
+            else {
+                notificationBuilder.setSmallIcon(R.drawable.ic_round_battery_alert_24px);
+            }
+        }
 
         // Priority for devices other than oreo and below
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
