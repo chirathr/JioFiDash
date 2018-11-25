@@ -380,6 +380,10 @@ public class WiFiSettings extends AppCompatActivity
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             if (isSuccessful) {
+                if (tempDevice == null) {
+                    // Null pointer exception fix
+                    return;
+                }
                 Snackbar.make(wifiSettingsLayout,
                         "Successfully " + blockDeviceSnackBarText + tempDevice.getDeviceName(),
                         Snackbar.LENGTH_LONG).show();
@@ -415,6 +419,10 @@ public class WiFiSettings extends AppCompatActivity
             return;
         }
         tempDevice = deviceViewModels.remove(itemId);
+        if (tempDevice == null) {
+            // Null pointer exception fix
+            return;
+        }
         Snackbar.make(wifiSettingsLayout, "Blocking " + tempDevice.getDeviceName(), Snackbar.LENGTH_LONG).show();
         blockedDeviceViewModelList = new ArrayList<>(deviceViewModels);
 
