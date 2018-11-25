@@ -179,7 +179,13 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void showBottomSheetDialogFragment() {
-        bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
+        try {
+            // Fix for illegalStateException crash
+            bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
+        }
+        catch (IllegalStateException ignored) {
+
+        }
     }
 
     // Event listener that handles actions clicked on BottomSheetFragment
