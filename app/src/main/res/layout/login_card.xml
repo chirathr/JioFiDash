@@ -101,5 +101,16 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_round_account_circle_24px" />
 
+    <TextView
+        android:id="@+id/passwordReset"
+        style="@style/TextAppearance.MaterialComponents.Body1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/reset_password"
+        android:textColor="@color/colorGreyDark"
+        app:layout_constraintEnd_toEndOf="@+id/password_text_field"
+        app:layout_constraintTop_toBottomOf="@+id/password_text_field" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
 

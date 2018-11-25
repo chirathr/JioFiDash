@@ -1,16 +1,21 @@
 package com.chirathr.jiofidash.fragments;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.chirathr.jiofidash.R;
 import com.chirathr.jiofidash.data.JioFiPreferences;
@@ -27,6 +32,7 @@ public class LoginDialog extends DialogFragment {
     private ProgressBar progressBar;
     private EditText usernameEditText;
     private EditText passwordEditText;
+    private TextView passwordReset;
 
     private String actionToExecuteAfterLogin = null;
     private LoginCompleteListener mLoginCompleteListener;
@@ -43,6 +49,19 @@ public class LoginDialog extends DialogFragment {
         progressBar = view.findViewById(R.id.progressBar);
         usernameEditText = view.findViewById(R.id.username_input);
         passwordEditText = view.findViewById(R.id.password_input);
+        passwordReset = view.findViewById(R.id.passwordReset);
+
+        passwordReset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                passwordReset.setTextColor(getResources().getColor(R.color.colorGrey));
+                String urlString = getString(R.string.reset_password_url);
+                if (mLoginCompleteListener != null) {
+                    mLoginCompleteListener.openWebPage(urlString);
+                }
+                closeDialog();
+            }
+        });
 
         JioFiPreferences preferences = JioFiPreferences.getInstance();
         usernameEditText.setText(preferences.username);
@@ -170,5 +189,6 @@ public class LoginDialog extends DialogFragment {
 
     public interface LoginCompleteListener {
         void loginCompleteListener(String action);
+        void openWebPage(String url);
     }
 }

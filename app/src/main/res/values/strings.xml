@@ -115,4 +115,6 @@
 
     <string name="error_selecting_device_dialog_message">You have selected the wrong device, please try again.</string>
     <string name="select_another">SELECT ANOTHER</string>
+    <string name="reset_password">Login issues?</string>
+    <string name="reset_password_url">https://blog.chirathr.com/jiofi/2018/11/25/how-to-reset-jiofi-6/</string>
 </resources>

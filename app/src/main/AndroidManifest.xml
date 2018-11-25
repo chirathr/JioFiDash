@@ -20,6 +20,15 @@
 
         <activity android:name=".MainActivity"
             android:launchMode="singleTop">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <!-- Include the host attribute if you want your app to respond
+                     only to URLs with your app's domain. -->
+                <data android:scheme="https"/>
+                <category android:name="android.intent.category.DEFAULT" />
+                <!-- The BROWSABLE category is required to get links from web pages. -->
+                <category android:name="android.intent.category.BROWSABLE" />
+            </intent-filter>
         </activity>
 
         <activity
