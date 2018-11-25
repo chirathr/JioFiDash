@@ -379,11 +379,11 @@ public class WiFiSettings extends AppCompatActivity
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
+            if (tempDevice == null) {
+                // Null pointer exception fix
+                return;
+            }
             if (isSuccessful) {
-                if (tempDevice == null) {
-                    // Null pointer exception fix
-                    return;
-                }
                 Snackbar.make(wifiSettingsLayout,
                         "Successfully " + blockDeviceSnackBarText + tempDevice.getDeviceName(),
                         Snackbar.LENGTH_LONG).show();
