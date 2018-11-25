@@ -120,29 +120,7 @@ public class LoginDialog extends DialogFragment {
 
         @Override
         protected Void doInBackground(Void... voids) {
-            /* TODO
-            java.lang.RuntimeException:
-              at android.os.AsyncTask$3.done (AsyncTask.java:365)
-              at java.util.concurrent.FutureTask.finishCompletion (FutureTask.java:383)
-              at java.util.concurrent.FutureTask.setException (FutureTask.java:252)
-              at java.util.concurrent.FutureTask.run (FutureTask.java:271)
-              at android.os.AsyncTask$SerialExecutor$1.run (AsyncTask.java:257)
-              at java.util.concurrent.ThreadPoolExecutor.runWorker (ThreadPoolExecutor.java:1162)
-              at java.util.concurrent.ThreadPoolExecutor$Worker.run (ThreadPoolExecutor.java:636)
-              at java.lang.Thread.run (Thread.java:784)
-            Caused by: java.lang.NullPointerException:
-              at com.chirathr.jiofidash.data.JioFiPreferences.loadCookieString (JioFiPreferences.java:282)
-              at com.chirathr.jiofidash.utils.NetworkUtils.login (NetworkUtils.java:342)
-              at com.chirathr.jiofidash.fragments.LoginDialog$LoginTask.doInBackground (LoginDialog.java:123)
-              at com.chirathr.jiofidash.fragments.LoginDialog$LoginTask.doInBackground (LoginDialog.java:104)
-              at android.os.AsyncTask$2.call (AsyncTask.java:345)
-              at java.util.concurrent.FutureTask.run (FutureTask.java:266)
-              at android.os.AsyncTask$SerialExecutor$1.run (AsyncTask.java:257)
-              at java.util.concurrent.ThreadPoolExecutor.runWorker (ThreadPoolExecutor.java:1162)
-              at java.util.concurrent.ThreadPoolExecutor$Worker.run (ThreadPoolExecutor.java:636)
-
-             */
-            loginSuccessful = NetworkUtils.login(getContext());
+            loginSuccessful = NetworkUtils.login(getActivity());
             return null;
         }
 

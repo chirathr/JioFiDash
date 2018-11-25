@@ -339,10 +339,16 @@ public class NetworkUtils {
     public static boolean login(final Context context) {
 
         // If logged in less then 2 minutes before
-        cookieString = JioFiPreferences.getInstance().loadCookieString(context);
-        if (cookieString != null) {
-            return true;
+        try {
+            cookieString = JioFiPreferences.getInstance().loadCookieString(context);
+            if (cookieString != null) {
+                return true;
+            }
         }
+        catch (NullPointerException ex) {
+            return false;
+        }
+
 
         String urlString = getUrlString(LOGIN_URL_ID);
         URL url = getURL(LOGIN_URL_ID);
