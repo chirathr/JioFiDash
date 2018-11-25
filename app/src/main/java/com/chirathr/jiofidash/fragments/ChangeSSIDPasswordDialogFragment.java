@@ -1,5 +1,6 @@
 package com.chirathr.jiofidash.fragments;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -124,30 +125,11 @@ public class ChangeSSIDPasswordDialogFragment extends DialogFragment {
 
         @Override
         protected Void doInBackground(Void... voids) {
-            /* TODO: Bug
-            java.lang.RuntimeException:
-              at android.os.AsyncTask$3.done (AsyncTask.java:353)
-              at java.util.concurrent.FutureTask.finishCompletion (FutureTask.java:383)
-              at java.util.concurrent.FutureTask.setException (FutureTask.java:252)
-              at java.util.concurrent.FutureTask.run (FutureTask.java:271)
-              at android.os.AsyncTask$SerialExecutor$1.run (AsyncTask.java:245)
-              at java.util.concurrent.ThreadPoolExecutor.runWorker (ThreadPoolExecutor.java:1162)
-              at java.util.concurrent.ThreadPoolExecutor$Worker.run (ThreadPoolExecutor.java:636)
-              at java.lang.Thread.run (Thread.java:764)
-            Caused by: java.lang.NullPointerException:
-              at com.chirathr.jiofidash.data.JioFiPreferences.loadCookieString (JioFiPreferences.java:282)
-              at com.chirathr.jiofidash.utils.NetworkUtils.login (NetworkUtils.java:342)
-              at com.chirathr.jiofidash.utils.NetworkUtils.loadCurrentSSIDAndPassword (NetworkUtils.java:501)
-              at com.chirathr.jiofidash.fragments.ChangeSSIDPasswordDialogFragment$LoadSSIDPasswordTask.doInBackground (ChangeSSIDPasswordDialogFragment.java:127)
-              at com.chirathr.jiofidash.fragments.ChangeSSIDPasswordDialogFragment$LoadSSIDPasswordTask.doInBackground (ChangeSSIDPasswordDialogFragment.java:113)
-              at android.os.AsyncTask$2.call (AsyncTask.java:333)
-              at java.util.concurrent.FutureTask.run (FutureTask.java:266)
-              at android.os.AsyncTask$SerialExecutor$1.run (AsyncTask.java:245)
-              at java.util.concurrent.ThreadPoolExecutor.runWorker (ThreadPoolExecutor.java:1162)
-              at java.util.concurrent.ThreadPoolExecutor$Worker.run (ThreadPoolExecutor.java:636)
-              at java.lang.Thread.run (Thread.java:764)
-             */
-            isSuccessful = NetworkUtils.loadCurrentSSIDAndPassword(getActivity());
+            Activity activity = getActivity();
+            if(activity != null && isAdded()) {
+                // Fix for detached async tax causing IllegalStateException
+                isSuccessful = NetworkUtils.loadCurrentSSIDAndPassword(getActivity());
+            }
             return null;
         }
 
