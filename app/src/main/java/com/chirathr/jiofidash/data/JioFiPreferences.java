@@ -278,9 +278,16 @@ public class JioFiPreferences {
     }
 
     public String loadCookieString(Context context) {
-        // TODO: Figure out why NullPointerException Occurs on some devices
-        SharedPreferences sharedPref = context.getSharedPreferences(
-                context.getString(R.string.data_preference_file_key), Context.MODE_PRIVATE);
+        SharedPreferences sharedPref;
+
+        try {
+            // Null pointer exception: most probably due to detached context state
+            sharedPref = context.getSharedPreferences(
+                    context.getString(R.string.data_preference_file_key), Context.MODE_PRIVATE);
+        }
+        catch (NullPointerException e) {
+            return null;
+        }
         String dateTimeString = sharedPref.getString(context.getString(R.string.login_time), null);
 
         if (dateTimeString == null) { return null; }
