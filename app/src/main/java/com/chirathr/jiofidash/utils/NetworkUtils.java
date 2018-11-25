@@ -314,6 +314,10 @@ public class NetworkUtils {
         } catch (IOException e) {
             Log.e(TAG, "Get request error: " + e.getMessage());
             return null;
+        }
+        catch (NullPointerException e) {
+            Log.e(TAG, "Get request error: " + e.getMessage());
+            return null;
         } finally {
             if (connection != null) {
                 connection.disconnect();
@@ -510,6 +514,10 @@ public class NetworkUtils {
 
         // 2. Make a get request to http://jiofi.local.html/Security_Mode.cgi
         URL url = getURL(WIFI_SETTINGS_GET_ID);
+        if (url == null) {
+            // Null pointer exception
+            return false;
+        }
         String response = getRequest(url, getAuthHeaders());
 
         // 3. Get the current SSID and Password
