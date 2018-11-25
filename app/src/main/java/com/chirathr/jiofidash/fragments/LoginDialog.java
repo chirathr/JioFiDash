@@ -130,8 +130,14 @@ public class LoginDialog extends DialogFragment {
 
             if (loginSuccessful) {
                 closeDialog();
-                mLoginCompleteListener.loginCompleteListener(actionToExecuteAfterLogin);
-                JioFiPreferences.getInstance().setLoginState(getContext(), true);
+                try {
+                    // Null pointer exception(possibly due to detached state)
+                    mLoginCompleteListener.loginCompleteListener(actionToExecuteAfterLogin);
+                    JioFiPreferences.getInstance().setLoginState(getContext(), true);
+                }
+                catch (NullPointerException e) {
+                    displayAuthError();
+                }
             }
             else {
                 hideLoading();
