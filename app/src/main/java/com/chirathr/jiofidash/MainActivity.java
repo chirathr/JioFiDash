@@ -390,4 +390,17 @@ public class MainActivity extends AppCompatActivity
         loadingProgressBar.setVisibility(View.INVISIBLE);
         batteryProgressBar.setAlpha(Float.parseFloat("1.0"));
     }
+
+    public void openWebPage(String url) {
+
+        Uri webPage = Uri.parse(url);
+        Intent intent = new Intent(Intent.ACTION_VIEW, webPage);
+        Log.v("password reset", intent.resolveActivity(getPackageManager()) + "");
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            Log.v("password reset", "password reset");
+            startActivity(intent);
+        }
+    }
+
+
 }
