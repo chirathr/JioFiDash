@@ -154,6 +154,9 @@ public class WiFiSettings extends AppCompatActivity
     }
 
     private String generateHiddenPassword(String password) {
+        if (password == null) {
+            return getString(R.string.password_hidden);
+        }
         StringBuilder stringBuilder = new StringBuilder();
         for (int i = 0; i < password.length(); i++) {
             stringBuilder.append("*");
