@@ -101,6 +101,26 @@ public class OnBoarding extends AppCompatActivity implements
                             }
                             else {
                                 DialogFragment dialogFragment = new ErrorSelectingDeviceDialogFragment();
+                                /* TODO: java.lang.IllegalStateException:
+                                  java.lang.IllegalStateException:
+                                  at androidx.fragment.app.FragmentManagerImpl.checkStateLoss (FragmentManagerImpl.java:2080)
+                                  at androidx.fragment.app.FragmentManagerImpl.enqueueAction (FragmentManagerImpl.java:2106)
+                                  at androidx.fragment.app.BackStackRecord.commitInternal (BackStackRecord.java:683)
+                                  at androidx.fragment.app.BackStackRecord.commit (BackStackRecord.java:637)
+                                  at androidx.fragment.app.DialogFragment.show (DialogFragment.java:144)
+                                  at com.chirathr.jiofidash.OnBoarding$1.onResponse (OnBoarding.java:104)
+                                  at com.chirathr.jiofidash.OnBoarding$1.onResponse (OnBoarding.java:93)
+                                  at com.android.volley.toolbox.StringRequest.deliverResponse (StringRequest.java:82)
+                                  at com.android.volley.toolbox.StringRequest.deliverResponse (StringRequest.java:29)
+                                  at com.android.volley.ExecutorDelivery$ResponseDeliveryRunnable.run (ExecutorDelivery.java:102)
+                                  at android.os.Handler.handleCallback (Handler.java:739)
+                                  at android.os.Handler.dispatchMessage (Handler.java:95)
+                                  at android.os.Looper.loop (Looper.java:148)
+                                  at android.app.ActivityThread.main (ActivityThread.java:5417)
+                                  at java.lang.reflect.Method.invoke (Method.java)
+                                  at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run (ZygoteInit.java:726)
+                                  at com.android.internal.os.ZygoteInit.main (ZygoteInit.java:616)
+                                 */
                                 dialogFragment.show(getSupportFragmentManager(), "errorVerifyingSelection");
                             }
                         }
